@@ -3,16 +3,30 @@ using UnityEngine;
 
 public class PlayerShip : MonoBehaviour
 {
-  private ParticleSystem engineParticles;
+  private ParticleSystem engine1, engine2;
   private ParticleSystem dustParticles;
+  private Transform shipTransform;
   private Vector3 forwardVelocity, transverseVelocity;
   public float Acceleration = 1, Deceleration = 1;
 
   void Start()
   {
-    engineParticles = transform.Find("Engine")?.GetComponent<ParticleSystem>();
-    if (engineParticles == null)
-      throw new ApplicationException("engineParticles is required");
+
+  }
+
+  void VerifyInitialize()
+  {
+    shipTransform = transform.Find("Ship")?.GetComponent<Transform>();
+    if (shipTransform == null)
+      throw new ApplicationException("shipTransform is required");
+
+    engine1 = shipTransform.Find("Engine")?.GetComponent<ParticleSystem>();
+    if (engine1 == null)
+      throw new ApplicationException("engine1 is required");
+
+    engine2 = shipTransform.Find("Engine2")?.GetComponent<ParticleSystem>();
+    if (engine2 == null)
+      throw new ApplicationException("engine2 is required");
 
     dustParticles = transform.Find("Dust")?.GetComponent<ParticleSystem>();
     if (dustParticles == null)
@@ -21,12 +35,24 @@ public class PlayerShip : MonoBehaviour
 
   void Update()
   {
+    VerifyInitialize();
+
     transform.Translate((forwardVelocity + transverseVelocity) * Time.deltaTime);
 
     if (Input.GetKey(KeyCode.W))
     {
-      forwardVelocity += transform.forward * Time.deltaTime * Acceleration;
-      engineParticles.Play();
+      forwardVelocity += shipTransform.forward * Time.deltaTime * Acceleration;
+      engine1.Play();
+      engine2.Play();
+
+      float dotProduct = Vector3.Dot(forwardVelocity.normalized, shipTransform.forward);
+      bool applyBrakingForce = dotProduct < 0f;
+
+      if (applyBrakingForce)
+      {
+        var brakingForce = forwardVelocity * -1;
+        forwardVelocity += brakingForce * Time.deltaTime;
+      }
     }
     else
     {
@@ -35,24 +61,36 @@ public class PlayerShip : MonoBehaviour
       if (forwardVelocity.magnitude <= 0.1)
         forwardVelocity = Vector3.zero;
 
-      engineParticles.Stop();
+      engine1.Stop();
+      engine2.Stop();
     }
 
-    Debug.Log("forwardVelocity=" + forwardVelocity);
-
-    var dpMain = dustParticles.main;
-
-    if (forwardVelocity.magnitude > 0)
-    {
-      dpMain.startSpeed = 10 * forwardVelocity.magnitude;
-      dustParticles.Play();
-    }
-    else
-      dustParticles.Stop();
+    var dpVel = dustParticles.velocityOverLifetime;
+    dpVel.enabled = true;
+    dpVel.x = forwardVelocity.x;
+    dpVel.y = forwardVelocity.y;
+    dpVel.z = forwardVelocity.z;
 
     if (Input.GetMouseButton(1))
     {
       // .. make the ship turn to face the mouse
+
+      // Create a ray from the camera to the mouse position
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+      // Calculate the intersection point of the ray with the horizontal plane
+      float distance;
+      Plane plane = new Plane(Vector3.up, new Vector3(0, 0, 0));
+      if (plane.Raycast(ray, out distance))
+      {
+        // Get the world position of the intersection point
+        Vector3 worldPosition = ray.GetPoint(distance);
+
+        Vector3 targetDirection = worldPosition - shipTransform.position;
+        shipTransform.forward = Vector3.Lerp(shipTransform.forward, targetDirection.normalized, Time.deltaTime * 10);
+
+
+      }
     }
 
   }

@@ -14,10 +14,12 @@ public class OrbitCam : MonoBehaviour
   public float zoomAmount = 40;
   public float lookSensitivity = 10;
   public float zoomSensitivity = 20;
+  public float minZoom = 50;
+  public float maxZoom = 50;
 
   void Update()
   {
-    if (Input.GetMouseButton(0))
+    if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftControl))
     {
       xAngle += Input.GetAxis("Mouse X") * lookSensitivity * Time.deltaTime;
       yAngle -= Input.GetAxis("Mouse Y") * lookSensitivity * .5f * Time.deltaTime;
@@ -45,15 +47,15 @@ public class OrbitCam : MonoBehaviour
   void UpdateZoom()
   {
     var scroll = Input.mouseScrollDelta.y;
-    var isZoomIn = scroll < 0;
-    var isZoomOut = scroll > 0;
+    var isZoomIn = scroll > 0;
+    var isZoomOut = scroll < 0;
     var zoomFactor = 100 + (zoomAmount * .003f) * zoomSensitivity;
 
-    if (isZoomIn)
-      zoomAmount += zoomFactor * Time.deltaTime;
-    if (isZoomOut)
+    if (isZoomIn && zoomAmount > minZoom && zoomAmount > 5)
       zoomAmount -= zoomFactor * Time.deltaTime;
+    if (isZoomOut && zoomAmount < maxZoom && zoomAmount < 100)
+      zoomAmount += zoomFactor * Time.deltaTime;
 
-    zoomAmount = Mathf.Clamp(zoomAmount, 5, 50);
+    zoomAmount = Mathf.Clamp(zoomAmount, minZoom, maxZoom);
   }
 }

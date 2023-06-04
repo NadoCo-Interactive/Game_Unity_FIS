@@ -38,6 +38,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\OrbitCam.cs" />
      <Compile Include="Assets\Scripts\PlayerShip.cs" />
+     <Compile Include="Assets\Scripts\Weapon.cs" />
      <None Include="Assets\SkySeries Freebie\Hdri setup.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.32f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
