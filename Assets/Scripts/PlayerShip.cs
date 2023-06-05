@@ -43,11 +43,33 @@ public class PlayerShip : MonoBehaviour
 
     if (Input.GetKey(KeyCode.W))
     {
-      forwardVelocity += shipTransform.forward * Time.deltaTime * Acceleration;
       engine1.Play();
       engine2.Play();
+      forwardVelocity += shipTransform.forward * Time.deltaTime * Acceleration;
+    }
+    else if (Input.GetKey(KeyCode.S))
+      forwardVelocity -= shipTransform.forward * Time.deltaTime * Acceleration;
 
-      float dotProduct = Vector3.Dot(forwardVelocity.normalized, shipTransform.forward);
+    if (Input.GetKey(KeyCode.A))
+    {
+      transverseVelocity += -shipTransform.right * Time.deltaTime * Acceleration;
+    }
+    else if (Input.GetKey(KeyCode.D))
+    {
+      transverseVelocity += shipTransform.right * Time.deltaTime * Acceleration;
+    }
+    else
+    {
+      transverseVelocity = Vector3.Lerp(transverseVelocity, transverseVelocity * 0.9f, Time.deltaTime * Deceleration);
+
+      if (transverseVelocity.magnitude <= 0.1)
+        transverseVelocity = Vector3.zero;
+    }
+
+    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+    {
+      int forwardMultiplier = Input.GetKey(KeyCode.S) ? -1 : 1;
+      float dotProduct = Vector3.Dot(forwardVelocity.normalized, shipTransform.forward * forwardMultiplier);
       bool applyBrakingForce = dotProduct < 0f;
 
       if (applyBrakingForce)
@@ -69,9 +91,9 @@ public class PlayerShip : MonoBehaviour
 
     var dpVel = dustParticles.velocityOverLifetime;
     dpVel.enabled = true;
-    dpVel.x = forwardVelocity.x;
-    dpVel.y = forwardVelocity.y;
-    dpVel.z = forwardVelocity.z;
+    dpVel.x = forwardVelocity.x + transverseVelocity.x;
+    dpVel.y = forwardVelocity.y + transverseVelocity.y;
+    dpVel.z = forwardVelocity.z + transverseVelocity.z;
 
     if (Input.GetMouseButton(1))
     {
