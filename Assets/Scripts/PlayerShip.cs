@@ -9,6 +9,8 @@ public class PlayerShip : MonoBehaviour
   private Vector3 forwardVelocity, transverseVelocity;
   public float Acceleration = 1, Deceleration = 1;
 
+  public Weapon ActiveWeapon = null;
+
   void Start()
   {
 
