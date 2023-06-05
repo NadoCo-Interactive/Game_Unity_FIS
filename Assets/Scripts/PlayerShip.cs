@@ -5,6 +5,7 @@ public class PlayerShip : MonoBehaviour
 {
   private ParticleSystem engine1, engine2;
   private ParticleSystem dustParticles;
+  private AudioSource engineAudio;
   private Transform shipTransform;
   private Vector3 forwardVelocity, transverseVelocity;
   public float Acceleration = 1, Deceleration = 1;
@@ -33,6 +34,10 @@ public class PlayerShip : MonoBehaviour
     dustParticles = transform.Find("Dust")?.GetComponent<ParticleSystem>();
     if (dustParticles == null)
       throw new ApplicationException("dustParticles is required");
+
+    engineAudio = shipTransform.GetComponent<AudioSource>();
+    if (engineAudio == null)
+      throw new ApplicationException("engineAudio is required");
   }
 
   void Update()
@@ -40,15 +45,21 @@ public class PlayerShip : MonoBehaviour
     VerifyInitialize();
 
     transform.Translate((forwardVelocity + transverseVelocity) * Time.deltaTime);
+    engineAudio.pitch = 1 + (forwardVelocity.magnitude / 50);
 
     if (Input.GetKey(KeyCode.W))
     {
       engine1.Play();
       engine2.Play();
-      forwardVelocity += shipTransform.forward * Time.deltaTime * Acceleration;
+
+      if (forwardVelocity.magnitude < 50)
+        forwardVelocity += shipTransform.forward * Time.deltaTime * Acceleration;
     }
     else if (Input.GetKey(KeyCode.S))
-      forwardVelocity -= shipTransform.forward * Time.deltaTime * Acceleration;
+    {
+      if (forwardVelocity.magnitude > -50)
+        forwardVelocity -= shipTransform.forward * Time.deltaTime * Acceleration;
+    }
 
     if (Input.GetKey(KeyCode.A))
     {
@@ -94,6 +105,9 @@ public class PlayerShip : MonoBehaviour
     dpVel.x = forwardVelocity.x + transverseVelocity.x;
     dpVel.y = forwardVelocity.y + transverseVelocity.y;
     dpVel.z = forwardVelocity.z + transverseVelocity.z;
+
+    var dpEmission = dustParticles.emission;
+    dpEmission.rateOverTime = 10 + ((forwardVelocity.magnitude / 25) * 90);
 
     if (Input.GetMouseButton(1))
     {
