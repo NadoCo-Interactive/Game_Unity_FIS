@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\UI\HUD.cs" />
      <Compile Include="Assets\Scripts\UI\Typewriter.cs" />
      <Compile Include="Assets\Scripts\UI\LocationTime.cs" />
+     <Compile Include="Assets\Scripts\UI\InventoryCell.cs" />
      <None Include="Assets\SkySeries Freebie\Hdri setup.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.32f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
