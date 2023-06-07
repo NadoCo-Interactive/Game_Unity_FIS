@@ -36,20 +36,22 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\PlayerShip.cs" />
-     <Compile Include="Assets\Scripts\OrbitCam.cs" />
-     <Compile Include="Assets\Scripts\Weapon.cs" />
-     <Compile Include="Assets\Scripts\Bullet.cs" />
-     <Compile Include="Assets\Scripts\Item.cs" />
-     <Compile Include="Assets\Scripts\Interfaces\IItem.cs" />
      <Compile Include="Assets\Scripts\Interfaces\IWeaponItem.cs" />
-     <Compile Include="Assets\Scripts\WeaponItem.cs" />
-     <Compile Include="Assets\Scripts\Player.cs" />
-     <Compile Include="Assets\Scripts\ItemManager.cs" />
-     <Compile Include="Assets\Scripts\UI\HUD.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\IItem.cs" />
+     <Compile Include="Assets\Scripts\Bullet.cs" />
      <Compile Include="Assets\Scripts\UI\Typewriter.cs" />
+     <Compile Include="Assets\Scripts\WeaponItem.cs" />
      <Compile Include="Assets\Scripts\UI\LocationTime.cs" />
+     <Compile Include="Assets\Scripts\OrbitCam.cs" />
+     <Compile Include="Assets\Scripts\UI\HUD.cs" />
+     <Compile Include="Assets\Scripts\Weapon.cs" />
+     <Compile Include="Assets\Scripts\ItemManager.cs" />
+     <Compile Include="Assets\Scripts\Item.cs" />
+     <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\UI\InventoryCell.cs" />
+     <Compile Include="Assets\Scripts\UI\Inventory.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerMotor.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerWeapon.cs" />
      <None Include="Assets\SkySeries Freebie\Hdri setup.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.32f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
