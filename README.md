@@ -14,6 +14,8 @@ Planned Features:
 
 ![image](https://github.com/NadoCo-Interactive/Game_Unity_FIS/assets/67047470/5eb701ac-4bff-48dd-8730-04c0d3bc35c2)
 ![image](https://github.com/NadoCo-Interactive/Game_Unity_FIS/assets/67047470/9c98a2ee-e5c2-4e43-9545-e4cd190e3e20)
+![image](https://github.com/NadoCo-Interactive/Game_Unity_FIS/assets/67047470/e96189a0-a421-45dc-a5d8-6e4930736e44)
+
 
 
 ---
@@ -28,6 +30,11 @@ Planned Features:
 - Player-built structures & defences
 
 ![345](https://github.com/NadoCo-Interactive/Game_Unity_FIS/assets/67047470/a7336539-ef27-4265-bfbf-b30f09a8a3c6)
+
+**Check out the music I wrote for the game!**
+
+https://github.com/NadoCo-Interactive/Game_Unity_FIS/assets/67047470/fb0e48af-ce11-47b5-a262-94caee9514db
+
 
 
 
