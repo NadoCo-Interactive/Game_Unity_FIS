@@ -5,36 +5,30 @@ using UnityEngine;
 
 public class LocationTime : MonoBehaviour
 {
-  Typewriter locationName;
-  Typewriter time;
-  // Start is called before the first frame update
-  void Start()
-  {
-    locationName = transform.Find("LocationName")?.GetComponent<Typewriter>();
-    time = transform.Find("Time")?.GetComponent<Typewriter>();
+    Typewriter locationName;
+    Typewriter time;
 
-    var currentTime = DateTime.Now.ToString("HH:MM");
-    locationName.OnFinish += () =>
+    void Start()
     {
-      locationName.SetIsBlinking(false);
-      locationName.SetCursorIsVisible(false);
-      time.Type(currentTime + " Hours");
-    };
-    ShowTimeAndLocation();
-  }
+        locationName = transform.Find("LocationName")?.GetComponent<Typewriter>();
+        time = transform.Find("Time")?.GetComponent<Typewriter>();
 
-  void ShowTimeAndLocation()
-  {
-    locationName.Type("Sector 01", false);
-    time.OnFinish += () =>
+        var currentTime = DateTime.Now.ToString("HH:mm");
+        locationName.OnFinish += () =>
+        {
+            locationName.SetIsBlinking(false);
+            locationName.SetCursorIsVisible(false);
+            time.Type(currentTime + " Hours");
+        };
+        ShowTimeAndLocation();
+    }
+
+    void ShowTimeAndLocation()
     {
-      locationName.StartLifetime();
-    };
-  }
-
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
+        locationName.Type("Sector 01", false);
+        time.OnFinish += () =>
+        {
+            locationName.StartLifetime();
+        };
+    }
 }
