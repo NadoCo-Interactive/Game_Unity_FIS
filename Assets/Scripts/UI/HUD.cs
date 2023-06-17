@@ -8,7 +8,7 @@ public class HUD : MonoBehaviour
     private RectTransform rectHUDFade;
     private RectTransform rectEquipped;
     private RectTransform rectInventory;
-    private Inventory _inventory;
+    private InventoryRenderer _inventoryRenderer;
 
     public bool InventoryIsVisible = false;
     public bool IsLocked = false;
@@ -23,7 +23,7 @@ public class HUD : MonoBehaviour
         rectEquipped = transform.Find("Equipped")?.GetComponent<RectTransform>();
         rectInventory = transform.Find("Inventory")?.GetComponent<RectTransform>();
 
-        _inventory = transform.Find("Inventory")?.GetComponent<Inventory>();
+        _inventoryRenderer = transform.Find("Inventory")?.GetComponent<InventoryRenderer>();
         _instance = this;
     }
 
@@ -40,11 +40,11 @@ public class HUD : MonoBehaviour
                 rectHUDFade.gameObject.SetActive(true);
                 rectInventory.gameObject.SetActive(true);
                 rectEquipped.gameObject.SetActive(false);
-                _inventory.Show();
+                _inventoryRenderer.Show();
             }
             else
             {
-                _inventory.Hide();
+                _inventoryRenderer.Hide();
                 rectHUDFade.gameObject.SetActive(false);
                 rectInventory.gameObject.SetActive(false);
                 rectEquipped.gameObject.SetActive(true);

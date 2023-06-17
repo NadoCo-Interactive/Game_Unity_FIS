@@ -1,11 +1,16 @@
 using System.Linq;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-public class Inventory : MonoBehaviour
+public enum Direction { Left, Right }
+
+public class InventoryRenderer : MonoBehaviour
 {
     private InventoryCell[] cells;
-    private bool showCells = true;
+    private bool showCells = false;
     private float cellShowTimer = 0;
 
     void Start()
@@ -13,8 +18,12 @@ public class Inventory : MonoBehaviour
         cells = GetComponentsInChildren<InventoryCell>();
     }
 
-    // Update is called once per frame
     void Update()
+    {
+        DoRender();
+    }
+
+    void DoRender()
     {
         if (showCells)
         {
@@ -23,7 +32,6 @@ public class Inventory : MonoBehaviour
             else
             {
                 var hiddenCells = cells.Where(c => !c.GetIsVisible());
-
 
                 if (hiddenCells.Count() > 1)
                 {
@@ -34,14 +42,7 @@ public class Inventory : MonoBehaviour
                 else
                     showCells = false;
             }
-
-            Debug.Log("cellShowTimer=" + cellShowTimer);
         }
-    }
-
-    private void ShowRandomCell()
-    {
-
     }
 
     public void Show()
