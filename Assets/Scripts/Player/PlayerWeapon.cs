@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+public enum FireMode { FullAuto, SemiAuto }
+
 public class PlayerWeapon : MonoBehaviour
 {
     public Weapon ActiveWeapon = null;
@@ -31,6 +33,22 @@ public class PlayerWeapon : MonoBehaviour
         if (HUD.Instance.IsLocked)
             return;
 
+        DoAim();
+        DoFire();
+
+    }
+
+    void DoFire()
+    {
+        if (Input.GetMouseButton(0) && ActiveWeapon?.fireMode == FireMode.FullAuto)
+            ActiveWeapon?.Fire();
+
+        if (Input.GetMouseButtonDown(0) && ActiveWeapon?.fireMode == FireMode.SemiAuto)
+            ActiveWeapon?.Fire();
+    }
+
+    void DoAim()
+    {
         if (Input.GetMouseButton(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

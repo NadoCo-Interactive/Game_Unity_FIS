@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Bullet.cs" />
      <Compile Include="Assets\Scripts\WeaponItem.cs" />
      <Compile Include="Assets\Scripts\UI\Typewriter.cs" />
+     <Compile Include="Assets\Scripts\WeaponHardpoint.cs" />
      <Compile Include="Assets\Scripts\Interfaces\IWeaponItem.cs" />
      <Compile Include="Assets\Scripts\UI\InventoryCell.cs" />
      <Compile Include="Assets\Scripts\UI\Inventory.cs" />
