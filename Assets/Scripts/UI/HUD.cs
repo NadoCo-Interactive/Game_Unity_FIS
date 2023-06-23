@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    private RectTransform rectHUDFade;
-    private RectTransform rectEquipped;
-    private RectTransform rectInventory;
-    private InventoryRenderer _inventoryRenderer;
+    private RectTransform _rectHUDFade;
+    private RectTransform _rectEquipped;
+    private RectTransform _rectInventory;
+    private RectTransform _rectContextMenu;
+    private InventoryRenderer _inventory;
 
     public bool InventoryIsVisible = false;
     public bool IsLocked = false;
@@ -19,11 +20,12 @@ public class HUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rectHUDFade = transform.Find("HUDFade")?.GetComponent<RectTransform>();
-        rectEquipped = transform.Find("Equipped")?.GetComponent<RectTransform>();
-        rectInventory = transform.Find("Inventory")?.GetComponent<RectTransform>();
+        _rectHUDFade = transform.Find("HUDFade")?.GetComponent<RectTransform>();
+        _rectEquipped = transform.Find("Equipped")?.GetComponent<RectTransform>();
+        _rectInventory = transform.Find("Inventory")?.GetComponent<RectTransform>();
+        _rectContextMenu = transform.Find("ContextMenu")?.GetComponent<RectTransform>();
 
-        _inventoryRenderer = transform.Find("Inventory")?.GetComponent<InventoryRenderer>();
+        _inventory = transform.Find("Inventory")?.GetComponent<InventoryRenderer>();
         _instance = this;
     }
 
@@ -37,20 +39,27 @@ public class HUD : MonoBehaviour
 
             if (InventoryIsVisible)
             {
-                rectHUDFade.gameObject.SetActive(true);
-                rectInventory.gameObject.SetActive(true);
-                rectEquipped.gameObject.SetActive(false);
-                _inventoryRenderer.Show();
+                _rectHUDFade.gameObject.SetActive(true);
+                _rectInventory.gameObject.SetActive(true);
+                _rectEquipped.gameObject.SetActive(false);
+                _inventory.Show();
             }
             else
             {
-                _inventoryRenderer.Hide();
-                rectHUDFade.gameObject.SetActive(false);
-                rectInventory.gameObject.SetActive(false);
-                rectEquipped.gameObject.SetActive(true);
+                _inventory.Hide();
+                _rectHUDFade.gameObject.SetActive(false);
+                _rectInventory.gameObject.SetActive(false);
+                _rectEquipped.gameObject.SetActive(true);
             }
 
 
         }
+    }
+
+    public void OpenContextMenu()
+    {
+        _rectContextMenu.gameObject.SetActive(true);
+        _rectContextMenu.position = Input.mousePosition;
+        Debug.Log("open context");
     }
 }

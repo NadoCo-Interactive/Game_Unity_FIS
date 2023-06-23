@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryCell : MonoBehaviour
+public class InventoryCell : MonoBehaviour, IPointerEnterHandler
 {
     private RectTransform rect;
     private Button button;
@@ -12,6 +11,7 @@ public class InventoryCell : MonoBehaviour
     private Vector2 endSize, startSize;
     private bool isVisible = false;
     private bool isInitialized = false;
+    private bool isHover = false;
 
     public IItem Item { get; private set; }
 
@@ -47,6 +47,9 @@ public class InventoryCell : MonoBehaviour
     {
         if (isVisible)
             rect.localScale = Vector2.Lerp(rect.localScale, endSize, Time.deltaTime * 10);
+
+        if (Input.GetMouseButtonDown(1) && isHover)
+            HUD.Instance.OpenContextMenu();
     }
 
     public void SetItem(IItem item)
@@ -76,4 +79,14 @@ public class InventoryCell : MonoBehaviour
     }
 
     public bool GetIsVisible() => isVisible;
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isHover = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isHover = false;
+    }
 }

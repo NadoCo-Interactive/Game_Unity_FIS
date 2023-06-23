@@ -24,13 +24,11 @@ public class ContextButton : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData data)
     {
-        Debug.Log("hello");
         _audioSource.clip = contextButtonHover;
         _audioSource.Play();
-
     }
 
-    public void OnPointerDown(PointerEventData data)
+    public void OnClick()
     {
         _audioSource.clip = contextButtonClick;
         _audioSource.Play();
