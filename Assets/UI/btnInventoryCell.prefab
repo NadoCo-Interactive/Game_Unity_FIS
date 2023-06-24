@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1744680372890252384}
   - component: {fileID: 3188482723450098543}
   - component: {fileID: 2919410392313853712}
+  - component: {fileID: -4368652076992003784}
   m_Layer: 5
   m_Name: btnInventoryCell
   m_TagString: Untagged
@@ -241,7 +242,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 7736263795247290759}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfd2e8bf551d88645a522864f7e3ea0b, type: 3}
+  m_Script: {fileID: 11500000, guid: 18839af8622f71140921c38273ffc8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4368652076992003784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736263795247290759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587523122d199694bbb16a69b438905b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8797213251888346465
