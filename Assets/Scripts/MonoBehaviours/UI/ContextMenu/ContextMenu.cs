@@ -70,13 +70,13 @@ public class ContextMenu : Singleton<ContextMenu>, IPointerExitHandler, IPointer
     {
         if (Mode == ContextMenuMode.Fit)
         {
-            InventoryManager.ActiveInventory.AddFitting(InventoryManager.SelectedItem);
-            InventoryManager.ActiveInventory.RemoveItem(InventoryManager.SelectedItem);
+            InventoryManager.SelectedInventory.AddFitting(InventoryManager.SelectedItem);
+            InventoryManager.SelectedInventory.RemoveItem(InventoryManager.SelectedItem);
         }
         else if (Mode == ContextMenuMode.Unfit)
         {
-            InventoryManager.ActiveInventory.RemoveFitting(InventoryManager.SelectedItem);
-            InventoryManager.ActiveInventory.AddItem(InventoryManager.SelectedItem);
+            InventoryManager.SelectedInventory.RemoveFitting(InventoryManager.SelectedItem);
+            InventoryManager.SelectedInventory.AddItem(InventoryManager.SelectedItem);
         }
 
         InventoryRenderer.UpdateUI();

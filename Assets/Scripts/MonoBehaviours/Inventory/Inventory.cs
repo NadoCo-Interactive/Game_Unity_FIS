@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Inventory : MonoBehaviour, IInventory
+public class Inventory : StrictBehaviour, IInventory
 {
     public List<IItem> Items { get; set; } = new();
     public List<IWeaponItem> Fittings { get; set; } = new();
@@ -12,6 +12,25 @@ public class Inventory : MonoBehaviour, IInventory
     public int MaxFittings { get; set; } = 7;
 
     public IItem SelectedItem { get; set; }
+
+    private PlayerWeapon _playerWeapon;
+    private bool _initialized = false;
+
+    protected void Start()
+    {
+        VerifyInitialize();
+    }
+
+    void VerifyInitialize()
+    {
+        if (_initialized)
+            return;
+
+        _playerWeapon = GetRequiredComponent<PlayerWeapon>();
+        Debug.Log(_playerWeapon);
+
+        _initialized = true;
+    }
 
     public void AddItem(IItem item)
     {
@@ -54,23 +73,27 @@ public class Inventory : MonoBehaviour, IInventory
         }
         else
         {
-            var randHardpointIndex = Random.Range(0, PlayerWeapon.Instance.Hardpoints.Count - 1);
-            var randomHardpoint = PlayerWeapon.Instance.Hardpoints.ElementAt(randHardpointIndex);
+
+            var randHardpointIndex = Random.Range(0, _playerWeapon.Hardpoints.Count - 1);
+            var randomHardpoint = _playerWeapon.Hardpoints.ElementAt(randHardpointIndex);
 
             if (randomHardpoint == null)
             {
                 Debug.LogWarning("No available hardpoint to attach weapon");
                 return;
             }
-
-            var weaponPrefabInstance = ItemManager.SpawnItem(weaponItem);
-            var weapon = weaponPrefabInstance.GetRequiredComponent<Weapon>();
-            randomHardpoint.Attach(weapon);
+            else
+            {
+                var weaponPrefabInstance = ItemManager.SpawnItem(weaponItem);
+                var weapon = weaponPrefabInstance.GetRequiredComponent<Weapon>();
+                randomHardpoint.Attach(weapon);
+            }
         }
     }
 
     public void RemoveFitting(IItem weapon)
     {
         Fittings.Remove(weapon as IWeaponItem);
+        ItemManager.DespawnItem(weapon);
     }
 }

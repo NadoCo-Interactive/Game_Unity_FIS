@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
-    public static Inventory ActiveInventory { get; private set; }
+    public static Inventory SelectedInventory { get; private set; }
     public static IItem SelectedItem;
 
-    public static void SetActiveInventory(Inventory inventory)
+    public static void SetSelectedInventory(Inventory inventory)
     {
-        ActiveInventory = inventory;
+        SelectedInventory = inventory;
         InventoryRenderer.UpdateUI();
     }
 }

@@ -53,7 +53,7 @@ public class InventoryRenderer : Singleton<InventoryRenderer>
                 _cellShowTimer -= Time.deltaTime * 100;
             else
             {
-                var _inventory = InventoryManager.ActiveInventory;
+                var _inventory = InventoryManager.SelectedInventory;
                 var hiddenCells = _allCells.Where(c => !c.GetIsVisible());
 
                 // TODO only show the number of cells for the max items e.g. if 5 max items, show only 5 cells
@@ -89,7 +89,7 @@ public class InventoryRenderer : Singleton<InventoryRenderer>
 
     public static void UpdateUI()
     {
-        var _inventory = InventoryManager.ActiveInventory.Required();
+        var _inventory = InventoryManager.SelectedInventory.Required();
 
         for (int i = 0; i < Instance._allCells.Count(); i++)
         {

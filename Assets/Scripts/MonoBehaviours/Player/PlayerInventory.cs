@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 public class PlayerInventory : Inventory
 {
-    void Start()
+    new void Start()
     {
         var particleBlaster = ItemManager.CreateWeapon(WeaponType.ParticleBlaster);
         AddItem(particleBlaster);
 
-        InventoryManager.SetActiveInventory(this);
+        InventoryManager.SetSelectedInventory(this);
+        base.Start();
     }
 }

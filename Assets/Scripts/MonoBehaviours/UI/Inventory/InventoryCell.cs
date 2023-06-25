@@ -59,7 +59,7 @@ public class InventoryCell : StrictBehaviour
 
         if (Input.GetMouseButtonDown(1) && _uiHover.IsHover && Item != null)
         {
-            if (InventoryManager.ActiveInventory.HasFittedItem(Item))
+            if (InventoryManager.SelectedInventory.HasFittedItem(Item))
                 ContextMenu.Open(ContextMenuMode.Unfit);
             else if (!(Item is IWeaponItem))
                 ContextMenu.Open(ContextMenuMode.NoFit);
@@ -84,7 +84,7 @@ public class InventoryCell : StrictBehaviour
         if (itemIsWeapon)
         {
             var itemAsWeapon = item as WeaponItem;
-            var itemIsFitted = InventoryManager.ActiveInventory.HasFittedItem(item);
+            var itemIsFitted = InventoryManager.SelectedInventory.HasFittedItem(item);
             idText.text = itemIsFitted ? itemAsWeapon?.Id.ToString() ?? "" : "";
             ammoText.text = "∞";
         }
