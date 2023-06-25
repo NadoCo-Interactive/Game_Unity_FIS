@@ -1,7 +1,6 @@
 using System.Linq;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class InventoryRenderer : Singleton<InventoryRenderer>
@@ -9,7 +8,6 @@ public class InventoryRenderer : Singleton<InventoryRenderer>
 
     private bool _initialized = false;
 
-    private Inventory _inventory;
     private InventoryCell[] _allCells, _inventoryCells, _fittingCells;
     private Transform _textContainer;
     private bool _showCells = false;
@@ -55,7 +53,12 @@ public class InventoryRenderer : Singleton<InventoryRenderer>
                 _cellShowTimer -= Time.deltaTime * 100;
             else
             {
+                var _inventory = InventoryManager.ActiveInventory;
                 var hiddenCells = _allCells.Where(c => !c.GetIsVisible());
+
+                // TODO only show the number of cells for the max items e.g. if 5 max items, show only 5 cells
+                var inventoryCellsToUse = _inventoryCells.Select(c => c.Id < _inventory.MaxItems);
+                var fittingCellsToUse = _fittingCells.Select(c => c.Id < _inventory.MaxFittings);
 
                 if (hiddenCells.Count() > 1)
                 {
@@ -84,30 +87,21 @@ public class InventoryRenderer : Singleton<InventoryRenderer>
         Instance._showCells = false;
     }
 
-    public static void SetInventory(Inventory inventory)
-    {
-        if (Instance._inventory == inventory)
-            return;
-
-        if (inventory == null)
-            throw new ArgumentException("You must provide an inventory!");
-
-        Instance._inventory = inventory;
-        UpdateUI();
-    }
-
     public static void UpdateUI()
     {
-        var _inventory = Instance._inventory;
-        var _inventoryCells = Instance._inventoryCells;
-        var _fittingCells = Instance._fittingCells;
+        var _inventory = InventoryManager.ActiveInventory.Required();
 
-        if (_inventory == null)
-            throw new ApplicationException("Inventory cannot be null when updating inventory ui");
+        for (int i = 0; i < Instance._allCells.Count(); i++)
+        {
+            var cell = Instance._allCells[i].Required();
+            cell.SetItem(null);
+        }
+
+        var _inventoryCells = Instance._inventoryCells.Required();
 
         for (int i = 0; i < _inventory.Items.Count(); i++)
         {
-            var cell = _inventoryCells.FirstOrDefault(c => c.Id == i);
+            var cell = _inventoryCells.FirstOrDefault(c => c.Id == i).Required();
 
             if (cell == null)
                 throw new NullReferenceException("No cell found for id " + i);
@@ -116,7 +110,19 @@ public class InventoryRenderer : Singleton<InventoryRenderer>
             cell.SetItem(item);
         }
 
-        var inventoryCellsToUse = _inventoryCells.Select(c => c.Id < _inventory.MaxItems);
-        var fittingCellsToUse = _fittingCells.Select(c => c.Id < _inventory.MaxFittings);
+        var _fittingCells = Instance._fittingCells;
+
+        for (int i = 0; i < _inventory.Fittings.Count(); i++)
+        {
+            var cell = _fittingCells.FirstOrDefault(c => c.Id == i);
+
+            if (cell == null)
+                throw new NullReferenceException("No cell found for id " + i);
+
+            var item = _inventory.Fittings.ElementAt(i);
+            cell.SetItem(item);
+        }
+
+
     }
 }

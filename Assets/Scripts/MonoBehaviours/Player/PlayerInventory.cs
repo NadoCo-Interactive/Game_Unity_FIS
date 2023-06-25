@@ -8,7 +8,7 @@ public class PlayerInventory : Inventory
         var particleBlaster = ItemManager.CreateWeapon(WeaponType.ParticleBlaster);
         AddItem(particleBlaster);
 
-        InventoryRenderer.SetInventory(this);
+        InventoryManager.SetActiveInventory(this);
     }
 
     void Update()

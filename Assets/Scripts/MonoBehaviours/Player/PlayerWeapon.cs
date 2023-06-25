@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum FireMode { FullAuto, SemiAuto }
 
-public class PlayerWeapon : MonoBehaviour
+public class PlayerWeapon : Singleton<PlayerWeapon>
 {
     public Weapon ActiveWeapon = null;
 
@@ -33,9 +33,16 @@ public class PlayerWeapon : MonoBehaviour
         if (HUD.Instance.IsLocked)
             return;
 
+        DoEquip();
         DoAim();
         DoFire();
 
+    }
+
+    void DoEquip()
+    {
+        /* if (Input.GetKeyDown(KeyCode.Alpha1) && InventoryManager.ActiveInventory.HasFittingForId(1))
+            ActiveWeapon = InventoryManager.ActiveInventory.Fittings[1].WeaponPrefab.GetComponent<Weapon>(); */
     }
 
     void DoFire()

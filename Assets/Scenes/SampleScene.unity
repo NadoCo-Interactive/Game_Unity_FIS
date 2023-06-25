@@ -133,6 +133,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1195454234977142291, guid: 4cb58d9da8e967b48abaac29f02a34f5, type: 3}
       propertyPath: IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195454234977142291, guid: 4cb58d9da8e967b48abaac29f02a34f5, type: 3}
+      propertyPath: fireMode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1195454234977142291, guid: 4cb58d9da8e967b48abaac29f02a34f5, type: 3}
@@ -290,9 +294,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1133402395}
-        m_TargetAssemblyTypeName: HUD, Assembly-CSharp
-        m_MethodName: DoContextDropItem
+      - m_Target: {fileID: 647572400}
+        m_TargetAssemblyTypeName: ContextMenu, Assembly-CSharp
+        m_MethodName: DoDrop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -611,7 +615,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 130842762}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c212e8dcdf1a0d248a87cf6d939e9b58, type: 3}
+  m_Script: {fileID: 11500000, guid: 11acd91e0f27b074c8bb138f6e7844a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ParticleBlasterPrefab: {fileID: 1195454234977142297, guid: 4cb58d9da8e967b48abaac29f02a34f5, type: 3}
@@ -1091,7 +1095,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Fittings
+  m_Text: Your Fittings
 --- !u!222 &491496683
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7281,7 +7285,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Cargo Hold
+  m_Text: Your Cargo Hold
 --- !u!222 &949790571
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13049,7 +13053,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1111993682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4a6d94a15a40664eb360e894772803e, type: 3}
+  m_Script: {fileID: 11500000, guid: b1269122eefb6814d8f5c417b596607b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!33 &1111993685
@@ -13469,9 +13473,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1133402395}
-        m_TargetAssemblyTypeName: HUD, Assembly-CSharp
-        m_MethodName: DoContextEquipItem
+      - m_Target: {fileID: 647572400}
+        m_TargetAssemblyTypeName: ContextMenu, Assembly-CSharp
+        m_MethodName: DoEquip
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13939,7 +13943,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1202181116}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4a6d94a15a40664eb360e894772803e, type: 3}
+  m_Script: {fileID: 11500000, guid: b1269122eefb6814d8f5c417b596607b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!33 &1202181119
@@ -19736,8 +19740,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3788165125c6fea4099f2141af553db8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxItems: 15
-  MaxFittings: 7
 --- !u!224 &1786583497 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2256259480629985316, guid: 0563665cd0b5b654586518093a554cff, type: 3}
@@ -20534,6 +20536,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1195454234977142291, guid: 4cb58d9da8e967b48abaac29f02a34f5, type: 3}
       propertyPath: IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1195454234977142291, guid: 4cb58d9da8e967b48abaac29f02a34f5, type: 3}
+      propertyPath: fireMode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1195454234977142291, guid: 4cb58d9da8e967b48abaac29f02a34f5, type: 3}

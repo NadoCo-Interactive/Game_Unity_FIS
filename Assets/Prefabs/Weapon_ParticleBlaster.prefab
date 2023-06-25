@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!33 &1195454234977142292
 MeshFilter:
@@ -94,12 +94,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1195454234977142297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f34529f44cc73984aa9c7ff593948c50, type: 3}
+  m_Script: {fileID: 11500000, guid: ac10d9b51b05db54a897c2572614fd59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 3110041897012206946, guid: a4cc1eba993d24247bd0212146b9a0ff, type: 3}
-  soundFire: {fileID: 8300000, guid: 3eb818e90942e9e41a2fd5b6fcab22f6, type: 3}
+  Bullet: {fileID: 0}
+  soundFire: {fileID: 0}
   soundVolume: 1
   fireRate: 10
-  fireMode: 1
+  fireMode: 0
   IsActive: 0

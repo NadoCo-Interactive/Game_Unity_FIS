@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Linq;
 
-public class Singleton<T> : MonoBehaviour where T : Object
+public class Singleton<T> : StrictBehaviour where T : Object
 {
     public static T Instance
     {

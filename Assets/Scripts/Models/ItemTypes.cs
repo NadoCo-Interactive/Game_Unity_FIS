@@ -5,5 +5,5 @@ public enum WeaponType
 
 public enum ItemType
 {
-
+    ParticleBlasterAmmo
 }
