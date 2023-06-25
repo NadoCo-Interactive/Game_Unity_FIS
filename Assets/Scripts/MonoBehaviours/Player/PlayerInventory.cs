@@ -10,9 +10,4 @@ public class PlayerInventory : Inventory
 
         InventoryManager.SetActiveInventory(this);
     }
-
-    void Update()
-    {
-
-    }
 }

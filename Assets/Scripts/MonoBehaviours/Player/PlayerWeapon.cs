@@ -1,4 +1,5 @@
-using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum FireMode { FullAuto, SemiAuto }
@@ -10,6 +11,8 @@ public class PlayerWeapon : Singleton<PlayerWeapon>
     private Transform shipTransform;
     private bool initialized = false;
 
+    public List<WeaponHardpoint> Hardpoints { get; private set; }
+
     void Start()
     {
         VerifyInitialize();
@@ -20,9 +23,9 @@ public class PlayerWeapon : Singleton<PlayerWeapon>
         if (initialized)
             return;
 
-        shipTransform = transform.Find("Ship")?.GetComponent<Transform>();
-        if (shipTransform == null)
-            throw new ApplicationException("shipTransform is required");
+        shipTransform = transform.Find("Ship")?.GetRequiredComponent<Transform>();
+
+        Hardpoints = GetComponentsInChildren<WeaponHardpoint>().ToList();
 
         initialized = true;
     }

@@ -16,6 +16,17 @@ public static class Utils
         return component;
     }
 
+    public static T GetRequiredComponent<T>(this GameObject parent, string errorMessage = null) where T : Component
+    {
+        var component = parent.GetComponent<T>();
+        var compName = (typeof(T)).FullName;
+
+        if (component == null)
+            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorMessage, compName));
+
+        return component;
+    }
+
     public static T GetRequiredChildComponent<T>(this Component parent, string errorMessage = null) where T : Component
     {
         var component = parent.GetComponentInChildren<T>();

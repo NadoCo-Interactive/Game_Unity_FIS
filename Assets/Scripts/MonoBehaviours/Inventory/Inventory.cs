@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Inventory : MonoBehaviour, IInventory
 {
@@ -36,24 +37,36 @@ public class Inventory : MonoBehaviour, IInventory
     public bool HasFittingForId(int id)
         => Fittings.ElementAt(id) != null;
 
-    public void AddFitting(IItem weapon, WeaponHardpoint hardpoint = null)
+    public void AddFitting(IItem weaponItem, WeaponHardpoint hardpoint = null)
     {
-        if (!(weapon is IWeaponItem))
+        if (!(weaponItem is IWeaponItem))
             throw new ArgumentException("Weapon must be of type \"Weapon\" to be fitted");
 
         if (Fittings.Count >= MaxFittings)
             throw new ApplicationException("No more space for fittings");
 
-        weapon.Id = Fittings.Count + 1;
+        weaponItem.Id = Fittings.Count + 1;
+        Fittings.Add(weaponItem as IWeaponItem);
 
-        Fittings.Add(weapon as IWeaponItem);
-
-        if (hardpoint == null)
+        if (hardpoint != null)
         {
-
+            throw new NotImplementedException();
         }
+        else
+        {
+            var randHardpointIndex = Random.Range(0, PlayerWeapon.Instance.Hardpoints.Count - 1);
+            var randomHardpoint = PlayerWeapon.Instance.Hardpoints.ElementAt(randHardpointIndex);
 
-        Debug.Log("Is Player Inventory? " + (this is PlayerInventory));
+            if (randomHardpoint == null)
+            {
+                Debug.LogWarning("No available hardpoint to attach weapon");
+                return;
+            }
+
+            var weaponPrefabInstance = ItemManager.SpawnItem(weaponItem);
+            var weapon = weaponPrefabInstance.GetRequiredComponent<Weapon>();
+            randomHardpoint.Attach(weapon);
+        }
     }
 
     public void RemoveFitting(IItem weapon)
