@@ -1,5 +1,4 @@
-# 3D Space Shooter
-## Placeholder Title: "Haven - Unbound"
+# Haven - Unbound
 
 Planned Features:
 - Engage in combat with hundreds of other players in a persistent galactic conflict
