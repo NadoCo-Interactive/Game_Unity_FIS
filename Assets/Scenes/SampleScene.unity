@@ -7405,7 +7405,7 @@ MonoBehaviour:
   zoomAmount: 75
   lookSensitivity: 25
   zoomSensitivity: 50
-  minZoom: 75
+  minZoom: 0
   maxZoom: 75
 --- !u!82 &963194231
 AudioSource:
