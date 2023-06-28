@@ -100,5 +100,5 @@ MonoBehaviour:
   Bullet: {fileID: 7843043643644530241, guid: a4cc1eba993d24247bd0212146b9a0ff, type: 3}
   soundFire: {fileID: 8300000, guid: 3eb818e90942e9e41a2fd5b6fcab22f6, type: 3}
   soundVolume: 1
-  fireRate: 10
+  fireRate: 100
   fireMode: 1

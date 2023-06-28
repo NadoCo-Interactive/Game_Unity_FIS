@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public interface IInventory
+public interface IInventory : IActorComponent
 {
     public List<IItem> Items { get; set; }
     public List<IWeaponItem> Fittings { get; set; }

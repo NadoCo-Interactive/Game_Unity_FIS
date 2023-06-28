@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class ActorInventory : StrictBehaviour, IInventory
+public class ActorInventory : ActorComponent, IInventory
 {
     public List<IItem> Items { get; set; } = new();
     public List<IWeaponItem> Fittings { get; set; } = new();
@@ -16,9 +16,11 @@ public class ActorInventory : StrictBehaviour, IInventory
     private ActorWeapon _ActorWeapon;
     private bool _initialized = false;
 
-    protected void Start()
+    protected new void Start()
     {
         VerifyInitialize();
+
+        base.Start();
     }
 
     void VerifyInitialize()
@@ -98,5 +100,8 @@ public class ActorInventory : StrictBehaviour, IInventory
 
         if (HUDEquipped.ActiveWeapon == weapon)
             HUDEquipped.SetWeapon(null);
+
+        if (Actor.Weapon != null)
+            Actor.Weapon.ActiveWeapon = null;
     }
 }

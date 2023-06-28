@@ -40,6 +40,8 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.1f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\MonoBehaviours\Actor\ActorWeapon.cs" />
+     <Compile Include="Assets\Scripts\MonoBehaviours\Interfaces\IActorComponent.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\Inventory\ItemManager.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\UI\ContextMenu\HUDContextMenu.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\StrictBehaviour.cs" />
@@ -47,15 +49,14 @@
      <Compile Include="Assets\Scripts\MonoBehaviours\Weapons\WeaponHardpoint.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\UI\LocationTime.cs" />
      <Compile Include="Assets\Scripts\Models\Item.cs" />
+     <Compile Include="Assets\Scripts\MonoBehaviours\Interfaces\IActorWeapon.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\Player\PlayerInventory.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\Inventory\ActorInventory.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\UI\Inventory\InventoryCell.cs" />
-     <Compile Include="Assets\Scripts\MonoBehaviours\Player\Player.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\UI\Inventory\InventoryRenderer.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\Player\PlayerMotor.cs" />
-     <Compile Include="Assets\Scripts\MonoBehaviours\Player\ActorWeapon.cs" />
      <Compile Include="Assets\Scripts\Models\Interfaces\IItem.cs" />
      <Compile Include="Assets\Scripts\Models\WeaponItem.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\UI\UIHover.cs" />
@@ -66,10 +67,12 @@
      <Compile Include="Assets\Scripts\MonoBehaviours\Inventory\InventoryManager.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\Singleton.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\UI\SpriteLibrary.cs" />
+     <Compile Include="Assets\Scripts\MonoBehaviours\Actor\Actor.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\OrbitCam.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\UI\Typewriter.cs" />
      <Compile Include="Assets\Scripts\Models\ItemTypes.cs" />
      <Compile Include="Assets\Scripts\MonoBehaviours\UI\HUD.cs" />
+     <Compile Include="Assets\Scripts\MonoBehaviours\Actor\ActorComponent.cs" />
      <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Graphics\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

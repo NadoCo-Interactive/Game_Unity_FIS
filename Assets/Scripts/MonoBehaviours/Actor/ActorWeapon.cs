@@ -4,14 +4,14 @@ using UnityEngine;
 
 public enum FireMode { FullAuto, SemiAuto }
 
-public class ActorWeapon : MonoBehaviour
+public class ActorWeapon : MonoBehaviour, IActorWeapon
 {
-    public IWeaponItem ActiveWeapon = null;
+    public IWeaponItem ActiveWeapon { get; set; }
 
     private Transform shipTransform;
     private bool initialized = false;
 
-    public List<WeaponHardpoint> Hardpoints { get; private set; }
+    public List<WeaponHardpoint> Hardpoints { get; set; }
 
     void Start()
     {
