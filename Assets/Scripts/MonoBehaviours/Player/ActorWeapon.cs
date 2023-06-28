@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum FireMode { FullAuto, SemiAuto }
 
-public class PlayerWeapon : Singleton<PlayerWeapon>
+public class ActorWeapon : MonoBehaviour
 {
-    public Weapon ActiveWeapon = null;
+    public IWeaponItem ActiveWeapon = null;
 
     private Transform shipTransform;
     private bool initialized = false;
@@ -44,17 +44,31 @@ public class PlayerWeapon : Singleton<PlayerWeapon>
 
     void DoEquip()
     {
-        /* if (Input.GetKeyDown(KeyCode.Alpha1) && InventoryManager.ActiveInventory.HasFittingForId(1))
-            ActiveWeapon = InventoryManager.ActiveInventory.Fittings[1].WeaponPrefab.GetComponent<Weapon>(); */
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            ActiveWeapon = null;
+            HUDEquipped.SetWeapon(null);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && InventoryManager.SelectedInventory.HasFittingForId(1))
+        {
+            var weaponItem = InventoryManager.SelectedInventory.Fittings.FirstOrDefault(f => f.Id == 1);
+
+            if (weaponItem == null)
+                return;
+
+            ActiveWeapon = weaponItem;
+            HUDEquipped.SetWeapon(weaponItem);
+        }
     }
 
     void DoFire()
     {
-        if (Input.GetMouseButton(0) && ActiveWeapon?.fireMode == FireMode.FullAuto)
-            ActiveWeapon?.Fire();
+        if (Input.GetMouseButton(0) && ActiveWeapon?.Weapon.fireMode == FireMode.FullAuto)
+            ActiveWeapon?.Weapon.Fire();
 
-        if (Input.GetMouseButtonDown(0) && ActiveWeapon?.fireMode == FireMode.SemiAuto)
-            ActiveWeapon?.Fire();
+        if (Input.GetMouseButtonDown(0) && ActiveWeapon?.Weapon.fireMode == FireMode.SemiAuto)
+            ActiveWeapon?.Weapon.Fire();
     }
 
     void DoAim()

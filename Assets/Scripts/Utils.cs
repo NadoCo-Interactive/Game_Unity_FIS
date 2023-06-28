@@ -7,7 +7,7 @@ public static class Utils
 
     public static T GetRequiredComponent<T>(this Component parent, string errorMessage = null) where T : Component
     {
-        var component = parent.GetComponent<T>();
+        var component = parent?.GetComponent<T>();
         var compName = (typeof(T)).FullName;
 
         if (component == null)
@@ -18,7 +18,7 @@ public static class Utils
 
     public static T GetRequiredComponent<T>(this GameObject parent, string errorMessage = null) where T : Component
     {
-        var component = parent.GetComponent<T>();
+        var component = parent?.GetComponent<T>();
         var compName = (typeof(T)).FullName;
 
         if (component == null)
@@ -29,7 +29,7 @@ public static class Utils
 
     public static T GetRequiredChildComponent<T>(this Component parent, string errorMessage = null) where T : Component
     {
-        var component = parent.GetComponentInChildren<T>();
+        var component = parent?.GetComponentInChildren<T>();
         var compName = (typeof(T)).FullName;
 
         if (component == null)
@@ -40,7 +40,7 @@ public static class Utils
 
     public static Transform FindRequired(this Transform parent, string n, string errorMessage = null)
     {
-        var transform = parent.Find(n);
+        var transform = parent?.Find(n);
 
         if (transform == null)
             throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorMessage, n));

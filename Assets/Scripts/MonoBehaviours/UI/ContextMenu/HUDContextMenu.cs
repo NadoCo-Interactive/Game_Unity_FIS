@@ -9,7 +9,7 @@ public enum ContextMenuMode
 {
     Fit, Unfit, NoFit
 }
-public class ContextMenu : Singleton<ContextMenu>, IPointerExitHandler, IPointerEnterHandler
+public class HUDContextMenu : Singleton<HUDContextMenu>, IPointerExitHandler, IPointerEnterHandler
 {
     public AudioClip contextOpen;
     private RectTransform _rect;

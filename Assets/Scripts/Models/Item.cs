@@ -7,4 +7,5 @@ public class Item : IItem
     public GameObject Prefab { get; set; }
     public GameObject PrefabInstance { get; set; }
     public Sprite Sprite { get; set; }
+    public string Name { get; set; }
 }

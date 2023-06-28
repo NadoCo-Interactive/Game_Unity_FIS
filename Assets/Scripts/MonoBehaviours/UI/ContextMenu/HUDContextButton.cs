@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ContextButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+public class HUDContextButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {
     public AudioClip contextButtonHover;
     public AudioClip contextButtonClick;

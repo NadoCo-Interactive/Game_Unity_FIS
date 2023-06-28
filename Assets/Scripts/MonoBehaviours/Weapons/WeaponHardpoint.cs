@@ -18,6 +18,7 @@ public class WeaponHardpoint : MonoBehaviour
     public void Attach(Weapon weapon)
     {
         _weapon = weapon;
+        _weapon.transform.rotation = transform.rotation;
         _weapon.transform.parent = transform;
         _weapon.transform.localPosition = Vector3.zero;
     }

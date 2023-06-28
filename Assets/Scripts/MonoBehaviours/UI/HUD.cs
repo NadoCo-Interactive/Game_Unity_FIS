@@ -36,7 +36,7 @@ public class HUD : Singleton<HUD>
             else
             {
                 InventoryRenderer.Hide();
-                ContextMenu.Close();
+                HUDContextMenu.Close();
                 _rectHUDFade.gameObject.SetActive(false);
                 _rectEquipped.gameObject.SetActive(true);
             }

@@ -60,11 +60,11 @@ public class InventoryCell : StrictBehaviour
         if (Input.GetMouseButtonDown(1) && _uiHover.IsHover && Item != null)
         {
             if (InventoryManager.SelectedInventory.HasFittedItem(Item))
-                ContextMenu.Open(ContextMenuMode.Unfit);
+                HUDContextMenu.Open(ContextMenuMode.Unfit);
             else if (!(Item is IWeaponItem))
-                ContextMenu.Open(ContextMenuMode.NoFit);
+                HUDContextMenu.Open(ContextMenuMode.NoFit);
             else
-                ContextMenu.Open();
+                HUDContextMenu.Open();
 
             InventoryManager.SelectedItem = Item;
         }

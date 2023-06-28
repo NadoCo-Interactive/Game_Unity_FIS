@@ -14,7 +14,6 @@ public class Weapon : MonoBehaviour
     public int fireRate = 10;
     public FireMode fireMode = FireMode.FullAuto;
 
-    public bool IsActive = false;
     private bool canFire = false;
 
     private List<AudioSource> activeAudioSources = new List<AudioSource>();
@@ -59,5 +58,7 @@ public class Weapon : MonoBehaviour
         bullet.transform.forward = transform.forward;
 
         fireTimer = 1000;
+
+        canFire = false;
     }
 }

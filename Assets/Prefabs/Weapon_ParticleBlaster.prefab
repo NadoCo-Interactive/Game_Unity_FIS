@@ -97,9 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac10d9b51b05db54a897c2572614fd59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 0}
-  soundFire: {fileID: 0}
+  Bullet: {fileID: 7843043643644530241, guid: a4cc1eba993d24247bd0212146b9a0ff, type: 3}
+  soundFire: {fileID: 8300000, guid: 3eb818e90942e9e41a2fd5b6fcab22f6, type: 3}
   soundVolume: 1
   fireRate: 10
-  fireMode: 0
-  IsActive: 0
+  fireMode: 1

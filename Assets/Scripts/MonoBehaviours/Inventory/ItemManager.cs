@@ -13,6 +13,7 @@ public class ItemManager : Singleton<ItemManager>
       {
           WeaponType.ParticleBlaster => new WeaponItem()
           {
+              Name = "Particle Blaster",
               Prefab = Instance.ParticleBlasterPrefab,
               Sprite = SpriteLibrary.ParticleBlasterWeaponSprite
           },
@@ -27,12 +28,18 @@ public class ItemManager : Singleton<ItemManager>
         itemPrefabInstance.transform.position = position ?? Vector3.zero;
         item.PrefabInstance = itemPrefabInstance;
 
+        if (item is IWeaponItem)
+            (item as IWeaponItem).Weapon = itemPrefabInstance.GetRequiredComponent<Weapon>();
+
         return itemPrefabInstance;
     }
 
     public static void DespawnItem(IItem item)
     {
         var itemPrefabInstance = item?.PrefabInstance.Required();
+
+        if (item is IWeaponItem)
+            (item as IWeaponItem).Weapon = null;
 
         GameObject.Destroy(itemPrefabInstance);
     }

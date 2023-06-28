@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Inventory : StrictBehaviour, IInventory
+public class ActorInventory : StrictBehaviour, IInventory
 {
     public List<IItem> Items { get; set; } = new();
     public List<IWeaponItem> Fittings { get; set; } = new();
@@ -13,7 +13,7 @@ public class Inventory : StrictBehaviour, IInventory
 
     public IItem SelectedItem { get; set; }
 
-    private PlayerWeapon _playerWeapon;
+    private ActorWeapon _ActorWeapon;
     private bool _initialized = false;
 
     protected void Start()
@@ -26,8 +26,7 @@ public class Inventory : StrictBehaviour, IInventory
         if (_initialized)
             return;
 
-        _playerWeapon = GetRequiredComponent<PlayerWeapon>();
-        Debug.Log(_playerWeapon);
+        _ActorWeapon = GetRequiredComponent<ActorWeapon>();
 
         _initialized = true;
     }
@@ -54,9 +53,9 @@ public class Inventory : StrictBehaviour, IInventory
     }
 
     public bool HasFittingForId(int id)
-        => Fittings.ElementAt(id) != null;
+        => Fittings.FirstOrDefault(f => f.Id == id) != null;
 
-    public void AddFitting(IItem weaponItem, WeaponHardpoint hardpoint = null)
+    public virtual void AddFitting(IItem weaponItem, WeaponHardpoint hardpoint = null)
     {
         if (!(weaponItem is IWeaponItem))
             throw new ArgumentException("Weapon must be of type \"Weapon\" to be fitted");
@@ -67,27 +66,28 @@ public class Inventory : StrictBehaviour, IInventory
         weaponItem.Id = Fittings.Count + 1;
         Fittings.Add(weaponItem as IWeaponItem);
 
+        var weaponPrefabInstance = ItemManager.SpawnItem(weaponItem);
+        var weapon = weaponPrefabInstance.GetRequiredComponent<Weapon>();
+
         if (hardpoint != null)
         {
-            throw new NotImplementedException();
+            Debug.Log("attach to " + hardpoint.gameObject.name);
+            hardpoint.Attach(weapon);
         }
         else
         {
 
-            var randHardpointIndex = Random.Range(0, _playerWeapon.Hardpoints.Count - 1);
-            var randomHardpoint = _playerWeapon.Hardpoints.ElementAt(randHardpointIndex);
+            var randHardpointIndex = Random.Range(0, _ActorWeapon.Hardpoints.Count - 1);
+            var randomHardpoint = _ActorWeapon.Hardpoints.ElementAt(randHardpointIndex);
 
             if (randomHardpoint == null)
             {
                 Debug.LogWarning("No available hardpoint to attach weapon");
+                RemoveFitting(weaponItem);
                 return;
             }
             else
-            {
-                var weaponPrefabInstance = ItemManager.SpawnItem(weaponItem);
-                var weapon = weaponPrefabInstance.GetRequiredComponent<Weapon>();
                 randomHardpoint.Attach(weapon);
-            }
         }
     }
 
@@ -95,5 +95,8 @@ public class Inventory : StrictBehaviour, IInventory
     {
         Fittings.Remove(weapon as IWeaponItem);
         ItemManager.DespawnItem(weapon);
+
+        if (HUDEquipped.ActiveWeapon == weapon)
+            HUDEquipped.SetWeapon(null);
     }
 }
