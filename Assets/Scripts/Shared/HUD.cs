@@ -9,6 +9,7 @@ public class HUD : Singleton<HUD>
 
     public bool InventoryIsVisible = false;
     public bool IsLocked = false;
+    public bool DisableInventory = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,7 @@ public class HUD : Singleton<HUD>
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && !DisableInventory)
         {
             InventoryIsVisible = !InventoryIsVisible;
             IsLocked = InventoryIsVisible;
@@ -47,5 +48,10 @@ public class HUD : Singleton<HUD>
     {
         Instance._audio.clip = clip;
         Instance._audio.Play();
+    }
+
+    public static void StopSound()
+    {
+        Instance._audio.Stop();
     }
 }

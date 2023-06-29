@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class HUDContextButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+public class HUDButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {
     public AudioClip contextButtonHover;
     public AudioClip contextButtonClick;
@@ -27,7 +27,7 @@ public class HUDContextButton : MonoBehaviour, IPointerEnterHandler, IPointerCli
         HUD.PlaySound(contextButtonHover);
     }
 
-    public void OnPointerClick(PointerEventData data)
+    public virtual void OnPointerClick(PointerEventData data)
     {
         HUD.PlaySound(contextButtonClick);
     }
