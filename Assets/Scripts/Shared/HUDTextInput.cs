@@ -11,15 +11,25 @@ public class HUDTextInput : StrictBehaviour
     private TMP_InputField _inputField;
     private bool _isTyping;
     private float _typingTimer = 0;
+    private bool _initialized = false;
 
     void Start()
     {
+        VerifyInitialize();
+    }
+
+    public void VerifyInitialize()
+    {
+        if (_initialized)
+            return;
+
         _inputField = GetRequiredComponent<TMP_InputField>();
         _audioSource = GetRequiredComponent<AudioSource>();
 
-        // Hook up events
         _inputField.onValueChanged.AddListener(OnValueChanged);
         _inputField.onEndEdit.AddListener(OnEndEdit);
+
+        _initialized = true;
     }
 
     void Update()

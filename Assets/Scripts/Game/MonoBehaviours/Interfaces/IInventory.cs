@@ -14,4 +14,6 @@ public interface IInventory : IActorComponent
     public void RemoveItem(IItem item);
     public void AddFitting(IItem weapon, WeaponHardpoint hardpoint = null);
     public void RemoveFitting(IItem weapon);
+    public bool HasFittedItem(IItem item);
+    public bool HasFittingForId(int id);
 }

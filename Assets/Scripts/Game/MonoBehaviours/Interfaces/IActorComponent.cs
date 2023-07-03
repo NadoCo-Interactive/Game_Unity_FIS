@@ -1,4 +1,6 @@
+using UnityEngine;
+
 public interface IActorComponent
 {
-    public Actor Actor { get; set; }
+    public Actor Actor { get; }
 }
