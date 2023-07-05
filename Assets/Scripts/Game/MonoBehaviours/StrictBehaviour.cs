@@ -4,7 +4,7 @@ using System;
 ///
 /// <summary>"StrictBehaviour" adds a host of extension methods, such as requiring a particular component to be attached to the object</summary>
 ///
-public class StrictBehaviour : MonoBehaviour
+public abstract class StrictBehaviour : MonoBehaviour
 {
     const string requiredErrorMessage = "\"{0}\" is required";
 

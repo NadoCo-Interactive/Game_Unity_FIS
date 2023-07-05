@@ -1,9 +1,16 @@
+using UnityEngine;
+
 public class ActorComponent : StrictBehaviour, IActorComponent
 {
-    public Actor Actor { get; set; }
-
-    protected void Start()
+    private Actor _actor;
+    public Actor Actor
     {
-        Actor = GetRequiredComponent<Actor>();
+        get
+        {
+            if (_actor == null)
+                _actor = GetRequiredComponent<Actor>();
+
+            return _actor;
+        }
     }
 }

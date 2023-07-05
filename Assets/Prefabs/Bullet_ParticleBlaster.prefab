@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7450174887017270928}
   - component: {fileID: 8243235977520301218}
   - component: {fileID: 1566892329279593338}
-  - component: {fileID: 1687889741100862257}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -27,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237812029921433888}
   m_LocalRotation: {x: -0, y: 0.6967586, z: -0, w: 0.7173057}
-  m_LocalPosition: {x: -0.080000006, y: 0, z: 2.8300002}
+  m_LocalPosition: {x: -0.080000006, y: 0, z: 0}
   m_LocalScale: {x: 0.6203644, y: 0.6203644, z: 0.6203644}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -84,28 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1687889741100862257
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1237812029921433888}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &3315644031928435741
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3315644031928435741}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.079999916, y: 0, z: 3.6941955}
+  m_LocalPosition: {x: -0.079999916, y: 0, z: 0.861}
   m_LocalScale: {x: 1.3707589, y: 1.3707589, z: 1.3707589}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -210,6 +187,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6745332177988339739}
   - component: {fileID: 7454081903871194484}
+  - component: {fileID: 8355787403592301289}
+  - component: {fileID: 6158917495080793352}
   m_Layer: 0
   m_Name: Bullet_ParticleBlaster
   m_TagString: Untagged
@@ -224,7 +203,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7843043643644530241}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5.29}
   m_LocalScale: {x: 0.72952294, y: 0.72952294, z: 0.72952294}
   m_ConstrainProportionsScale: 0
@@ -248,3 +227,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 100
   Lifetime: 100
+--- !u!65 &8355787403592301289
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843043643644530241}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 1}
+--- !u!54 &6158917495080793352
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843043643644530241}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0

@@ -89,6 +89,8 @@ public class InventoryRenderer : Singleton<InventoryRenderer>
 
     public static void UpdateUI()
     {
+        Instance.VerifyInitialize();
+
         var _inventory = InventoryManager.SelectedInventory.Required();
 
         for (int i = 0; i < Instance._allCells.Count(); i++)

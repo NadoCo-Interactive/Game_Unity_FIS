@@ -16,11 +16,9 @@ public class ActorInventory : ActorComponent, IInventory
     private ActorWeapon _ActorWeapon;
     private bool _initialized = false;
 
-    protected new void Start()
+    protected void Start()
     {
         VerifyInitialize();
-
-        base.Start();
     }
 
     void VerifyInitialize()

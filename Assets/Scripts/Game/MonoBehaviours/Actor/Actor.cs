@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class Actor : StrictBehaviour
 {
-    public IInventory Inventory;
-    public IActorWeapon Weapon;
+    public IInventory Inventory { get; set; }
+    public IActorWeapon Weapon { get; set; }
+    public IActorComponent Motor { get; set; }
+    public ParticleSystem Dust { get; set; }
+    public Transform ShipTransform { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        Inventory = GetRequiredComponent<PlayerInventory>();
-        Weapon = GetComponent<ActorWeapon>();
+        VerifyInitialize();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void VerifyInitialize()
     {
+        ShipTransform = transform.Find("Ship").Required().transform;
 
+        Inventory = GetRequiredComponent<ActorInventory>();
+        Weapon = GetComponent<ActorWeapon>();
+        Motor = GetComponent<ActorMotor>();
     }
 }
