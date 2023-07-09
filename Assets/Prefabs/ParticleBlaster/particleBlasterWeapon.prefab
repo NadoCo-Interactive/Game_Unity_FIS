@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1195454234977142295}
   - component: {fileID: 1195454234977142291}
   m_Layer: 0
-  m_Name: Weapon_ParticleBlaster
+  m_Name: particleBlasterWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

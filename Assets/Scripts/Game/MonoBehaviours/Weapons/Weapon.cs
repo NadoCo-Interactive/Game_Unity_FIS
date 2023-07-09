@@ -53,9 +53,10 @@ public class Weapon : MonoBehaviour
         audioFire.Play();
         activeAudioSources.Add(audioFire);
 
-        var bullet = GameObject.Instantiate(Bullet);
+        var bullet = GameObject.Instantiate(Bullet).GetRequiredComponent<Bullet>();
         bullet.transform.position = transform.position;
         bullet.transform.forward = transform.forward;
+        bullet.SetOwner(transform.GetRootParent().gameObject);
 
         fireTimer = 1000;
 

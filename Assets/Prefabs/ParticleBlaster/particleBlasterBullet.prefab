@@ -186,11 +186,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6745332177988339739}
-  - component: {fileID: 7454081903871194484}
   - component: {fileID: 8355787403592301289}
   - component: {fileID: 6158917495080793352}
+  - component: {fileID: 2978535669212998678}
   m_Layer: 0
-  m_Name: Bullet_ParticleBlaster
+  m_Name: particleBlasterBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213,20 +213,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7454081903871194484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7843043643644530241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c24941a7e644f9047871cfad8b13f528, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 100
-  Lifetime: 100
 --- !u!65 &8355787403592301289
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -275,3 +261,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &2978535669212998678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843043643644530241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 982eb0a4c9df1ea4c8ae5e62947ff60f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 100

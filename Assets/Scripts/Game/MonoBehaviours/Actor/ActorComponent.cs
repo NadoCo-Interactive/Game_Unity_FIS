@@ -8,7 +8,7 @@ public class ActorComponent : StrictBehaviour, IActorComponent
         get
         {
             if (_actor == null)
-                _actor = GetRequiredComponent<Actor>();
+                _actor = transform.GetRootParent().GetRequiredComponent<Actor>();
 
             return _actor;
         }
