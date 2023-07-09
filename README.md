@@ -1,5 +1,7 @@
 # Haven - Unbound
 
+**Join the community today!** | https://discord.gg/m9K3xVBnkZ |
+
 Planned Features:
 - Engage in combat with hundreds of other players in a persistent galactic conflict
 - Invade and capture regions of space to gain an advantage over the enemy faction for control of resources and territory
