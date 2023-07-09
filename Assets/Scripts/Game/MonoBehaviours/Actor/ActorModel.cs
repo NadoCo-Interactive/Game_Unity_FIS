@@ -39,7 +39,6 @@ public class ActorModel : ActorComponent, IActorModel
             var rigidbody = c.gameObject.AddComponent<Rigidbody>();
             rigidbody.useGravity = false;
             var localNormal = rigidbody.transform.localPosition.normalized;
-            Debug.DrawLine(rigidbody.transform.position, localNormal * 100, Color.green, 30000);
             rigidbody.AddForce(localNormal, ForceMode.Impulse);
             return rigidbody;
         }).ToArray();

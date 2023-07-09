@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class PlayerHealth : ActorHealth
+public class PlayerHealth : PlayerActorHealth
 {
     public override void Die()
     {
         base.Die();
-        EffectsManager.SpawnPlayerExplosion(transform.position);
+
     }
 }
