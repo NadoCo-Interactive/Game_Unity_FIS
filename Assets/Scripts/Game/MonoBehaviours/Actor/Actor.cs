@@ -16,7 +16,7 @@ public class Actor : StrictBehaviour, IActor
         VerifyInitialize();
     }
 
-    private void VerifyInitialize()
+    public void VerifyInitialize()
     {
         ShipTransform = transform.Find("Ship").Required().transform;
 

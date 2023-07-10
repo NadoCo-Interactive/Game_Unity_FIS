@@ -12,7 +12,7 @@ public class ActorWeapon : ActorComponent, IActorWeapon
 
     public List<WeaponHardpoint> Hardpoints { get; set; }
 
-    protected void Start()
+    protected virtual void Start()
     {
         VerifyInitialize();
     }
@@ -52,7 +52,8 @@ public class ActorWeapon : ActorComponent, IActorWeapon
 
     public void Fire()
     {
-        ActiveWeapon?.Weapon.Fire();
+        var weapon = ActiveWeapon?.Weapon.Required();
+        weapon.Fire();
     }
 
     public void AimTo(Vector3 position)

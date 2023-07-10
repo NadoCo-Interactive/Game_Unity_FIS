@@ -3,7 +3,9 @@ using System;
 
 public static class Utils
 {
-    const string requiredErrorMessage = "\"{0}\" is required on {1}";
+    const string requiredErrorOnObject = "\"{0}\" is required";
+    const string requiredErrorOnGameObject = requiredErrorOnObject + " is required on {1}";
+
 
     public static T GetRequiredComponent<T>(this Component parent, string errorMessage = null) where T : Component
     {
@@ -12,7 +14,7 @@ public static class Utils
         var compName = (typeof(T)).FullName;
 
         if (component == null)
-            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorMessage, compName, objName));
+            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorOnGameObject, compName, objName));
 
         return component;
     }
@@ -24,7 +26,7 @@ public static class Utils
         var compName = (typeof(T)).FullName;
 
         if (component == null)
-            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorMessage, compName, objName));
+            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorOnGameObject, compName, objName));
 
         return component;
     }
@@ -36,7 +38,7 @@ public static class Utils
         var compName = (typeof(T)).FullName;
 
         if (component == null)
-            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorMessage, compName, objName));
+            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorOnGameObject, compName, objName));
 
         return component;
     }
@@ -47,9 +49,19 @@ public static class Utils
         var objName = parent.gameObject.name;
 
         if (transform == null)
-            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorMessage, n, objName));
+            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorOnGameObject, n, objName));
 
         return transform;
+    }
+
+    public static GameObject FindRequired(this GameObject obj, string n, string errorMessage = null)
+    {
+        var gameObject = GameObject.Find(n);
+
+        if (gameObject == null)
+            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorOnObject, n));
+
+        return gameObject;
     }
 
     public static T Required<T>(this T obj, string errorMessage = null)
@@ -57,7 +69,7 @@ public static class Utils
         var name = (typeof(T)).FullName;
 
         if (obj == null)
-            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorMessage, name));
+            throw new NullReferenceException(errorMessage ?? string.Format(requiredErrorOnObject, name));
 
         return obj;
     }

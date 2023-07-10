@@ -10,8 +10,8 @@ public class LocationTime : MonoBehaviour
 
     void Start()
     {
-        locationName = transform.Find("LocationName")?.GetComponent<Typewriter>();
-        time = transform.Find("Time")?.GetComponent<Typewriter>();
+        locationName = transform.FindRequired("LocationName").GetRequiredComponent<Typewriter>();
+        time = transform.FindRequired("Time").GetRequiredComponent<Typewriter>();
 
         var currentTime = DateTime.Now.ToString("HH:mm");
         locationName.OnFinish += () =>

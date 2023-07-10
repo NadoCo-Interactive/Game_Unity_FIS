@@ -24,12 +24,12 @@ public class HUDButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandl
 
     public void OnPointerEnter(PointerEventData data)
     {
-        HUD.PlaySound(contextButtonHover);
+        HUDSpeaker.PlaySound(contextButtonHover);
     }
 
     public virtual void OnPointerClick(PointerEventData data)
     {
-        HUD.PlaySound(contextButtonClick);
+        HUDSpeaker.PlaySound(contextButtonClick);
     }
 
 

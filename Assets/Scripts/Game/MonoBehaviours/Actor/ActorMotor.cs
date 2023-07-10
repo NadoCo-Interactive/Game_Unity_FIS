@@ -1,6 +1,11 @@
 using System;
 using UnityEngine;
 
+public enum Direction
+{
+    Left, Right
+}
+
 public class ActorMotor : ActorComponent
 {
     protected ParticleSystem engine1Particles, engine2Particles;
@@ -25,15 +30,17 @@ public class ActorMotor : ActorComponent
         if (Actor == null)
             throw new ApplicationException("Actor is required");
 
-        engine1Particles = Actor.ShipTransform.Find("Engine")?.GetComponent<ParticleSystem>();
+        Actor.VerifyInitialize();
+
+        engine1Particles = Actor.ShipTransform.Required().Find("Engine")?.GetComponent<ParticleSystem>();
         if (engine1Particles == null)
             throw new ApplicationException("engine1Particles is required");
 
-        engine2Particles = Actor.ShipTransform.Find("Engine2")?.GetComponent<ParticleSystem>();
+        engine2Particles = Actor.ShipTransform.Required().Find("Engine2")?.GetComponent<ParticleSystem>();
         if (engine2Particles == null)
             throw new ApplicationException("engine2Particles is required");
 
-        engineAudio = Actor.ShipTransform.GetComponent<AudioSource>();
+        engineAudio = Actor.ShipTransform.Required().GetComponent<AudioSource>();
         if (engineAudio == null)
             throw new ApplicationException("engineAudio is required");
 

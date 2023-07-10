@@ -38,6 +38,7 @@ public class ActorModel : ActorComponent, IActorModel
         {
             var rigidbody = c.gameObject.AddComponent<Rigidbody>();
             rigidbody.useGravity = false;
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionY;
             var localNormal = rigidbody.transform.localPosition.normalized;
             rigidbody.AddForce(localNormal, ForceMode.Impulse);
             return rigidbody;
