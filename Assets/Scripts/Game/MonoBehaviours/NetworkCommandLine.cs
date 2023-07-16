@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class NetworkCommandLine : MonoBehaviour
+public class NetworkCommandLine : StrictBehaviour
 {
     private NetworkManager netManager;
 
-    void Start()
+    protected virtual void Start()
     {
         netManager = GetComponentInParent<NetworkManager>();
 
@@ -32,7 +32,7 @@ public class NetworkCommandLine : MonoBehaviour
         }
     }
 
-    private Dictionary<string, string> GetCommandlineArgs()
+    protected Dictionary<string, string> GetCommandlineArgs()
     {
         Dictionary<string, string> argDictionary = new Dictionary<string, string>();
 

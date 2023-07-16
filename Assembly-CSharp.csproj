@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\Shared\HUD.cs" />
      <Compile Include="Assets\Scripts\Game\Session\SessionManager.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\ParticleBlaster\ParticleBlasterBullet.cs" />
+     <Compile Include="Assets\Scripts\MainMenu\MainMenuNetworkCommandLine.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerWeapon.cs" />
      <Compile Include="Assets\Scripts\Game\Session\Session.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Effects\Explosion.cs" />
