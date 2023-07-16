@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\LocationTime.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDSpeaker.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\NetworkCommandLine.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDTextInput.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\HUDEquipped.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorWeapon.cs" />
@@ -369,6 +370,12 @@
     </Reference>
     <Reference Include="UnityEditor.UnityConnectModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.1f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections.LowLevel.ILSupport">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\PackageCache\com.unity.collections@1.2.4\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\PackageCache\com.unity.nuget.mono-cecil@1.11.4\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.1f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
@@ -736,41 +743,74 @@
     <Reference Include="System.Xml.Serialization">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.1f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Timeline">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.AI.Navigation">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.AI.Navigation.Updater">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
+    <Reference Include="Unity.Burst">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Burst.Editor">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.AI.Navigation.Editor">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Rider.Editor">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Networking.Transport">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Networking.Transport.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Netcode.Components">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Netcode.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Netcode.Editor">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Netcode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Netcode.Runtime">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Netcode.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.AI.Navigation.Updater">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Netcode.Editor.PackageChecker">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Netcode.Editor.PackageChecker.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Networking.Editor">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Networking.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.AI.Navigation.Editor">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
