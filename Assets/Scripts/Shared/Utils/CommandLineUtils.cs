@@ -2,22 +2,12 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public enum ClientMode
-{
-    Client,
-    Server,
-    Host
-}
-public class NetworkCommandLine : StrictBehaviour
-{
-    protected ClientMode clientMode;
-    private NetworkManager netManager;
 
-    protected virtual void Start()
+public class CommandLineUtils : StrictBehaviour
+{
+    public static ServerMode GetServerModeFromCLI()
     {
-        netManager = GetComponentInParent<NetworkManager>();
-
-        if (Application.isEditor) return;
+        if (Application.isEditor) return ServerMode.Client;
 
         var args = GetCommandlineArgs();
 
@@ -26,22 +16,18 @@ public class NetworkCommandLine : StrictBehaviour
             switch (mode)
             {
                 case "server":
-                    netManager.StartServer();
-                    clientMode = ClientMode.Server;
-                    break;
+                    return ServerMode.Server;
                 case "host":
-                    netManager.StartHost();
-                    clientMode = ClientMode.Host;
-                    break;
+                    return ServerMode.Host;
                 default: //client
-                    netManager.StartClient();
-                    clientMode = ClientMode.Client;
-                    break;
+                    return ServerMode.Client;
             }
         }
+        else
+            return ServerMode.Client;
     }
 
-    protected Dictionary<string, string> GetCommandlineArgs()
+    public static Dictionary<string, string> GetCommandlineArgs()
     {
         Dictionary<string, string> argDictionary = new Dictionary<string, string>();
 

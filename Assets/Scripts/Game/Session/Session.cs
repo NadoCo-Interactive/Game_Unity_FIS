@@ -2,16 +2,23 @@ using UnityEngine;
 
 public class Session : StrictBehaviour
 {
-    private OrbitCam _camera;
-
     protected virtual void Start()
     {
-        _camera = GameObject.Find("Main Camera").Required().GetRequiredComponent<OrbitCam>();
+        var cameraOrbit = Camera.main.GetRequiredComponent<OrbitCam>();
+        var cameraPan = Camera.main.GetRequiredComponent<PanCam>();
 
-        var actor = ActorManager.SpawnPlayerActor(Vector3.forward * 50);
-        actor.transform.forward = -actor.transform.forward;
+        if (FISNetworkManager.ServerMode == ServerMode.Server)
+        {
+            cameraOrbit.enabled = false;
+            cameraPan.enabled = true;
+        }
+        else
+        {
+            var actor = ActorManager.SpawnPlayerActor(Vector3.forward * 50);
+            actor.transform.forward = -actor.transform.forward;
 
-        RespawnPlayer();
+            RespawnPlayer();
+        }
     }
 
     protected virtual void Update()
@@ -21,7 +28,8 @@ public class Session : StrictBehaviour
 
     public void RespawnPlayer()
     {
+        var cameraOrbit = Camera.main.GetRequiredComponent<OrbitCam>();
         var player = ActorManager.SpawnPlayer(Vector3.zero);
-        _camera.TrackedObject = player.transform;
+        cameraOrbit.TrackedObject = player.transform;
     }
 }

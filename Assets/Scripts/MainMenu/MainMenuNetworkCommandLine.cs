@@ -1,12 +1,11 @@
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
-public class MainMenuNetworkCommandLine : NetworkCommandLine
+public class MainMenuNetworkCommandLine : MonoBehaviour
 {
-    protected override void Start()
+    void Start()
     {
-        base.Start();
-
-        if (clientMode == ClientMode.Server)
+        if (CommandLineUtils.GetServerModeFromCLI() == ServerMode.Server)
             SceneManager.LoadScene("Game");
     }
 }

@@ -521,6 +521,7 @@ GameObject:
   - component: {fileID: 130842767}
   - component: {fileID: 130842768}
   - component: {fileID: 130842769}
+  - component: {fileID: 130842770}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -608,30 +609,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e65061582bbeee5468cc1e2962dcb26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkConfig:
-    ProtocolVersion: 0
-    NetworkTransport: {fileID: 130842769}
-    PlayerPrefab: {fileID: 3507523718241912687, guid: 2402ba431cdf6d14aa6a1b03804847ba, type: 3}
-    Prefabs:
-      NetworkPrefabsLists: []
-    TickRate: 30
-    ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
-    ConnectionData: 
-    EnableTimeResync: 0
-    TimeResyncInterval: 30
-    EnsureNetworkVariableLengthSafety: 0
-    EnableSceneManagement: 1
-    ForceSamePrefabs: 1
-    RecycleNetworkIds: 1
-    NetworkIdRecycleDelay: 120
-    RpcHashSize: 0
-    LoadSceneTimeOut: 120
-    SpawnTimeout: 1
-    EnableNetworkLogs: 1
-    OldPrefabList: []
-  RunInBackground: 1
-  LogLevel: 1
 --- !u!114 &130842769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,6 +636,42 @@ MonoBehaviour:
     PacketDelayMS: 0
     PacketJitterMS: 0
     PacketDropRate: 0
+--- !u!114 &130842770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130842762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkConfig:
+    ProtocolVersion: 0
+    NetworkTransport: {fileID: 130842769}
+    PlayerPrefab: {fileID: 3507523718241912687, guid: 2402ba431cdf6d14aa6a1b03804847ba, type: 3}
+    Prefabs:
+      NetworkPrefabsLists: []
+    TickRate: 30
+    ClientConnectionBufferTimeout: 10
+    ConnectionApproval: 0
+    ConnectionData: 
+    EnableTimeResync: 0
+    TimeResyncInterval: 30
+    EnsureNetworkVariableLengthSafety: 0
+    EnableSceneManagement: 1
+    ForceSamePrefabs: 1
+    RecycleNetworkIds: 1
+    NetworkIdRecycleDelay: 120
+    RpcHashSize: 0
+    LoadSceneTimeOut: 120
+    SpawnTimeout: 1
+    EnableNetworkLogs: 1
+    OldPrefabList: []
+  RunInBackground: 1
+  LogLevel: 1
 --- !u!1 &161071031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,11 +1296,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedDeadZone: {x: 0.1, y: 0.1, z: 0}
-  acceleration: 0.1
-  edgeSize: 25
-  maxSpeed: 5
+  acceleration: 1
+  edgeSize: 50
+  maxSpeed: 100
   braking: 1
-  zoomAmount: 25
+  zoomAmount: 26
+  allowEdgeScroll: 1
+  invertWS: 1
 --- !u!1 &471477774
 GameObject:
   m_ObjectHideFlags: 0

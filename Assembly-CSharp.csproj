@@ -47,9 +47,9 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\UIHover.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerActorHealth.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\Inventory\InventoryCell.cs" />
-     <Compile Include="Assets\Scripts\Game\MonoBehaviours\GameNetworkCommandLine.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorManager.cs" />
      <Compile Include="Assets\Scripts\Game\Models\Interfaces\IWeaponItem.cs" />
+     <Compile Include="Assets\Scripts\Shared\Utils\EngineUtils.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\WeaponHardpoint.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Bullet.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActorWeapon.cs" />
@@ -73,10 +73,10 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Effects\Explosion.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorComponent.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\ContextMenu\HUDContextMenu.cs" />
-     <Compile Include="Assets\Scripts\Shared\Utils.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerHealth.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\FISNetworkManager.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\Typewriter.cs" />
+     <Compile Include="Assets\Scripts\Shared\Utils\CommandLineUtils.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\ItemManager.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorHealth.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\PlayerInventory.cs" />
@@ -91,7 +91,6 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Actor.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\MainMenu\HUDUsername.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\InventoryManager.cs" />
-     <Compile Include="Assets\Scripts\Shared\NetworkCommandLine.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\MainMenu\HUDButtonExit.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\SpriteLibrary.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDButton.cs" />

@@ -3,16 +3,53 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class FISNetworkManager : NetworkManager
+public enum ServerMode
 {
-    // Start is called before the first frame update
+    Client,
+    Server,
+    Host
+}
+public class FISNetworkManager : Singleton<FISNetworkManager>
+{
+    private static ServerMode _serverMode;
+    public static ServerMode ServerMode
+    {
+        get
+        {
+            Instance.verifyInitialize();
+            return _serverMode;
+        }
+        private set
+        {
+            _serverMode = value;
+        }
+    }
+    private bool initialized = false;
+
+    private NetworkManager _networkManager;
+
     void Start()
     {
+        verifyInitialize();
     }
 
-    // Update is called once per frame
-    void Update()
+    void verifyInitialize()
     {
+        if (Application.isEditor || initialized) return;
 
+        _networkManager = GetRequiredComponent<NetworkManager>();
+
+        var serverMode = CommandLineUtils.GetServerModeFromCLI();
+
+        if (serverMode == ServerMode.Server)
+            _networkManager.StartServer();
+        else if (serverMode == ServerMode.Host)
+            _networkManager.StartHost();
+        else
+            _networkManager.StartClient();
+
+        initialized = true;
     }
+
+
 }

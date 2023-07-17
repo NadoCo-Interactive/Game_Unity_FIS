@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public static class Utils
+public static class EngineUtils
 {
     const string requiredErrorOnObject = "\"{0}\" is required";
     const string requiredErrorOnGameObject = requiredErrorOnObject + " is required on {1}";
