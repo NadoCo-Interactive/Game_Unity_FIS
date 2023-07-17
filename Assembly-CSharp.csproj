@@ -42,21 +42,21 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\StrictBehaviour.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\IInventory.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorAutoFire.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Interfaces\IBullet.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\UIHover.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerActorHealth.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\Inventory\InventoryCell.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\GameNetworkCommandLine.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorManager.cs" />
      <Compile Include="Assets\Scripts\Game\Models\Interfaces\IWeaponItem.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\WeaponHardpoint.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Bullet.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActorWeapon.cs" />
-     <Compile Include="Assets\Scripts\Game\MonoBehaviours\ActorAutoFire.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActorModel.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\LocationTime.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDSpeaker.cs" />
-     <Compile Include="Assets\Scripts\Game\MonoBehaviours\NetworkCommandLine.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDTextInput.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\HUDEquipped.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorWeapon.cs" />
@@ -75,20 +75,23 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\ContextMenu\HUDContextMenu.cs" />
      <Compile Include="Assets\Scripts\Shared\Utils.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerHealth.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\FISNetworkManager.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\Typewriter.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\ItemManager.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorHealth.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\PlayerInventory.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Cameras\OrbitCam.cs" />
      <Compile Include="Assets\Scripts\Game\Session\FightclubSession.cs" />
-     <Compile Include="Assets\Scripts\Game\MonoBehaviours\OrbitCam.cs" />
      <Compile Include="Assets\Scripts\Game\Models\Interfaces\IItem.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\DeathScreen\DeathScreen.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Cameras\PanCam.cs" />
      <Compile Include="Assets\Scripts\Game\Models\Item.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerMotor.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\Inventory\InventoryRenderer.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Actor.cs" />
-     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\InventoryManager.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\MainMenu\HUDUsername.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\InventoryManager.cs" />
+     <Compile Include="Assets\Scripts\Shared\NetworkCommandLine.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\MainMenu\HUDButtonExit.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\SpriteLibrary.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDButton.cs" />
@@ -747,17 +750,17 @@
     <Reference Include="Unity.AI.Navigation">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+    <Reference Include="Unity.Burst.Editor">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.PlasticSCM.Editor">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Editor">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
@@ -765,14 +768,14 @@
     <Reference Include="UnityEditor.UI">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    <Reference Include="Unity.Networking.Transport">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Networking.Transport.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Networking.Transport">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Networking.Transport.dll</HintPath>
+    <Reference Include="UnityEngine.UI">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Netcode.Components">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Netcode.Components.dll</HintPath>
@@ -804,11 +807,11 @@
     <Reference Include="Unity.TextMeshPro">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Networking.Editor">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.Networking.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+        <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.AI.Navigation.Editor">
         <HintPath>D:\Pre-Archive\Projects\Game\Unity\Game_Unity_FIS\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>

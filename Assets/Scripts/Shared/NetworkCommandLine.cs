@@ -2,8 +2,15 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+public enum ClientMode
+{
+    Client,
+    Server,
+    Host
+}
 public class NetworkCommandLine : StrictBehaviour
 {
+    protected ClientMode clientMode;
     private NetworkManager netManager;
 
     protected virtual void Start()
@@ -20,13 +27,15 @@ public class NetworkCommandLine : StrictBehaviour
             {
                 case "server":
                     netManager.StartServer();
+                    clientMode = ClientMode.Server;
                     break;
                 case "host":
                     netManager.StartHost();
+                    clientMode = ClientMode.Host;
                     break;
-                case "client":
-
+                default: //client
                     netManager.StartClient();
+                    clientMode = ClientMode.Client;
                     break;
             }
         }
