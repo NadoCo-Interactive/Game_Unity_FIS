@@ -35,7 +35,7 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
 
     void verifyInitialize()
     {
-        if (Application.isEditor || initialized) return;
+        if (initialized) return;
 
         _networkManager = GetRequiredComponent<NetworkManager>();
 
@@ -47,6 +47,8 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
             _networkManager.StartHost();
         else
             _networkManager.StartClient();
+
+        Debug.Log("serverMode=" + serverMode);
 
         initialized = true;
     }

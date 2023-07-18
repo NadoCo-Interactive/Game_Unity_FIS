@@ -8,4 +8,6 @@ public interface IActor
     public ParticleSystem Dust { get; set; }
     public Transform ShipTransform { get; set; }
     public IActorModel Model { get; set; }
+
+    public IActorNetwork Network { get; set; }
 }

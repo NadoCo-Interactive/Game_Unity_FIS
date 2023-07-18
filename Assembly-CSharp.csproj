@@ -47,6 +47,7 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\UIHover.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerActorHealth.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\Inventory\InventoryCell.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActorNetwork.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorManager.cs" />
      <Compile Include="Assets\Scripts\Game\Models\Interfaces\IWeaponItem.cs" />
      <Compile Include="Assets\Scripts\Shared\Utils\EngineUtils.cs" />
@@ -69,6 +70,7 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\ParticleBlaster\ParticleBlasterBullet.cs" />
      <Compile Include="Assets\Scripts\MainMenu\MainMenuNetworkCommandLine.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerWeapon.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorNetwork.cs" />
      <Compile Include="Assets\Scripts\Game\Session\Session.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Effects\Explosion.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorComponent.cs" />

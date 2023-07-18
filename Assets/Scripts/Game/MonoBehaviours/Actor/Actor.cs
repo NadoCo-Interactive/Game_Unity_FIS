@@ -11,6 +11,8 @@ public class Actor : StrictBehaviour, IActor
     public Transform ShipTransform { get; set; }
     public IActorModel Model { get; set; }
 
+    public IActorNetwork Network { get; set; }
+
     protected virtual void Start()
     {
         VerifyInitialize();
@@ -24,5 +26,12 @@ public class Actor : StrictBehaviour, IActor
         Weapon = GetComponent<ActorWeapon>();
         Motor = GetComponent<ActorMotor>();
         Model = GetRequiredComponentInChildren<ActorModel>();
+    }
+
+    public void MakeRemote()
+    {
+        VerifyInitialize();
+
+        Motor.enabled = false;
     }
 }

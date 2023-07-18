@@ -651,7 +651,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 130842769}
-    PlayerPrefab: {fileID: 3507523718241912687, guid: 2402ba431cdf6d14aa6a1b03804847ba, type: 3}
+    PlayerPrefab: {fileID: 3507523718241912687, guid: 5872652f6fca74747842b6364519d7b0, type: 3}
     Prefabs:
       NetworkPrefabsLists: []
     TickRate: 30
@@ -1187,7 +1187,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 391093302}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df17973494b0f6941aca98c6edc05e38, type: 3}
   m_Name: 
@@ -1290,7 +1290,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 391093302}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0afc6a0c4bd573469a0e96bbb01d60f, type: 3}
   m_Name: 
