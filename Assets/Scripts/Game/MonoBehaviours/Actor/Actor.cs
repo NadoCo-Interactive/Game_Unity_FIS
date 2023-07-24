@@ -26,6 +26,7 @@ public class Actor : StrictBehaviour, IActor
         Weapon = GetComponent<ActorWeapon>();
         Motor = GetComponent<ActorMotor>();
         Model = GetRequiredComponentInChildren<ActorModel>();
+        Network = GetComponent<ActorNetwork>();
     }
 
     public void MakeRemote()

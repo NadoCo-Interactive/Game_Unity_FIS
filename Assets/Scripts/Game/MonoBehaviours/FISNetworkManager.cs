@@ -1,6 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Linq;
+using System.Net.Sockets;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 
 public enum ServerMode
@@ -27,6 +29,7 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
     private bool initialized = false;
 
     private NetworkManager _networkManager;
+    private UnityTransport _networkTransport;
 
     void Start()
     {
@@ -38,7 +41,15 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
         if (initialized) return;
 
         _networkManager = GetRequiredComponent<NetworkManager>();
+        _networkTransport = GetRequiredComponent<UnityTransport>();
 
+        DoConnection();
+
+        initialized = true;
+    }
+
+    void DoConnection()
+    {
         var serverMode = CommandLineUtils.GetServerModeFromCLI();
 
         if (serverMode == ServerMode.Server)
@@ -46,11 +57,40 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
         else if (serverMode == ServerMode.Host)
             _networkManager.StartHost();
         else
-            _networkManager.StartClient();
+        {
+            var connectionData = _networkTransport.ConnectionData;
+            var addrPort = connectionData.Address + ":" + connectionData.Port;
+
+            try
+            {
+                using (TcpClient tcpClient = new TcpClient())
+                {
+                    Debug.Log("connecting to " + connectionData.Address + " on " + connectionData.Port);
+                    tcpClient.Connect(connectionData.Address, connectionData.Port);
+                    _networkManager.StartClient();
+                }
+            }
+            catch (SocketException ex)
+            {
+                Debug.LogError(ex.Message);
+                _networkManager.StartHost();
+                serverMode = ServerMode.Host;
+                Debug.Log("server is not running or failed to connect, starting as host");
+            }
+        }
 
         Debug.Log("serverMode=" + serverMode);
+    }
 
-        initialized = true;
+    public static NetworkObject GetLocalPlayer()
+    {
+        if (!Instance._networkManager.IsConnectedClient)
+            throw new ApplicationException("Client not connected - no player to fetch");
+
+        var networkObjects = FindObjectsOfType<NetworkObject>();
+        var playerObject = networkObjects.FirstOrDefault(o => o.IsLocalPlayer);
+
+        return playerObject;
     }
 
 
