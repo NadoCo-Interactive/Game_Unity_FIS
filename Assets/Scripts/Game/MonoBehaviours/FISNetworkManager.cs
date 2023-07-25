@@ -77,6 +77,10 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
                 serverMode = ServerMode.Host;
                 Debug.Log("server is not running or failed to connect, starting as host");
             }
+
+            var localPlayer = GetLocalPlayer();
+            var orbitCam = Camera.main.GetRequiredComponent<OrbitCam>();
+            orbitCam.TrackedObject = localPlayer.gameObject.transform;
         }
 
         Debug.Log("serverMode=" + serverMode);
@@ -84,9 +88,6 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
 
     public static NetworkObject GetLocalPlayer()
     {
-        if (!Instance._networkManager.IsConnectedClient)
-            throw new ApplicationException("Client not connected - no player to fetch");
-
         var networkObjects = FindObjectsOfType<NetworkObject>();
         var playerObject = networkObjects.FirstOrDefault(o => o.IsLocalPlayer);
 

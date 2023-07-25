@@ -20,7 +20,7 @@ public class PlayerMotor : ActorMotor
     {
         DoParticles();
 
-        if (!Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || HUD.Instance.IsLocked)
+        if ((!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S)) || HUD.Instance.IsLocked)
             BrakePassively();
 
         if (HUD.Instance.IsLocked)
