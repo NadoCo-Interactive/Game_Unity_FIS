@@ -83,7 +83,7 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
             orbitCam.TrackedObject = localPlayer.gameObject.transform;
         }
 
-        Debug.Log("serverMode=" + serverMode);
+        Toast.Show("serverMode=" + serverMode);
     }
 
     public static NetworkObject GetLocalPlayer()
