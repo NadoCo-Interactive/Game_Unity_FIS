@@ -32,6 +32,12 @@ public class Toast : Singleton<Toast>
     public static void Show(string message)
     {
         Instance.verifyInitialize();
-        Instance.notificationPanel.AddNotification(message);
+
+        if(Instance.notificationPanel != null)
+            Instance.notificationPanel.Required().AddNotification(message);
+        else {
+            Debug.LogWarning("No uDialog Notification Panel found - logging to the console instead");
+            Debug.Log(message);
+        }
     }
 }
