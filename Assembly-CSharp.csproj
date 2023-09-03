@@ -66,6 +66,7 @@
      <Compile Include="Assets\Scripts\Shared\HUDTextInput.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\HUDEquipped.cs" />
      <Compile Include="Assets\UI\uDialog\uDialog_FontSetting.cs" />
+     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\ServerConnection.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorWeapon.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActor.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\ActorInventory.cs" />

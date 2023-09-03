@@ -36,14 +36,18 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
         verifyInitialize();
     }
 
+    void Awake()
+    {
+        verifyInitialize();
+        DoConnection();
+    }
+
     void verifyInitialize()
     {
         if (initialized) return;
 
         _networkManager = GetRequiredComponent<NetworkManager>();
         _networkTransport = GetRequiredComponent<UnityTransport>();
-
-        DoConnection();
 
         initialized = true;
     }
@@ -52,8 +56,13 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
     {
         var serverMode = CommandLineUtils.GetServerModeFromCLI();
 
+        ServerConnection.SetStatus(ConnectionStatus.Connecting, "Connecting...");
+
         if (serverMode == ServerMode.Server)
+        {
             _networkManager.StartServer();
+            ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Server");
+        }
         else if (serverMode == ServerMode.Host)
             _networkManager.StartHost();
         else
@@ -68,6 +77,7 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
                     Debug.Log("connecting to " + connectionData.Address + " on " + connectionData.Port);
                     tcpClient.Connect(connectionData.Address, connectionData.Port);
                     _networkManager.StartClient();
+                    ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Client");
                 }
             }
             catch (SocketException ex)
@@ -76,11 +86,13 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
                 _networkManager.StartHost();
                 serverMode = ServerMode.Host;
                 Debug.Log("server is not running or failed to connect, starting as host");
+                ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Host");
             }
 
             var localPlayer = GetLocalPlayer();
             var orbitCam = Camera.main.GetRequiredComponent<OrbitCam>();
             orbitCam.TrackedObject = localPlayer.gameObject.transform;
+
         }
 
         Toast.Show("serverMode=" + serverMode);
