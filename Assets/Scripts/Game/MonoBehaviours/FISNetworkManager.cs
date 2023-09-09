@@ -57,6 +57,7 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
         var serverMode = CommandLineUtils.GetServerModeFromCLI();
 
         ServerConnection.SetStatus(ConnectionStatus.Connecting, "Connecting...");
+        Debug.Log("attempting to connect as " + serverMode);
 
         if (serverMode == ServerMode.Server)
         {
@@ -72,15 +73,11 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
 
             try
             {
-                using (TcpClient tcpClient = new TcpClient())
-                {
-                    Debug.Log("connecting to " + connectionData.Address + " on " + connectionData.Port);
-                    tcpClient.Connect(connectionData.Address, connectionData.Port);
-                    _networkManager.StartClient();
-                    ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Client");
-                }
+                Debug.Log("connecting to " + connectionData.Address + " on " + connectionData.Port);
+                _networkManager.StartClient();
+                ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Client");
             }
-            catch (SocketException ex)
+            catch (Exception ex)
             {
                 Debug.LogError(ex.Message);
                 _networkManager.StartHost();

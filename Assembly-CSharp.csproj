@@ -46,6 +46,7 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorAutoFire.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Interfaces\IBullet.cs" />
      <Compile Include="Assets\UI\uDialog\uDialog_Config.cs" />
+     <Compile Include="Assets\Scripts\Shared\BlinkingText.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\UIHover.cs" />
      <Compile Include="Assets\UI\uDialog\uDialog_ResizeListener.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerActorHealth.cs" />
@@ -54,15 +55,18 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorManager.cs" />
      <Compile Include="Assets\Scripts\Game\Models\Interfaces\IWeaponItem.cs" />
      <Compile Include="Assets\Scripts\Shared\Utils\EngineUtils.cs" />
+     <Compile Include="Assets\Test Module\Environment\Scripts\TestQueue.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\WeaponHardpoint.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Bullet.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActorWeapon.cs" />
      <Compile Include="Assets\UI\uDialog\uDialog_TaskBar_Task.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActorModel.cs" />
+     <Compile Include="Assets\Test Module\Environment\Scripts\AutoOrbitCam.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\LocationTime.cs" />
      <Compile Include="Assets\UI\uDialog\Examples\uDialog_ExampleController.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDSpeaker.cs" />
+     <Compile Include="Assets\Test Module\Environment\Scripts\BaseTest.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDTextInput.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\HUDEquipped.cs" />
      <Compile Include="Assets\UI\uDialog\uDialog_FontSetting.cs" />
@@ -75,6 +79,7 @@
      <Compile Include="Assets\UI\uDialog\uDialog_Enums.cs" />
      <Compile Include="Assets\Scripts\Game\Models\WeaponItem.cs" />
      <Compile Include="Assets\UI\uDialog\Examples\ExampleNote.cs" />
+     <Compile Include="Assets\Test Module\Environment\Scripts\Buoy.cs" />
      <Compile Include="Assets\Scripts\Shared\HUD.cs" />
      <Compile Include="Assets\Scripts\Game\Session\SessionManager.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\ParticleBlaster\ParticleBlasterBullet.cs" />
@@ -111,6 +116,7 @@
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\MainMenu\HUDButtonExit.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\SpriteLibrary.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDButton.cs" />
+     <Compile Include="Assets\Test Module\Environment\Scripts\TestEnvironmentController.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerActor.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorMotor.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorModel.cs" />
