@@ -600,13 +600,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d159e6a5462e3f4eb5a32174ef7a6ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 1
-  stayVisibleWhenInactive: 0
-  fadeSpeed: 4
-  _canvasGroup: {fileID: 0}
-  _statusText: {fileID: 0}
-  fader: 0
-  initialized: 0
 --- !u!225 &952750666
 CanvasGroup:
   m_ObjectHideFlags: 0

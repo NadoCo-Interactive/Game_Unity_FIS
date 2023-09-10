@@ -63,6 +63,7 @@
      <Compile Include="Assets\Test Module\Environment\Scripts\AutoOrbitCam.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\LocationTime.cs" />
      <Compile Include="Assets\UI\uDialog\Examples\uDialog_ExampleController.cs" />
+     <Compile Include="Assets\Test Module\UnitTests\ServerConnectionUnitTest.cs" />
      <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\Shared\HUDSpeaker.cs" />
      <Compile Include="Assets\Test Module\Environment\Scripts\BaseTest.cs" />
