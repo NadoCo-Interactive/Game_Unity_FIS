@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class BlinkingText : StrictBehaviour
+public class Blink : StrictBehaviour
 {
     public bool isActive = false;
     public bool stayVisibleWhenInactive = false;
