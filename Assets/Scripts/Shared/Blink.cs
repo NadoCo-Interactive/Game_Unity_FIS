@@ -10,7 +10,6 @@ public class Blink : StrictBehaviour
     public float fadeSpeed = 4;
 
     private CanvasGroup _canvasGroup;
-    private TextMeshProUGUI _statusText;
     private float fader = 0;
     private bool initialized = false;
 
@@ -25,7 +24,6 @@ public class Blink : StrictBehaviour
             return;
 
         _canvasGroup = GetRequiredComponent<CanvasGroup>();
-        _statusText = GetRequiredComponent<TextMeshProUGUI>();
 
         initialized = true;
     }

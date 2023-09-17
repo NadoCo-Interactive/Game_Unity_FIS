@@ -76,6 +76,9 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
                 Debug.Log("connecting to " + connectionData.Address + " on " + connectionData.Port);
                 _networkManager.StartClient();
                 ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Client");
+
+                if (!_networkManager.IsConnectedClient)
+                    throw new ApplicationException("Failed to connect to server");
             }
             catch (Exception ex)
             {
@@ -86,22 +89,6 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
                 ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Host");
             }
 
-            var localPlayer = GetLocalPlayer();
-            var orbitCam = Camera.main.GetRequiredComponent<OrbitCam>();
-            orbitCam.TrackedObject = localPlayer.gameObject.transform;
-
         }
-
-        Toast.Show("serverMode=" + serverMode);
     }
-
-    public static NetworkObject GetLocalPlayer()
-    {
-        var networkObjects = FindObjectsOfType<NetworkObject>();
-        var playerObject = networkObjects.FirstOrDefault(o => o.IsLocalPlayer);
-
-        return playerObject;
-    }
-
-
 }

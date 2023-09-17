@@ -26,7 +26,7 @@ public class TestInfo : Singleton<TestInfo>
 
     void verifyInitialize()
     {
-        if(initialized)
+        if (initialized)
             return;
 
         var tfTestStatus = transform.FindRequired("txStatus");
@@ -39,7 +39,8 @@ public class TestInfo : Singleton<TestInfo>
     }
 
     private static string statusToString(TestStatus status) =>
-    status switch {
+    status switch
+    {
         TestStatus.Running => "Running Test...",
         TestStatus.Passed => "Test PASSED",
         TestStatus.Failed => "Test FAILED",
@@ -47,7 +48,8 @@ public class TestInfo : Singleton<TestInfo>
     };
 
     private static Sprite statusToSprite(TestStatus status) =>
-    status switch {
+    status switch
+    {
         TestStatus.Running => Instance.sprPending.Required(),
         TestStatus.Passed => Instance.sprSuccess.Required(),
         TestStatus.Failed => Instance.sprFail.Required(),
@@ -57,13 +59,13 @@ public class TestInfo : Singleton<TestInfo>
 
     public static void SetName(string name)
     {
-        verifyInitialize();
+        Instance.verifyInitialize();
         Instance.txTestName.text = name;
-    } 
+    }
 
     public static void SetStatus(TestStatus status)
     {
-        verifyInitialize();
+        Instance.verifyInitialize();
 
         Instance.txTestStatus.text = statusToString(status);
         Instance.imgResult.sprite = statusToSprite(status);
