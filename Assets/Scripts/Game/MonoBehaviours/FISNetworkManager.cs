@@ -39,7 +39,7 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
     void Awake()
     {
         verifyInitialize();
-        DoConnection();
+        doConnection();
     }
 
     void verifyInitialize()
@@ -52,9 +52,13 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
         initialized = true;
     }
 
-    void DoConnection()
+    void doConnection()
     {
         var serverMode = CommandLineUtils.GetServerModeFromCLI();
+
+        _networkManager.StartClient();
+        _networkManager.StartHost();
+        return;
 
         ServerConnection.SetStatus(ConnectionStatus.Connecting, "Connecting...");
         Debug.Log("attempting to connect as " + serverMode);
@@ -75,24 +79,39 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
             {
                 Debug.Log("connecting to " + connectionData.Address + " on " + connectionData.Port);
                 _networkManager.StartClient();
-                ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Client");
+
+                if (!_networkManager.IsConnectedClient)
+                {
+                    _networkManager.StartHost();
+                    serverMode = ServerMode.Host;
+                    ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Host");
+                } 
+                else
+                {
+                    ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Client");
+                }
             }
             catch (Exception ex)
             {
                 Debug.LogError(ex.Message);
                 _networkManager.StartHost();
                 serverMode = ServerMode.Host;
-                Debug.Log("server is not running or failed to connect, starting as host");
                 ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Host");
+                Debug.Log("server is not running or failed to connect, starting as host");
             }
 
             var localPlayer = GetLocalPlayer();
             var orbitCam = Camera.main.GetRequiredComponent<OrbitCam>();
-            orbitCam.TrackedObject = localPlayer.gameObject.transform;
+            //orbitCam.TrackedObject = localPlayer.gameObject.transform;
 
         }
 
         Toast.Show("serverMode=" + serverMode);
+    }
+
+    void connectHost()
+    {
+        
     }
 
     public static NetworkObject GetLocalPlayer()

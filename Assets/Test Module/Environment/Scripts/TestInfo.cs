@@ -57,13 +57,13 @@ public class TestInfo : Singleton<TestInfo>
 
     public static void SetName(string name)
     {
-        verifyInitialize();
+        Instance.verifyInitialize();
         Instance.txTestName.text = name;
     } 
 
     public static void SetStatus(TestStatus status)
     {
-        verifyInitialize();
+        Instance.verifyInitialize();
 
         Instance.txTestStatus.text = statusToString(status);
         Instance.imgResult.sprite = statusToSprite(status);
