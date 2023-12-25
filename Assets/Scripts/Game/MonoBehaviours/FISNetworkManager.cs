@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Sockets;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using UnityEngine;
+using UnityEditor;
 
 public enum ServerMode
 {
@@ -11,7 +11,9 @@ public enum ServerMode
     Server,
     Host
 }
-public class FISNetworkManager : Singleton<FISNetworkManager>
+
+[CustomEditor(typeof(FISNetworkManager))]
+public class FISNetworkManager : Editor
 {
     private static ServerMode _serverMode;
     public static ServerMode ServerMode
@@ -31,15 +33,15 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
     private NetworkManager _networkManager;
     private UnityTransport _networkTransport;
 
-    void Start()
+    void OnEnable()
     {
         verifyInitialize();
     }
 
-    void Awake()
+    void OnInspectorGUI()
     {
-        verifyInitialize();
-        doConnection();
+        if (GUI.Button(new Rect(10, 70, 50, 30), "Start Host CUSTOM"))
+            connectHost();
     }
 
     void verifyInitialize()
@@ -111,7 +113,10 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
 
     void connectHost()
     {
-        
+        _networkManager.StartHost();
+        var localPlayer = GetLocalPlayer();
+        var orbitCam = Camera.main.GetRequiredComponent<OrbitCam>();
+        orbitCam.TrackedObject = localPlayer.gameObject.transform;
     }
 
     public static NetworkObject GetLocalPlayer()
