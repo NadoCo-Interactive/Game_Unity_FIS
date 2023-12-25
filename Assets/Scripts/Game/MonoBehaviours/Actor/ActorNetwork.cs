@@ -6,7 +6,7 @@ using Unity.Netcode;
 public class ActorNetwork : NetworkBehaviour, IActorNetwork
 {
     public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>();
-    public NetworkVariable<Quaternion> Rotation = new NetworkVariable<Quaternion>();
+    public NetworkVariable<Vector3> Aim = new NetworkVariable<Vector3>();
 
     private float syncTimer = 0;
 
@@ -25,15 +25,15 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     }
     void Update()
     {
-        if(Vector3.Distance(transform.position,Position.Value) > 4)
-            transform.position = Position.Value;
-        
-        Debug.Log(Vector3.Dot(transform.position,Position.Value));
-
         if(IsOwner)
         {
             SetRemotePositionServerRpc(gameObject.transform.position);
-            SetRemoteRotationServerRpc(gameObject.transform.rotation);
+            SetRemoteAimServerRpc(gameObject.transform.forward);
+        }
+        else
+        {
+            transform.position = Position.Value;
+            transform.forward = Aim.Value;
         }
     }
 
@@ -44,8 +44,8 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     }
 
     [ServerRpc]
-    public void SetRemoteRotationServerRpc(Quaternion rotation)
+    public void SetRemoteAimServerRpc(Vector3 aim)
     {
-        Rotation.Value = rotation;
+        Aim.Value = aim;
     }
 }
