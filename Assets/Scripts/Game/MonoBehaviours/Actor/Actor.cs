@@ -34,5 +34,7 @@ public class Actor : StrictBehaviour, IActor
         VerifyInitialize();
 
         Motor.enabled = false;
+        Weapon.enabled = false;
+        Inventory.enabled = false;
     }
 }

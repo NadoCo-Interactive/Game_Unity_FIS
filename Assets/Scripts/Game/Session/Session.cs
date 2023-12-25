@@ -15,8 +15,8 @@ public class Session : StrictBehaviour
         }
         else
         {
-            var actor = ActorManager.SpawnPlayerActor(Vector3.forward * 50);
-            actor.transform.forward = -actor.transform.forward;
+            //var actor = ActorManager.SpawnPlayerActor(Vector3.forward * 50);
+            //actor.transform.forward = -actor.transform.forward;
 
             // RespawnPlayer();
         }
