@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public interface IInventory : IActorComponent
 {
@@ -13,7 +14,9 @@ public interface IInventory : IActorComponent
     public void AddItem(IItem item);
     public void RemoveItem(IItem item);
     public void AddFitting(IItem weapon, WeaponHardpoint hardpoint = null);
+    public void AddFitting(IItem weaponItem, string hardpointId);
     public void RemoveFitting(IItem weapon);
+    public void RemoveFittingByItemId(string itemId);
     public bool HasFittedItem(IItem item);
-    public bool HasFittingForId(int id);
+    public bool HasFittingForSlot(int slotId);
 }

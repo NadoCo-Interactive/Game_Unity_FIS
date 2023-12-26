@@ -37,12 +37,12 @@ public class ActorWeapon : ActorComponent, IActorWeapon
         ActiveWeapon = weaponItem;
     }
 
-    public void EquipById(int id)
+    public void EquipBySlotId(int id)
     {
-        if (!Actor.Inventory.HasFittingForId(id))
+        if (!Actor.Inventory.HasFittingForSlot(id))
             return;
 
-        var weaponItem = InventoryManager.SelectedInventory.Fittings.FirstOrDefault(f => f.Id == id);
+        var weaponItem = InventoryManager.SelectedInventory.Fittings.FirstOrDefault(f => f.SlotId == id);
 
         if (weaponItem == null)
             return;

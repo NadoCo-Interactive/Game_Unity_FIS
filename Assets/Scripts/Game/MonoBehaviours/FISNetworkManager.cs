@@ -30,9 +30,8 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
     private bool initialized = false;
 
     private NetworkManager _networkManager;
-    private UnityTransport _networkTransport;
 
-    void OnEnable()
+    void Start()
     {
         verifyInitialize();
     }
@@ -42,7 +41,6 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
         if (initialized) return;
 
         _networkManager = GetRequiredComponent<NetworkManager>();
-        _networkTransport = GetRequiredComponent<UnityTransport>();
 
         StartConnection();
 
@@ -53,12 +51,12 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
 
     void StartConnection()
     {
-        _networkManager.OnClientDisconnectCallback += OnClientDisconnected;
+        // _networkManager.OnClientDisconnectCallback += OnClientDisconnected;
         _networkManager.OnClientConnectedCallback += OnClientConnected;
 
         // .. TODO: Eventually, I'll need to make this attempt a client connection
         // first, and then automatically start as host if the connection fails
-        // _networkManager.StartHost();
+        //_networkManager.StartHost();
         _networkManager.StartClient();
     }
 

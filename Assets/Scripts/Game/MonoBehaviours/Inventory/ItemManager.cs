@@ -9,7 +9,15 @@ public class ItemManager : Singleton<ItemManager>
       => throw new NotImplementedException();
 
     public static IWeaponItem CreateWeapon(WeaponType type)
-      => type switch
+    {
+        var weapon = createWeapon(type);
+        weapon.WeaponType = type;
+
+        return weapon;
+    }
+
+    private static IWeaponItem createWeapon(WeaponType type)
+    => type switch
       {
           WeaponType.ParticleBlaster => new WeaponItem()
           {

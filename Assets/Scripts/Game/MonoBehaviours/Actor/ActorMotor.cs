@@ -64,6 +64,23 @@ public class ActorMotor : ActorComponent
             engine1Particles.Stop();
             engine2Particles.Stop();
         }
+
+        if(Actor.Network != null)
+            DoNetwork();
+    }
+
+    private void DoNetwork()
+    {
+        if(!Actor.IsRemote)
+        {
+            Actor.Network.SetRemotePositionServerRpc(gameObject.transform.position);
+            Actor.Network.SetRemoteAimServerRpc(Actor.ShipTransform.forward);
+        }
+        else
+        {
+            transform.position = Actor.Network.Position.Value;
+            transform.forward = Actor.Network.Aim.Value;
+        }
     }
 
     public void Accelerate()

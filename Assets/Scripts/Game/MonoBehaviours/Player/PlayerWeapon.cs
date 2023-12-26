@@ -1,11 +1,10 @@
 using UnityEngine;
-using System.Linq;
 
 public class PlayerWeapon : ActorWeapon
 {
     void Update()
     {
-        if (HUD.Instance.IsLocked)
+        if (HUD.Instance.IsLocked || Actor.IsRemote)
             return;
 
         DoEquip();
@@ -24,8 +23,8 @@ public class PlayerWeapon : ActorWeapon
         if (Input.GetKeyDown(KeyCode.Alpha0))
             Equip(null);
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && InventoryManager.SelectedInventory.HasFittingForId(1))
-            EquipById(1);
+        if (Input.GetKeyDown(KeyCode.Alpha1) && InventoryManager.SelectedInventory.HasFittingForSlot(1))
+            EquipBySlotId(1);
     }
 
     void DoFire()

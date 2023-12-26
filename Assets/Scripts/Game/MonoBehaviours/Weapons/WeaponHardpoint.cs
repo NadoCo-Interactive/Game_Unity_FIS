@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class WeaponHardpoint : MonoBehaviour
 {
+    public string Id { get; private set; }
     private Weapon _weapon;
 
     // Start is called before the first frame update
@@ -13,6 +13,8 @@ public class WeaponHardpoint : MonoBehaviour
 
         if (meshRenderer != null)
             meshRenderer.enabled = false;
+
+        Id = Guid.NewGuid().ToString();
     }
 
     public void Attach(Weapon weapon)
@@ -21,10 +23,5 @@ public class WeaponHardpoint : MonoBehaviour
         _weapon.transform.rotation = transform.rotation;
         _weapon.transform.parent = transform;
         _weapon.transform.localPosition = Vector3.zero;
-    }
-
-    public void DetachWeapon()
-    {
-        _weapon = null;
     }
 }

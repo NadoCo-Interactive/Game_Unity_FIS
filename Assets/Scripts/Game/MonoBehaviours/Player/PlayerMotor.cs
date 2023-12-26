@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerMotor : ActorMotor
 {
-    private ParticleSystem dustParticles;
+    public ParticleSystem DustParticles;
 
     protected override void Start()
     {
@@ -12,12 +12,17 @@ public class PlayerMotor : ActorMotor
 
     protected override void VerifyInitialize()
     {
-        dustParticles = transform.Find("Dust").Required().GetRequiredComponent<ParticleSystem>();
+        DustParticles = transform.Find("Dust").Required().GetRequiredComponent<ParticleSystem>();
         base.VerifyInitialize();
     }
 
     protected override void Update()
     {
+        base.Update();
+
+        if(Actor.IsRemote)
+            return;
+
         DoParticles();
 
         if ((!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S)) || HUD.Instance.IsLocked)
@@ -43,19 +48,17 @@ public class PlayerMotor : ActorMotor
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
             BrakeActively();
-
-        base.Update();
     }
 
     private void DoParticles()
     {
-        var dpVel = dustParticles.velocityOverLifetime;
+        var dpVel = DustParticles.velocityOverLifetime;
         dpVel.enabled = true;
         dpVel.x = forwardVelocity.x + transverseVelocity.x;
         dpVel.y = forwardVelocity.y + transverseVelocity.y;
         dpVel.z = forwardVelocity.z + transverseVelocity.z;
 
-        var dpEmission = dustParticles.emission;
+        var dpEmission = DustParticles.emission;
         dpEmission.rateOverTime = 10 + ((forwardVelocity.magnitude / 25) * 90);
     }
 }

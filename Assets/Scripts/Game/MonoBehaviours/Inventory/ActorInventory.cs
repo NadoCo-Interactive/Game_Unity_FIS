@@ -36,7 +36,7 @@ public class ActorInventory : ActorComponent, IInventory
         if (Items.Count >= MaxItems)
             throw new ApplicationException("Inventory Full");
 
-        item.Id = Items.Count + 1;
+        item.SlotId = Items.Count + 1;
         Items.Add(item);
     }
 
@@ -52,8 +52,8 @@ public class ActorInventory : ActorComponent, IInventory
         return fittingsAsItems.Contains(item);
     }
 
-    public bool HasFittingForId(int id)
-        => Fittings.FirstOrDefault(f => f.Id == id) != null;
+    public bool HasFittingForSlot(int id)
+        => Fittings.FirstOrDefault(f => f.SlotId == id) != null;
 
     public virtual void AddFitting(IItem weaponItem, WeaponHardpoint hardpoint = null)
     {
@@ -63,20 +63,14 @@ public class ActorInventory : ActorComponent, IInventory
         if (Fittings.Count >= MaxFittings)
             throw new ApplicationException("No more space for fittings");
 
-        weaponItem.Id = Fittings.Count + 1;
+        weaponItem.SlotId = Fittings.Count + 1;
         Fittings.Add(weaponItem as IWeaponItem);
 
         var weaponPrefabInstance = ItemManager.SpawnItem(weaponItem);
         var weapon = weaponPrefabInstance.GetRequiredComponent<Weapon>();
 
-        if (hardpoint != null)
+        if (hardpoint == null)
         {
-            Debug.Log("attach to " + hardpoint.gameObject.name);
-            hardpoint.Attach(weapon);
-        }
-        else
-        {
-
             var randHardpointIndex = Random.Range(0, _ActorWeapon.Hardpoints.Count - 1);
             var randomHardpoint = _ActorWeapon.Hardpoints.ElementAt(randHardpointIndex);
 
@@ -86,9 +80,26 @@ public class ActorInventory : ActorComponent, IInventory
                 RemoveFitting(weaponItem);
                 return;
             }
-            else
-                randomHardpoint.Attach(weapon);
+
+            hardpoint = randomHardpoint;
         }
+
+
+        Debug.Log("attach to " + hardpoint.gameObject.name);
+        hardpoint.Attach(weapon);
+
+        //if(Actor.Network != null)
+          //  Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).WeaponType,hardpoint.Id.ToString());
+    }
+
+    public virtual void AddFitting(IItem weaponItem, string hardpointId)
+    {
+        var hardpoint = Actor.Weapon.Hardpoints.FirstOrDefault(h => h.Id == hardpointId);
+
+        if(hardpoint == null)
+            throw new NullReferenceException("No hardpoint exists with id "+hardpointId);
+
+        AddFitting(weaponItem,hardpoint);
     }
 
     public void RemoveFitting(IItem weapon)
@@ -101,5 +112,14 @@ public class ActorInventory : ActorComponent, IInventory
 
         if (Actor.Weapon != null)
             Actor.Weapon.ActiveWeapon = null;
+
+        //if(Actor.Network != null)
+          //  Actor.Network.RemoveFittingServerRpc(weapon.Id.ToString());
+    }
+
+    public void RemoveFittingByItemId(string itemId)
+    {
+        var item = Items.FirstOrDefault(i => i.Id == itemId);
+        RemoveFitting(item);
     }
 }

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Actor : StrictBehaviour, IActor
 {
+    public bool IsRemote { get; set; } = false;
+
     public IInventory Inventory { get; set; }
     public IActorWeapon Weapon { get; set; }
-    public IActorComponent Motor { get; set; }
+    public PlayerMotor Motor { get; set; }
     public ParticleSystem Dust { get; set; }
     public Transform ShipTransform { get; set; }
     public IActorModel Model { get; set; }
@@ -24,7 +26,7 @@ public class Actor : StrictBehaviour, IActor
 
         Inventory = GetRequiredComponent<ActorInventory>();
         Weapon = GetComponent<ActorWeapon>();
-        Motor = GetComponent<ActorMotor>();
+        Motor = GetComponent<PlayerMotor>();
         Model = GetRequiredComponentInChildren<ActorModel>();
         Network = GetComponent<ActorNetwork>();
     }
@@ -33,8 +35,11 @@ public class Actor : StrictBehaviour, IActor
     {
         VerifyInitialize();
 
-        Motor.enabled = false;
-        Weapon.enabled = false;
-        Inventory.enabled = false;
+        // Motor.enabled = false;
+        Motor.DustParticles.gameObject.SetActive(false);
+        // Weapon.enabled = false;
+        // Inventory.enabled = false;
+
+        IsRemote = true;
     }
 }

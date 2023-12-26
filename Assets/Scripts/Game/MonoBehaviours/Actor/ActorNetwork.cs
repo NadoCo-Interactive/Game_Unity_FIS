@@ -1,41 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using System;
 
 public class ActorNetwork : NetworkBehaviour, IActorNetwork
 {
-    public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>();
-    public NetworkVariable<Vector3> Aim = new NetworkVariable<Vector3>();
-
-    private float syncTimer = 0;
+    private Actor _actor;
+    public NetworkVariable<Vector3> Position { get; set; } = new NetworkVariable<Vector3>();
+    public NetworkVariable<Vector3> Aim { get; set; } = new NetworkVariable<Vector3>();
 
     void Start()
     {
-        var actor = GetComponent<Actor>().Required();
+        _actor = GetComponent<Actor>().Required();
 
         if (!IsOwner)
         {
-            actor.name = "Player "+OwnerClientId;
-            actor.MakeRemote();
+            _actor.name = "Player "+OwnerClientId;
+            _actor.MakeRemote();
         }
         else {
-            actor.name = "Local Player";
+            _actor.name = "Local Player";
         }
     }
-    void Update()
-    {
-        if(IsOwner)
-        {
-            SetRemotePositionServerRpc(gameObject.transform.position);
-            SetRemoteAimServerRpc(gameObject.transform.forward);
-        }
-        else
-        {
-            transform.position = Position.Value;
-            transform.forward = Aim.Value;
-        }
-    }
+
 
     [ServerRpc]
     public void SetRemotePositionServerRpc(Vector3 position)
@@ -48,4 +34,18 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     {
         Aim.Value = aim;
     }
+
+    /* [ServerRpc]
+    public void AddFittingServerRpc(WeaponType weaponType, string hardpointId)
+    {
+        Debug.Log("ADDED A FITTING");
+        var weapon = ItemManager.CreateWeapon(weaponType);
+        _actor.Inventory.AddFitting(weapon,hardpointId);
+    }
+
+    [ServerRpc]
+    public void RemoveFittingServerRpc(string itemId)
+    {
+        _actor.Inventory.RemoveFittingByItemId(itemId);
+    } */
 }
