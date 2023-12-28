@@ -10,7 +10,7 @@ public class ActorWeapon : ActorComponent, IActorWeapon
 
     private bool initialized = false;
 
-    public List<WeaponHardpoint> Hardpoints { get; set; }
+    public List<ActorHardpoint> Hardpoints { get; set; }
 
     protected virtual void Start()
     {
@@ -22,7 +22,7 @@ public class ActorWeapon : ActorComponent, IActorWeapon
         if (initialized)
             return;
 
-        Hardpoints = GetComponentsInChildren<WeaponHardpoint>().ToList();
+        Hardpoints = GetComponentsInChildren<ActorHardpoint>().ToList();
 
         initialized = true;
     }

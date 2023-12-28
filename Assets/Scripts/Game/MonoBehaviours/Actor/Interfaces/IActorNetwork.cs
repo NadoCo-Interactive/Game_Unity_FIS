@@ -9,4 +9,6 @@ public interface IActorNetwork
 
     public void SetRemotePositionServerRpc(Vector3 position);
     public void SetRemoteAimServerRpc(Vector3 rotation);
+    public void AddFittingServerRpc(WeaponType weaponType, int hardpointId);
+    public void RemoveFittingServerRpc(string itemId);
 }

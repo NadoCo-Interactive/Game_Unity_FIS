@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorAutoFire.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Interfaces\IBullet.cs" />
     <Compile Include="Assets\UI\uDialog\uDialog_Config.cs" />
+    <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\ActorHardpoint.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\UIHover.cs" />
     <Compile Include="Assets\UI\uDialog\uDialog_ResizeListener.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerActorHealth.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Assets\Scripts\Game\Models\Interfaces\IWeaponItem.cs" />
     <Compile Include="Assets\Scripts\Shared\Utils\EngineUtils.cs" />
     <Compile Include="Assets\Test Module\Environment\Scripts\TestQueue.cs" />
-    <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\WeaponHardpoint.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Bullet.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActorWeapon.cs" />
     <Compile Include="Assets\UI\uDialog\uDialog_TaskBar_Task.cs" />

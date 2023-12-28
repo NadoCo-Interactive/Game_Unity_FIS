@@ -1,6 +1,3 @@
-using UnityEngine;
-using System.Collections.Generic;
-
 public class PlayerInventory : ActorInventory
 {
     new void Start()

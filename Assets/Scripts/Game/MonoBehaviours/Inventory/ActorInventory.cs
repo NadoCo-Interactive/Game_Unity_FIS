@@ -55,7 +55,7 @@ public class ActorInventory : ActorComponent, IInventory
     public bool HasFittingForSlot(int id)
         => Fittings.FirstOrDefault(f => f.SlotId == id) != null;
 
-    public virtual void AddFitting(IItem weaponItem, WeaponHardpoint hardpoint = null)
+    public virtual void AddFitting(IItem weaponItem, ActorHardpoint hardpoint = null)
     {
         if (!(weaponItem is IWeaponItem))
             throw new ArgumentException("Weapon must be of type \"Weapon\" to be fitted");
@@ -88,11 +88,11 @@ public class ActorInventory : ActorComponent, IInventory
         Debug.Log("attach to " + hardpoint.gameObject.name);
         hardpoint.Attach(weapon);
 
-        //if(Actor.Network != null)
-          //  Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).WeaponType,hardpoint.Id.ToString());
+        if(Actor.Network != null)
+          Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).WeaponType,hardpoint.Id);
     }
 
-    public virtual void AddFitting(IItem weaponItem, string hardpointId)
+    public virtual void AddFitting(IItem weaponItem, int hardpointId)
     {
         var hardpoint = Actor.Weapon.Hardpoints.FirstOrDefault(h => h.Id == hardpointId);
 
@@ -113,8 +113,8 @@ public class ActorInventory : ActorComponent, IInventory
         if (Actor.Weapon != null)
             Actor.Weapon.ActiveWeapon = null;
 
-        //if(Actor.Network != null)
-          //  Actor.Network.RemoveFittingServerRpc(weapon.Id.ToString());
+        if(Actor.Network != null)
+            Actor.Network.RemoveFittingServerRpc(weapon.Id.ToString());
     }
 
     public void RemoveFittingByItemId(string itemId)

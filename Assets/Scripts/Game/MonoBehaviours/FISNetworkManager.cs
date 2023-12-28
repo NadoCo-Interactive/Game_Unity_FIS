@@ -56,8 +56,8 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
 
         // .. TODO: Eventually, I'll need to make this attempt a client connection
         // first, and then automatically start as host if the connection fails
-        //_networkManager.StartHost();
-        _networkManager.StartClient();
+        _networkManager.StartHost();
+        //_networkManager.StartClient();
     }
 
     private void OnClientConnected(ulong obj)

@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class WeaponHardpoint : MonoBehaviour
+public class ActorHardpoint : ActorComponent
 {
-    public string Id { get; private set; }
+    public int Id { get; private set; }
     private Weapon _weapon;
 
     // Start is called before the first frame update
@@ -14,7 +14,7 @@ public class WeaponHardpoint : MonoBehaviour
         if (meshRenderer != null)
             meshRenderer.enabled = false;
 
-        Id = Guid.NewGuid().ToString();
+        Id = Actor.Weapon.Hardpoints.IndexOf(this);
     }
 
     public void Attach(Weapon weapon)

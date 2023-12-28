@@ -13,8 +13,8 @@ public interface IInventory : IActorComponent
 
     public void AddItem(IItem item);
     public void RemoveItem(IItem item);
-    public void AddFitting(IItem weapon, WeaponHardpoint hardpoint = null);
-    public void AddFitting(IItem weaponItem, string hardpointId);
+    public void AddFitting(IItem weapon, ActorHardpoint hardpoint = null);
+    public void AddFitting(IItem weaponItem, int hardpointId);
     public void RemoveFitting(IItem weapon);
     public void RemoveFittingByItemId(string itemId);
     public bool HasFittedItem(IItem item);

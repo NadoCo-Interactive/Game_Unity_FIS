@@ -35,8 +35,8 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
         Aim.Value = aim;
     }
 
-    /* [ServerRpc]
-    public void AddFittingServerRpc(WeaponType weaponType, string hardpointId)
+    [ServerRpc]
+    public void AddFittingServerRpc(WeaponType weaponType, int hardpointId)
     {
         Debug.Log("ADDED A FITTING");
         var weapon = ItemManager.CreateWeapon(weaponType);
@@ -47,5 +47,5 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     public void RemoveFittingServerRpc(string itemId)
     {
         _actor.Inventory.RemoveFittingByItemId(itemId);
-    } */
+    }
 }
