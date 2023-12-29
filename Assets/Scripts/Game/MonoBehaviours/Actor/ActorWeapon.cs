@@ -24,17 +24,18 @@ public class ActorWeapon : ActorComponent, IActorWeapon
 
         Hardpoints = GetComponentsInChildren<ActorHardpoint>().ToList();
 
+        if(Actor.Network != null)
+            Actor.Network.Hardpoints.Value = Hardpoints;
+
         initialized = true;
-    }
-
-    void Update()
-    {
-
     }
 
     public virtual void Equip(IWeaponItem weaponItem)
     {
         ActiveWeapon = weaponItem;
+
+        if(Actor.Network != null)
+            Actor.Network.Hardpoints.Value = Hardpoints;
     }
 
     public void EquipBySlotId(int id)

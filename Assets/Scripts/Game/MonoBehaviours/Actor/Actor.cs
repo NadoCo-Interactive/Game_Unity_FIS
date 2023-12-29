@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Actor : StrictBehaviour, IActor
 {
-    public bool IsRemote { get; set; } = false;
+    public bool IsLocalPlayer { get; set; } = true;
 
     public IInventory Inventory { get; set; }
     public IActorWeapon Weapon { get; set; }
@@ -34,12 +34,7 @@ public class Actor : StrictBehaviour, IActor
     public void MakeRemote()
     {
         VerifyInitialize();
-
-        // Motor.enabled = false;
         Motor.DustParticles.gameObject.SetActive(false);
-        // Weapon.enabled = false;
-        // Inventory.enabled = false;
-
-        IsRemote = true;
+        IsLocalPlayer = false;
     }
 }

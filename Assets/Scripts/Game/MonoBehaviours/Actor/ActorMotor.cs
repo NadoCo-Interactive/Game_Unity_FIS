@@ -71,15 +71,15 @@ public class ActorMotor : ActorComponent
 
     private void DoNetwork()
     {
-        if(!Actor.IsRemote)
+        if(Actor.IsLocalPlayer)
         {
-            Actor.Network.SetRemotePositionServerRpc(gameObject.transform.position);
-            Actor.Network.SetRemoteAimServerRpc(Actor.ShipTransform.forward);
+            Actor.Network.SetPositionServerRpc(gameObject.transform.position);
+            Actor.Network.SetHeadingServerRpc(Actor.ShipTransform.forward);
         }
         else
         {
             transform.position = Actor.Network.Position.Value;
-            transform.forward = Actor.Network.Aim.Value;
+            transform.forward = Actor.Network.Heading.Value;
         }
     }
 

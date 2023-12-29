@@ -20,7 +20,7 @@ public class PlayerMotor : ActorMotor
     {
         base.Update();
 
-        if(Actor.IsRemote)
+        if(!Actor.IsLocalPlayer)
             return;
 
         DoParticles();

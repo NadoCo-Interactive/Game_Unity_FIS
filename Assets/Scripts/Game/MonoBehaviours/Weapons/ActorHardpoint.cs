@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ActorHardpoint : ActorComponent
 {
-    public int Id { get; private set; }
+    public string Id { get; private set; }
     private Weapon _weapon;
 
     // Start is called before the first frame update
@@ -14,7 +14,7 @@ public class ActorHardpoint : ActorComponent
         if (meshRenderer != null)
             meshRenderer.enabled = false;
 
-        Id = Actor.Weapon.Hardpoints.IndexOf(this);
+        Id = Guid.NewGuid().ToString();
     }
 
     public void Attach(Weapon weapon)

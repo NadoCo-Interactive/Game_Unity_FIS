@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class ActorInventory : ActorComponent, IInventory
 {
+    public string Id { get; set; }
     public List<IItem> Items { get; set; } = new();
     public List<IWeaponItem> Fittings { get; set; } = new();
     public int MaxItems { get; set; } = 15;
@@ -19,6 +20,11 @@ public class ActorInventory : ActorComponent, IInventory
     protected void Start()
     {
         VerifyInitialize();
+
+        Id = Guid.NewGuid().ToString();
+
+        if(IsNetwork)
+            Actor.Network.Items.Value = Items;
     }
 
     void VerifyInitialize()
@@ -31,18 +37,42 @@ public class ActorInventory : ActorComponent, IInventory
         _initialized = true;
     }
 
-    public void AddItem(IItem item)
+    public void AddItem(IItem item, string itemId = null)
     {
         if (Items.Count >= MaxItems)
             throw new ApplicationException("Inventory Full");
 
-        item.SlotId = Items.Count + 1;
+        if(itemId != null)
+            item.Id = itemId;
+
+        item.Required().SlotId = Items.Count + 1;
         Items.Add(item);
+
+        if(IsNetwork)
+            Actor.Network.AddItemServerRpc(item.ItemType,item.Id,Id);
+
+        Debug.Log("Added item "+item.ItemType+" to "+Id+" ("+Actor.gameObject.name+")");
     }
 
     public void RemoveItem(IItem item)
     {
         Items.Remove(item);
+
+        if(IsNetwork)
+            Actor.Network.RemoveItemServerRpc(item.Id);
+
+        Debug.Log("Added item "+item.ItemType+" from "+Id+" ("+Actor.gameObject.name+")");
+    }
+
+    public void TransferItemTo(IItem item, IInventory inventoryTo)
+    {
+        inventoryTo.AddItem(item);
+        RemoveItem(item);
+
+        if(IsNetwork)
+            Actor.Network.TransferItemToServerRpc(item.Id,inventoryTo.Id);
+
+        Debug.Log("Transfered item "+item.ItemType+" to "+inventoryTo.Id+" ("+inventoryTo.Actor.gameObject.name+")");
     }
 
     public bool HasFittedItem(IItem item)
@@ -57,7 +87,7 @@ public class ActorInventory : ActorComponent, IInventory
 
     public virtual void AddFitting(IItem weaponItem, ActorHardpoint hardpoint = null)
     {
-        if (!(weaponItem is IWeaponItem))
+        if (weaponItem is not IWeaponItem)
             throw new ArgumentException("Weapon must be of type \"Weapon\" to be fitted");
 
         if (Fittings.Count >= MaxFittings)
@@ -88,18 +118,8 @@ public class ActorInventory : ActorComponent, IInventory
         Debug.Log("attach to " + hardpoint.gameObject.name);
         hardpoint.Attach(weapon);
 
-        if(Actor.Network != null)
-          Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).WeaponType,hardpoint.Id);
-    }
-
-    public virtual void AddFitting(IItem weaponItem, int hardpointId)
-    {
-        var hardpoint = Actor.Weapon.Hardpoints.FirstOrDefault(h => h.Id == hardpointId);
-
-        if(hardpoint == null)
-            throw new NullReferenceException("No hardpoint exists with id "+hardpointId);
-
-        AddFitting(weaponItem,hardpoint);
+        if(IsNetwork)
+          Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).WeaponType,weaponItem.Id,hardpoint.Id);
     }
 
     public void RemoveFitting(IItem weapon)
@@ -113,8 +133,8 @@ public class ActorInventory : ActorComponent, IInventory
         if (Actor.Weapon != null)
             Actor.Weapon.ActiveWeapon = null;
 
-        if(Actor.Network != null)
-            Actor.Network.RemoveFittingServerRpc(weapon.Id.ToString());
+        if(IsNetwork)
+            Actor.Network.RemoveFittingServerRpc(weapon.Id);
     }
 
     public void RemoveFittingByItemId(string itemId)

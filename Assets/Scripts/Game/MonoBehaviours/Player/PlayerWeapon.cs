@@ -4,7 +4,7 @@ public class PlayerWeapon : ActorWeapon
 {
     void Update()
     {
-        if (HUD.Instance.IsLocked || Actor.IsRemote)
+        if (HUD.Instance.IsLocked || !Actor.IsLocalPlayer)
             return;
 
         DoEquip();
