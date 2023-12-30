@@ -2,7 +2,10 @@ public class PlayerInventory : ActorInventory
 {
     new void Start()
     {
-        var particleBlaster = ItemManager.CreateWeapon(WeaponType.ParticleBlaster);
+        if(!Actor.IsLocalPlayer)
+            return;
+
+        var particleBlaster = ItemManager.CreateItem(ItemType.ParticleBlaster);
         AddItem(particleBlaster);
 
         InventoryManager.SetSelectedInventory(this);

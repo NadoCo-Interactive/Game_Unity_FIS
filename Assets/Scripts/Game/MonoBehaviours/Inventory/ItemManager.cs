@@ -6,11 +6,11 @@ public class ItemManager : Singleton<ItemManager>
     public GameObject ParticleBlasterPrefab;
 
     
-    public static IItem CreateItem(ItemType type)
+    public static IItem CreateItem(ItemType type, string Id = null)
     {
         var item = createItem(type);
         item.ItemType = type;
-        item.Id = Guid.NewGuid().ToString();
+        item.Id = Id ?? Guid.NewGuid().ToString();
 
         return item;
     }
@@ -18,22 +18,28 @@ public class ItemManager : Singleton<ItemManager>
     private static IItem createItem(ItemType type)
     => type switch
     {
+        ItemType.ParticleBlaster => new WeaponItem()
+          {
+              Name = "Particle Blaster",
+              Prefab = Instance.ParticleBlasterPrefab,
+              Sprite = SpriteLibrary.ParticleBlasterWeaponSprite
+          },
         _ => throw new NotImplementedException()
     };
 
-    public static IWeaponItem CreateWeapon(WeaponType type)
+    public static IWeaponItem CreateWeapon(ItemType type)
     {
         var weapon = createWeapon(type);
-        weapon.WeaponType = type;
+        weapon.ItemType = type;
         weapon.Id = Guid.NewGuid().ToString();
 
         return weapon;
     }
 
-    private static IWeaponItem createWeapon(WeaponType type)
+    private static IWeaponItem createWeapon(ItemType type)
     => type switch
       {
-          WeaponType.ParticleBlaster => new WeaponItem()
+          ItemType.ParticleBlaster => new WeaponItem()
           {
               Name = "Particle Blaster",
               Prefab = Instance.ParticleBlasterPrefab,

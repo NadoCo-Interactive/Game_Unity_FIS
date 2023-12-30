@@ -12,17 +12,18 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     public NetworkVariable<Vector3> Heading { get; set; } = new NetworkVariable<Vector3>();
     #endregion
 
-    #region ActorInventory Variables
-    public NetworkVariable<List<IItem>> Items { get; set; } = new NetworkVariable<List<IItem>>();
-    #endregion
-
-    #region ActorWeapon Variables
-    public NetworkVariable<IWeaponItem> ActiveWeapon { get;set; } = new NetworkVariable<IWeaponItem>();
-    public NetworkVariable<List<ActorHardpoint>> Hardpoints { get;set; } = new NetworkVariable<List<ActorHardpoint>>();
-    #endregion
+    private bool initialized = false;
 
     void Start()
     {
+        verifyInitialize();
+    }
+
+    void verifyInitialize()
+    {
+        if(initialized)
+            return;
+
         _actor = GetComponent<Actor>().Required();
 
         if (!IsOwner)
@@ -33,6 +34,8 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
         else {
             _actor.name = "Local Player";
         }
+
+        initialized = true;
     }
 
     #region ActorMotor Events
@@ -53,14 +56,20 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     [ServerRpc]
     public void AddItemServerRpc(ItemType itemType, string itemId, string inventoryId)
     {
-        var item = ItemManager.CreateItem(itemType);
-        _actor.Inventory.AddItem(item,itemId);
+        if(IsOwner) return;
+        verifyInitialize();
+
+        var item = ItemManager.CreateItem(itemType,itemId);
+        _actor.Inventory.AddItem(item);
     }
 
     [ServerRpc]
     public void RemoveItemServerRpc(string itemId)
     {
-        var item = Items.Value.FirstOrDefault(i => i.Id == itemId);
+        if(IsOwner) return;
+        verifyInitialize();
+
+        var item = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
 
         if(item != null)
             _actor.Inventory.RemoveItem(item);
@@ -69,7 +78,10 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     [ServerRpc]
     public void TransferItemToServerRpc(string itemId, string toInventoryId)
     {
-        var item = Items.Value.FirstOrDefault(i => i.Id == itemId);
+        if(IsOwner) return;
+        verifyInitialize();
+
+        var item = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
         var toInventory = FindObjectsOfType<ActorInventory>().FirstOrDefault(inv => inv.Id == toInventoryId);
 
         if(item != null && toInventory != null)
@@ -77,10 +89,13 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     }
 
     [ServerRpc]
-    public void AddFittingServerRpc(WeaponType weaponType, string itemId, string hardpointId)
+    public void AddFittingServerRpc(ItemType ItemType, string itemId, string hardpointId)
     {
-        var weapon = Items.Value.FirstOrDefault(i => i.Id == itemId);
-        var hardpoint = Hardpoints.Value.FirstOrDefault(hp => hp.Id == hardpointId);
+        if(IsOwner) return;
+        verifyInitialize();
+
+        var weapon = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
+        var hardpoint = _actor.Weapon.Hardpoints.FirstOrDefault(hp => hp.Id == hardpointId);
 
         if(hardpoint == null || weapon == null)
             return;
@@ -91,7 +106,10 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     [ServerRpc]
     public void RemoveFittingServerRpc(string itemId)
     {
-        var weapon = Items.Value.FirstOrDefault(i => i.Id == itemId);
+        if(IsOwner) return;
+        verifyInitialize();
+
+        var weapon = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
 
         if(weapon == null)
             return;

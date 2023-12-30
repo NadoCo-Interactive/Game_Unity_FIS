@@ -22,9 +22,6 @@ public class ActorInventory : ActorComponent, IInventory
         VerifyInitialize();
 
         Id = Guid.NewGuid().ToString();
-
-        if(IsNetwork)
-            Actor.Network.Items.Value = Items;
     }
 
     void VerifyInitialize()
@@ -119,7 +116,7 @@ public class ActorInventory : ActorComponent, IInventory
         hardpoint.Attach(weapon);
 
         if(IsNetwork)
-          Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).WeaponType,weaponItem.Id,hardpoint.Id);
+          Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).ItemType,weaponItem.Id,hardpoint.Id);
     }
 
     public void RemoveFitting(IItem weapon)
