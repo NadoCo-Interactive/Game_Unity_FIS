@@ -9,7 +9,7 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     #region ActorMotor Variables
     private Actor _actor;
     public NetworkVariable<Vector3> Position { get; set; } = new NetworkVariable<Vector3>();
-    public NetworkVariable<Vector3> Heading { get; set; } = new NetworkVariable<Vector3>();
+    public NetworkVariable<Vector3> Heading { get; set; } = new NetworkVariable<Vector3>(Vector3.forward);
     #endregion
 
     private bool initialized = false;

@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Actor : StrictBehaviour, IActor
 {
-    public bool IsLocalPlayer { get; set; } = true;
-
     public IInventory Inventory { get; set; }
     public IActorWeapon Weapon { get; set; }
     public PlayerMotor Motor { get; set; }
@@ -28,13 +27,12 @@ public class Actor : StrictBehaviour, IActor
         Weapon = GetComponent<ActorWeapon>();
         Motor = GetComponent<PlayerMotor>();
         Model = GetRequiredComponentInChildren<ActorModel>();
-        Network = GetComponent<ActorNetwork>();
+        Network = GetRequiredComponent<ActorNetwork>();
     }
 
     public void MakeRemote()
     {
         VerifyInitialize();
         Motor.DustParticles.gameObject.SetActive(false);
-        IsLocalPlayer = false;
     }
 }

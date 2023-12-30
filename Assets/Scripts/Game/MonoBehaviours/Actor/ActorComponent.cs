@@ -14,5 +14,5 @@ public class ActorComponent : StrictBehaviour, IActorComponent
         }
     }
 
-    public bool IsNetwork => Actor.Network != null && Actor.IsLocalPlayer;
+    public bool CanUseNetwork => Actor.Network != null && Actor.Network.IsLocalPlayer;
 }

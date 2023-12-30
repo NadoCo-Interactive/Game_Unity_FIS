@@ -45,17 +45,21 @@ public class ActorInventory : ActorComponent, IInventory
         item.Required().SlotId = Items.Count + 1;
         Items.Add(item);
 
-        if(IsNetwork)
+        if(CanUseNetwork)
+        {
+            Debug.Log(Actor.gameObject.name+" is "+(Actor.Network.IsLocalPlayer ? "a local player" : "not a local player"));
+            Debug.Log("Added item "+item.ItemType+" to "+Id+" ("+Actor.gameObject.name+")");
             Actor.Network.AddItemServerRpc(item.ItemType,item.Id,Id);
+        }
 
-        Debug.Log("Added item "+item.ItemType+" to "+Id+" ("+Actor.gameObject.name+")");
+        
     }
 
     public void RemoveItem(IItem item)
     {
         Items.Remove(item);
 
-        if(IsNetwork)
+        if(CanUseNetwork)
             Actor.Network.RemoveItemServerRpc(item.Id);
 
         Debug.Log("Added item "+item.ItemType+" from "+Id+" ("+Actor.gameObject.name+")");
@@ -66,7 +70,7 @@ public class ActorInventory : ActorComponent, IInventory
         inventoryTo.AddItem(item);
         RemoveItem(item);
 
-        if(IsNetwork)
+        if(CanUseNetwork)
             Actor.Network.TransferItemToServerRpc(item.Id,inventoryTo.Id);
 
         Debug.Log("Transfered item "+item.ItemType+" to "+inventoryTo.Id+" ("+inventoryTo.Actor.gameObject.name+")");
@@ -115,7 +119,7 @@ public class ActorInventory : ActorComponent, IInventory
         Debug.Log("attach to " + hardpoint.gameObject.name);
         hardpoint.Attach(weapon);
 
-        if(IsNetwork)
+        if(CanUseNetwork)
           Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).ItemType,weaponItem.Id,hardpoint.Id);
     }
 
@@ -130,7 +134,7 @@ public class ActorInventory : ActorComponent, IInventory
         if (Actor.Weapon != null)
             Actor.Weapon.ActiveWeapon = null;
 
-        if(IsNetwork)
+        if(CanUseNetwork)
             Actor.Network.RemoveFittingServerRpc(weapon.Id);
     }
 

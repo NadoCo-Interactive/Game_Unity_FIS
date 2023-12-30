@@ -67,6 +67,8 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
         var localPlayer = GetLocalPlayer();
         var orbitCam = Camera.main.GetRequiredComponent<OrbitCam>();
         orbitCam.TrackedObject = localPlayer.gameObject.transform;
+
+
     }
 
     private void OnClientDisconnected(ulong obj)

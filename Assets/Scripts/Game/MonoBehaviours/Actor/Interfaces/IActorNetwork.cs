@@ -5,6 +5,8 @@ using UnityEngine;
 
 public interface IActorNetwork
 {
+    public bool IsLocalPlayer { get; }
+
     #region ActorMotor Variables
     public NetworkVariable<Vector3> Position { get; set; }
     public NetworkVariable<Vector3> Heading { get; set; }

@@ -20,7 +20,7 @@ public class PlayerMotor : ActorMotor
     {
         base.Update();
 
-        if(!Actor.IsLocalPlayer)
+        if(!Actor.Network.IsLocalPlayer)
             return;
 
         DoParticles();
