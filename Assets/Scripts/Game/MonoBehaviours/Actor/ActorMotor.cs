@@ -65,16 +65,16 @@ public class ActorMotor : ActorComponent
             engine2Particles.Stop();
         }
 
-        if(CanUseNetwork)
+        if(Actor.Network != null)
             DoNetwork();
     }
 
     private void DoNetwork()
-    {
+    {        
         if(Actor.Network.IsLocalPlayer)
         {
             Actor.Network.SetPositionServerRpc(gameObject.transform.position);
-            Actor.Network.SetHeadingServerRpc(Actor.ShipTransform.forward);
+            Actor.Network.SetHeadingServerRpc(Actor.ShipTransform.forward);  
         }
         else
         {

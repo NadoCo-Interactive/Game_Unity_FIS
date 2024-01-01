@@ -92,6 +92,7 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     public void AddFittingServerRpc(ItemType ItemType, string itemId, string hardpointId)
     {
         if(IsOwner) return;
+        Debug.Log("received fitting packet");
         verifyInitialize();
 
         var weapon = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);

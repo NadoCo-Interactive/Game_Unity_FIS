@@ -62,7 +62,7 @@ public class ActorInventory : ActorComponent, IInventory
         if(CanUseNetwork)
             Actor.Network.RemoveItemServerRpc(item.Id);
 
-        Debug.Log("Added item "+item.ItemType+" from "+Id+" ("+Actor.gameObject.name+")");
+        Debug.Log("Removed item "+item.ItemType+" from "+Id+" ("+Actor.gameObject.name+")");
     }
 
     public void TransferItemTo(IItem item, IInventory inventoryTo)
@@ -96,6 +96,7 @@ public class ActorInventory : ActorComponent, IInventory
 
         weaponItem.SlotId = Fittings.Count + 1;
         Fittings.Add(weaponItem as IWeaponItem);
+        Debug.Log("added "+weaponItem.Name+" as a fitting");
 
         var weaponPrefabInstance = ItemManager.SpawnItem(weaponItem);
         var weapon = weaponPrefabInstance.GetRequiredComponent<Weapon>();
@@ -120,7 +121,10 @@ public class ActorInventory : ActorComponent, IInventory
         hardpoint.Attach(weapon);
 
         if(CanUseNetwork)
+        {
+            Debug.Log("sending fitting packet");
           Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).ItemType,weaponItem.Id,hardpoint.Id);
+        }
     }
 
     public void RemoveFitting(IItem weapon)
