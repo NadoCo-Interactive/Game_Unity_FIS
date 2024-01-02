@@ -47,8 +47,9 @@ public class ActorInventory : ActorComponent, IInventory
 
         if(CanUseNetwork)
         {
-            Debug.Log(Actor.gameObject.name+" is "+(Actor.Network.IsLocalPlayer ? "a local player" : "not a local player"));
             Debug.Log("Added item "+item.ItemType+" to "+Id+" ("+Actor.gameObject.name+")");
+
+            Debug.Log("sent addItem packet");
             Actor.Network.AddItemServerRpc(item.ItemType,item.Id,Id);
         }
 
@@ -59,10 +60,12 @@ public class ActorInventory : ActorComponent, IInventory
     {
         Items.Remove(item);
 
-        if(CanUseNetwork)
+        if (CanUseNetwork)
+        {
+            Debug.Log("Removed item " + item.ItemType + " from " + Id + " (" + Actor.gameObject.name + ")");
+            Debug.Log("sent removeItem packet");
             Actor.Network.RemoveItemServerRpc(item.Id);
-
-        Debug.Log("Removed item "+item.ItemType+" from "+Id+" ("+Actor.gameObject.name+")");
+        }
     }
 
     public void TransferItemTo(IItem item, IInventory inventoryTo)
@@ -123,7 +126,7 @@ public class ActorInventory : ActorComponent, IInventory
         if(CanUseNetwork)
         {
             Debug.Log("sending fitting packet");
-          Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).ItemType,weaponItem.Id,hardpoint.Id);
+          Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).ItemType,weaponItem.Id,hardpoint.Id.ToString());
         }
     }
 

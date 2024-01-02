@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ActorHardpoint : ActorComponent
 {
-    public string Id { get; private set; }
+    public ulong Id { get; set; }
     private Weapon _weapon;
 
     // Start is called before the first frame update
@@ -13,8 +13,6 @@ public class ActorHardpoint : ActorComponent
 
         if (meshRenderer != null)
             meshRenderer.enabled = false;
-
-        Id = Guid.NewGuid().ToString();
     }
 
     public void Attach(Weapon weapon)

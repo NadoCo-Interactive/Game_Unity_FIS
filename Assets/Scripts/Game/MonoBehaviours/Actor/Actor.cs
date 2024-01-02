@@ -6,7 +6,20 @@ using UnityEngine;
 public class Actor : StrictBehaviour, IActor
 {
     public IInventory Inventory { get; set; }
-    public IActorWeapon Weapon { get; set; }
+
+    private IActorWeapon _weapon;
+    public IActorWeapon Weapon
+    {
+        get
+        {
+            if(_weapon == null)
+                _weapon = GetComponent<ActorWeapon>();
+
+            return _weapon;
+        }
+        set { _weapon = value; }
+    }
+
     public PlayerMotor Motor { get; set; }
     public ParticleSystem Dust { get; set; }
     public Transform ShipTransform { get; set; }
@@ -24,7 +37,7 @@ public class Actor : StrictBehaviour, IActor
         ShipTransform = transform.Find("Ship").Required().transform;
 
         Inventory = GetRequiredComponent<ActorInventory>();
-        Weapon = GetComponent<ActorWeapon>();
+        _weapon = GetComponent<ActorWeapon>();
         Motor = GetComponent<PlayerMotor>();
         Model = GetRequiredComponentInChildren<ActorModel>();
         Network = GetRequiredComponent<ActorNetwork>();
@@ -33,6 +46,8 @@ public class Actor : StrictBehaviour, IActor
     public void MakeRemote()
     {
         VerifyInitialize();
-        Motor.DustParticles.gameObject.SetActive(false);
+
+        if(Motor != null)
+            Motor.DustParticles.gameObject.SetActive(false);
     }
 }

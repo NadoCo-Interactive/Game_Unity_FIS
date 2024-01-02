@@ -12,6 +12,10 @@ public interface IActorNetwork
     public NetworkVariable<Vector3> Heading { get; set; }
     #endregion
 
+    #region ActorWeapon Variables
+    public NetworkList<ulong> HardpointIds { get; set; }
+    #endregion
+
     #region ActorMotor Events
     /// <summary>
     /// Broadcast the ship's current position to other players

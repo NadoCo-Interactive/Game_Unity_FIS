@@ -1,6 +1,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
+using System;
 
 public enum FireMode { FullAuto, SemiAuto }
 
@@ -10,7 +12,7 @@ public class ActorWeapon : ActorComponent, IActorWeapon
 
     private bool initialized = false;
 
-    public List<ActorHardpoint> Hardpoints { get; set; }
+    public List<ActorHardpoint> Hardpoints { get; set; } = new List<ActorHardpoint>();
 
     protected virtual void Start()
     {
