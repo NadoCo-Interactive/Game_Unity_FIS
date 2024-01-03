@@ -29,6 +29,8 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
     }
     private bool initialized = false;
 
+    public bool IsHost = false;
+
     private NetworkManager _networkManager;
 
     void Start()
@@ -56,8 +58,11 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
 
         // .. TODO: Eventually, I'll need to make this attempt a client connection
         // first, and then automatically start as host if the connection fails
-        _networkManager.StartHost();
-        //_networkManager.StartClient();
+        
+        if(IsHost)
+            _networkManager.StartHost();
+        else
+            _networkManager.StartClient();
     }
 
     private void OnClientConnected(ulong obj)

@@ -37,26 +37,6 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
             _actor.name = "Local Player";
         }
 
-        if(_actor.Weapon != null)
-        {
-            foreach(var hardpoint in _actor.Weapon.Hardpoints)
-            {
-                if (IsLocalPlayer)
-                {
-                    var idGuid = Guid.NewGuid().ToByteArray();
-                    var idULong = BitConverter.ToUInt64(idGuid);
-                    hardpoint.Id = idULong;
-                    HardpointIds.Add(hardpoint.Id);
-                    Debug.Log("set remote hardpoint id: " + hardpoint.Id);
-                }
-                else
-                {
-                    hardpoint.Id = HardpointIds[_actor.Weapon.Hardpoints.IndexOf(hardpoint)];
-                    Debug.Log("local hardpoint id: " + hardpoint.Id);
-                }
-            }
-        }
-
         initialized = true;
     }
 
@@ -75,6 +55,8 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     #endregion
 
     #region ActorInventory Events
+
+    
     [ServerRpc]
     public void AddItemServerRpc(ItemType itemType, string itemId, string inventoryId)
     {
@@ -121,7 +103,6 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         var weapon = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
 
-        var hardpointGuid = Guid.Parse(hardpointId);
         ActorHardpoint hardpoint = _actor.Weapon.Hardpoints.FirstOrDefault(hp => hp.Id.ToString() == hardpointId);
 
         if (weapon == null)
@@ -150,13 +131,33 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
         Debug.Log("received unfitting packet on " + _actor.name);
         verifyInitialize();
 
-        var weapon = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
+        var weapon = _actor.Inventory.Fittings.FirstOrDefault(i => i.Id == itemId);
 
-        weapon.Required("The requested item " + itemId + " doesn't exist in call to RemoveFittingServerRpc");
+        weapon.Required("The requested fitting " + itemId + " doesn't exist in call to RemoveFittingServerRpc");
 
         _actor.Inventory.RemoveFitting(weapon);
     }
 
     
+    #endregion
+
+    #region ActorWeapon Events
+    [ServerRpc]
+    public void SetHardpointIdsServerRpc(ulong[] hardpointIds)
+    {
+        if(IsOwner) return;
+        Debug.Log("received hardpoint setting packet");
+
+        verifyInitialize();
+
+        HardpointIds = new NetworkList<ulong>(hardpointIds);
+
+        foreach(ulong id in HardpointIds)
+        {
+            var hardpoint = _actor.Weapon.Hardpoints.ElementAt(HardpointIds.IndexOf(id));
+            hardpoint.Id = id;
+            Debug.Log("new hardpoint id: "+id);
+        }
+    }
     #endregion
 }

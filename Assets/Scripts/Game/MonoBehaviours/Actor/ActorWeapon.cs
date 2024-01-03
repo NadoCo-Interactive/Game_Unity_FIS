@@ -19,12 +19,26 @@ public class ActorWeapon : ActorComponent, IActorWeapon
         VerifyInitialize();
     }
 
-    private void VerifyInitialize()
+    public void VerifyInitialize()
     {
         if (initialized)
             return;
 
         Hardpoints = GetComponentsInChildren<ActorHardpoint>().ToList();
+
+        foreach(var hardpoint in Hardpoints)
+        {
+            var idGuid = Guid.NewGuid().ToByteArray();
+            var idULong = BitConverter.ToUInt64(idGuid);
+            hardpoint.Id = idULong;
+        }
+
+        if(CanUseNetwork)
+        {
+            Debug.Log("sent hardpoint setting packet with ids "+string.Join(",",Hardpoints.Select(hp => hp.Id)));
+            Actor.Network.SetHardpointIdsServerRpc(Hardpoints.Select(hp => hp.Id).ToArray());
+        }
+
 
         initialized = true;
     }

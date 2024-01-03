@@ -66,4 +66,8 @@ public interface IActorNetwork
     /// <param name="hardpointId"></param>
     public void RemoveFittingServerRpc(string weaponId);
     #endregion
+
+    #region ActorWeapon Events
+    public void SetHardpointIdsServerRpc(ulong[] hardpointIds);
+    #endregion
 }
