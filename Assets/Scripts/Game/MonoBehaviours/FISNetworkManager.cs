@@ -67,7 +67,7 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
 
     private void OnClientConnected(ulong obj)
     {
-         Debug.Log("connected to server, loading player");
+         GameLog.Log("connected to server, loading player");
 
         var localPlayer = GetLocalPlayer();
         var orbitCam = Camera.main.GetRequiredComponent<OrbitCam>();
@@ -78,11 +78,11 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
 
     private void OnClientDisconnected(ulong obj)
     {
-        Debug.Log("disconnection event: "+obj);
+        GameLog.Log("disconnection event: "+obj);
 
         if(obj == 0)
         {
-            Debug.Log("server is not running, start as host and load player");
+            GameLog.Log("server is not running, start as host and load player");
             _networkManager.StartHost();
         }
     } 

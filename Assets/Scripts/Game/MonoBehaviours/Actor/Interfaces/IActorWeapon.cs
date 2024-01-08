@@ -6,5 +6,4 @@ public interface IActorWeapon : IActorComponent
 
     public List<ActorHardpoint> Hardpoints { get; set; }
 
-    public void VerifyInitialize();
 }

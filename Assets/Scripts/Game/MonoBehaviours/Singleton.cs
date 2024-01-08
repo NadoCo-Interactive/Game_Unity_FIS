@@ -16,7 +16,7 @@ public class Singleton<T> : StrictBehaviour where T : Object
             var count = FindObjectsOfType<T>().Count();
 
             if (count > 1)
-                Debug.LogWarning($"Only one object of type {(typeof(T)).FullName} should exist, found ({count})");
+                GameLog.LogWarning($"Only one object of type {(typeof(T)).FullName} should exist, found ({count})");
 
             return _instance;
         }

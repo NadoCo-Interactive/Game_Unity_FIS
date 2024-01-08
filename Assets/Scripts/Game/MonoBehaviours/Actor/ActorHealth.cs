@@ -17,7 +17,7 @@ public class ActorHealth : ActorComponent
     {
         health -= damage;
 
-        Debug.Log(gameObject.name + " health=" + health);
+        GameLog.Log(gameObject.name + " health=" + health);
 
         if (health <= 0)
             Die();
@@ -25,7 +25,7 @@ public class ActorHealth : ActorComponent
 
     public virtual void Die()
     {
-        Debug.Log(gameObject.name + " died!");
+        GameLog.Log(gameObject.name + " died!");
         Actor.Model.Break();
         GameObject.Destroy(Actor.gameObject);
     }

@@ -43,6 +43,12 @@ public class Actor : StrictBehaviour, IActor
         Network = GetRequiredComponent<ActorNetwork>();
     }
 
+    public void SetTailColor(Color color)
+    {
+        var shipTfm = transform.Find("Ship").Find("SpaceFighter_1_3_curved");
+        shipTfm.Find("Cube.005").GetComponent<MeshRenderer>().material.color = color;
+    }
+
     public void MakeRemote()
     {
         VerifyInitialize();

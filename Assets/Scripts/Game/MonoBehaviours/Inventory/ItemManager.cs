@@ -6,11 +6,11 @@ public class ItemManager : Singleton<ItemManager>
     public GameObject ParticleBlasterPrefab;
 
     
-    public static IItem CreateItem(ItemType type, string Id = null)
+    public static IItem CreateItem(ItemType type, ulong? Id = null)
     {
         var item = createItem(type);
         item.ItemType = type;
-        item.Id = Id ?? Guid.NewGuid().ToString();
+        item.Id = Id ?? Guid.NewGuid().ToUlong();
 
         return item;
     }
@@ -31,7 +31,7 @@ public class ItemManager : Singleton<ItemManager>
     {
         var weapon = createWeapon(type);
         weapon.ItemType = type;
-        weapon.Id = Guid.NewGuid().ToString();
+        weapon.Id = Guid.NewGuid().ToUlong();
 
         return weapon;
     }

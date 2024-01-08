@@ -19,12 +19,13 @@ public class ActorInventory : ActorComponent, IInventory
 
     protected void Start()
     {
-        VerifyInitialize();
+        verifyInitialize();
 
         Id = Guid.NewGuid().ToString();
+        
     }
 
-    void VerifyInitialize()
+    void verifyInitialize()
     {
         if (_initialized)
             return;
@@ -34,26 +35,34 @@ public class ActorInventory : ActorComponent, IInventory
         _initialized = true;
     }
 
-    public void AddItem(IItem item, string itemId = null)
+    public void InitializeItems(ItemDTO[] items)
+    {
+        foreach(ItemDTO dto in items)
+        {
+            var item = ItemManager.CreateItem(dto.ItemType,dto.Id);
+            AddItem(item,true);
+        }
+    }
+
+    public void AddItem(ItemDTO dto)
+    {
+        var item = ItemManager.CreateItem(dto.ItemType,dto.Id);
+        AddItem(item,true);
+    }
+
+    public void AddItem(IItem item, bool localOnly = false)
     {
         if (Items.Count >= MaxItems)
             throw new ApplicationException("Inventory Full");
 
-        if(itemId != null)
-            item.Id = itemId;
-
         item.Required().SlotId = Items.Count + 1;
         Items.Add(item);
 
-        if(CanUseNetwork)
+        if(CanUseNetwork && !localOnly)
         {
-            Debug.Log("Added item "+item.ItemType+" to "+Id+" ("+Actor.gameObject.name+")");
-
-            Debug.Log("sent addItem packet");
-            Actor.Network.AddItemServerRpc(item.ItemType,item.Id,Id);
+            GameLog.Log("sent addItem packet for "+item.ItemType);
+            Actor.Network.AddItemServerRpc(item.ItemType,item.Id);
         }
-
-        
     }
 
     public void RemoveItem(IItem item)
@@ -62,8 +71,8 @@ public class ActorInventory : ActorComponent, IInventory
 
         if (CanUseNetwork)
         {
-            Debug.Log("Removed item " + item.ItemType + " from " + Id + " (" + Actor.gameObject.name + ")");
-            Debug.Log("sent removeItem packet");
+            GameLog.Log("Removed item " + item.ItemType + " from " + Id + " (" + Actor.gameObject.name + ")");
+            GameLog.Log("sent removeItem packet");
             Actor.Network.RemoveItemServerRpc(item.Id);
         }
     }
@@ -74,9 +83,9 @@ public class ActorInventory : ActorComponent, IInventory
         RemoveItem(item);
 
         if(CanUseNetwork)
-            Actor.Network.TransferItemToServerRpc(item.Id,inventoryTo.Id);
+            Actor.Network.TransferItemServerRpc(item.Id,inventoryTo.Id);
 
-        Debug.Log("Transfered item "+item.ItemType+" to "+inventoryTo.Id+" ("+inventoryTo.Actor.gameObject.name+")");
+        GameLog.Log("Transfered item "+item.ItemType+" to "+inventoryTo.Id+" ("+inventoryTo.Actor.gameObject.name+")");
     }
 
     public bool HasFittedItem(IItem item)
@@ -99,7 +108,7 @@ public class ActorInventory : ActorComponent, IInventory
 
         weaponItem.SlotId = Fittings.Count + 1;
         Fittings.Add(weaponItem as IWeaponItem);
-        Debug.Log("added "+weaponItem.Name+" as a fitting");
+        GameLog.Log("added "+weaponItem.Name+" as a fitting");
 
         var weaponPrefabInstance = ItemManager.SpawnItem(weaponItem);
         var weapon = weaponPrefabInstance.GetRequiredComponent<Weapon>();
@@ -111,7 +120,7 @@ public class ActorInventory : ActorComponent, IInventory
 
             if (randomHardpoint == null)
             {
-                Debug.LogWarning("No available hardpoint to attach weapon");
+                GameLog.LogWarning("No available hardpoint to attach weapon");
                 RemoveFitting(weaponItem);
                 return;
             }
@@ -120,13 +129,13 @@ public class ActorInventory : ActorComponent, IInventory
         }
 
 
-        Debug.Log("attach to " + hardpoint.gameObject.name);
+        GameLog.Log("attach to " + hardpoint.gameObject.name);
         hardpoint.Attach(weapon);
 
         if(CanUseNetwork)
         {
-            Debug.Log("sending fitting packet");
-          Actor.Network.AddFittingServerRpc((weaponItem as IWeaponItem).ItemType,weaponItem.Id,hardpoint.Id.ToString());
+            GameLog.Log("sending fitting packet");
+            Actor.Network.AddFittingServerRpc(weaponItem.Id,hardpoint.Id);
         }
     }
 
@@ -145,7 +154,7 @@ public class ActorInventory : ActorComponent, IInventory
             Actor.Network.RemoveFittingServerRpc(weapon.Id);
     }
 
-    public void RemoveFittingByItemId(string itemId)
+    public void RemoveFittingByItemId(ulong itemId)
     {
         var item = Items.FirstOrDefault(i => i.Id == itemId);
         RemoveFitting(item);

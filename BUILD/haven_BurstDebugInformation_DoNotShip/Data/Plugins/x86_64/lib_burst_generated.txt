@@ -45,6 +45,7 @@ Library: C:\Users\Nathan Work\Github\NadoCo Interactive\Game_Unity_FIS\Temp\Burs
 --linker-options=PdbAltPath="haven_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Nathan Work\Github\NadoCo Interactive\Game_Unity_FIS\Temp\Burst
+--debug=Full
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.16f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\Nathan Work\Github\NadoCo Interactive\Game_Unity_FIS\Library\Burst
 --output=C:\Users\Nathan Work\Github\NadoCo Interactive\Game_Unity_FIS\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
@@ -174,6 +175,7 @@ Library: C:\Users\Nathan Work\Github\NadoCo Interactive\Game_Unity_FIS\Temp\Burs
 --linker-options=PdbAltPath="haven_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Nathan Work\Github\NadoCo Interactive\Game_Unity_FIS\Temp\Burst
+--debug=Full
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.16f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=C:\Users\Nathan Work\Github\NadoCo Interactive\Game_Unity_FIS\Library\Burst
 --output=C:\Users\Nathan Work\Github\NadoCo Interactive\Game_Unity_FIS\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated

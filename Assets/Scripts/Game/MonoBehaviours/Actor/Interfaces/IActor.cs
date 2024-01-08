@@ -10,4 +10,6 @@ public interface IActor
     public IActorModel Model { get; set; }
 
     public IActorNetwork Network { get; set; }
+
+    public void SetTailColor(Color color);
 }

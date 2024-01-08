@@ -86,7 +86,7 @@ public class HUDContextMenu : Singleton<HUDContextMenu>, IPointerExitHandler, IP
 
     public void DoDrop()
     {
-        Debug.Log("dropped item");
+        GameLog.Log("dropped item");
         Close();
     }
 

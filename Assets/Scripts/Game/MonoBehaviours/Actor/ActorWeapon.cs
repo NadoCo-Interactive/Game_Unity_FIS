@@ -16,31 +16,42 @@ public class ActorWeapon : ActorComponent, IActorWeapon
 
     protected virtual void Start()
     {
-        VerifyInitialize();
+        verifyInitialize();
     }
 
-    public void VerifyInitialize()
+    private void verifyInitialize()
     {
         if (initialized)
             return;
 
-        Hardpoints = GetComponentsInChildren<ActorHardpoint>().ToList();
-
-        foreach(var hardpoint in Hardpoints)
-        {
-            var idGuid = Guid.NewGuid().ToByteArray();
-            var idULong = BitConverter.ToUInt64(idGuid);
-            hardpoint.Id = idULong;
-        }
-
-        if(CanUseNetwork)
-        {
-            Debug.Log("sent hardpoint setting packet with ids "+string.Join(",",Hardpoints.Select(hp => hp.Id)));
-            Actor.Network.SetHardpointIdsServerRpc(Hardpoints.Select(hp => hp.Id).ToArray());
-        }
-
+        initializeHardpoints();
 
         initialized = true;
+    }
+
+    private void initializeHardpoints()
+    {
+        Hardpoints = GetComponentsInChildren<ActorHardpoint>().ToList();
+
+        if (Actor.Network == null)
+            return;
+        
+        if(Actor.Network.IsLocalPlayer)
+        {
+            foreach(var hardpoint in Hardpoints)
+                hardpoint.Id = Guid.NewGuid().ToUlong();
+
+            GameLog.Log("sent hardpoint setting packet with ids "+string.Join(",",Hardpoints.Select(hp => hp.Id)));
+            Actor.Network.SetHardpointIdsServerRpc(Hardpoints.Select(hp => hp.Id).ToArray());
+        }
+        else
+        {
+            foreach(var hardpoint in Hardpoints)
+            {
+                var hardpointId = Actor.Network.HardpointIds[Hardpoints.IndexOf(hardpoint)];
+                hardpoint.Id = hardpointId;
+            }
+        }
     }
 
     public virtual void Equip(IWeaponItem weaponItem)

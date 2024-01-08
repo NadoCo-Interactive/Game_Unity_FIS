@@ -12,13 +12,15 @@ public interface IInventory : IActorComponent
 
     public IItem SelectedItem { get; set; }
 
-    public void AddItem(IItem item, string itemId = null);
+    public void InitializeItems(ItemDTO[] items);
+
+    public void AddItem(IItem item, bool localOnly = false);
     public void RemoveItem(IItem item);
     public void TransferItemTo(IItem item, IInventory toInventory);
 
     public void AddFitting(IItem weapon, ActorHardpoint hardpoint = null);
     public void RemoveFitting(IItem weapon);
-    public void RemoveFittingByItemId(string itemId);
+    public void RemoveFittingByItemId(ulong itemId);
     public bool HasFittedItem(IItem item);
     public bool HasFittingForSlot(int slotId);
 }

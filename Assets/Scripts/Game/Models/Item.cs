@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 public interface IItem
 {
-    public string Id { get; set;}
+    public ulong Id { get; set;}
     public int SlotId { get; set; }
 
     public ItemType ItemType { get; set; }
@@ -11,12 +12,12 @@ public interface IItem
     public Sprite Sprite { get; set; }
     public string Name { get; set; }
 
-    public ItemDTO ToDTO();
+    public ItemDTO ToDto();
 }
 
 public class Item : IItem
 {
-    public string Id { get; set; }
+    public ulong Id { get; set; }
     public int SlotId { get; set; }
 
     public ItemType ItemType { get; set; }
@@ -25,17 +26,24 @@ public class Item : IItem
     public Sprite Sprite { get; set; }
     public string Name { get; set; }
 
-    public ItemDTO ToDTO() => new ItemDTO() {
+    public ItemDTO ToDto() => new ItemDTO()
+    {
         Id = Id,
-        SlotId = SlotId,
         ItemType = ItemType
     };
 }
 
-public struct ItemDTO
+public struct ItemDTO : IEquatable<ItemDTO>
 {
-    public string Id { get; set; }
-    public int SlotId { get; set; }
-
+    public ulong Id { get; set; }
     public ItemType ItemType { get; set; }
+
+    public bool Equals(ItemDTO other)
+    {
+        if(other.Id != Id) return false;
+        if(other.ItemType != other.ItemType) return false;
+
+        return true;
+    }
 }
+

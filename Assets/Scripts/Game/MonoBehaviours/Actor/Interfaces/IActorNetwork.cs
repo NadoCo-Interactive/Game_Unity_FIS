@@ -38,33 +38,33 @@ public interface IActorNetwork
     /// </summary>
     /// <param name="itemType"></param>
     /// <param name="inventoryId"></param>
-    public void AddItemServerRpc(ItemType itemType, string itemId, string inventoryId);
+    public void AddItemServerRpc(ItemType itemType, ulong itemId);
 
     /// <summary>
     /// Broadcast a RemoveItem event to other players
     /// </summary>
     /// <param name="itemId"></param>
-    public void RemoveItemServerRpc(string itemId);
+    public void RemoveItemServerRpc(ulong itemId);
 
     /// <summary>
     /// Broadcast a TransferItem event to other players
     /// </summary>
     /// <param name="itemId"></param>
-    public void TransferItemToServerRpc(string itemId, string toInventoryId);
+    public void TransferItemServerRpc(ulong itemId, string toInventoryId);
 
     /// <summary>
     /// Broadcast a Fitting event to other players
     /// </summary>
     /// <param name="ItemType"></param>
     /// <param name="hardpointId"></param>
-    public void AddFittingServerRpc(ItemType ItemType, string weaponId, string hardpointId);
-    
+    public void AddFittingServerRpc(ulong weaponId, ulong hardpointId);
+
     /// <summary>
     /// Broadcast an Unfitting event to other players
     /// </summary>
     /// <param name="ItemType"></param>
     /// <param name="hardpointId"></param>
-    public void RemoveFittingServerRpc(string weaponId);
+    public void RemoveFittingServerRpc(ulong weaponId);
     #endregion
 
     #region ActorWeapon Events

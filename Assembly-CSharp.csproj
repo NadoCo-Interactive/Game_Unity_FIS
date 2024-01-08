@@ -59,6 +59,7 @@
     <UnityVersion>2022.3.16f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Analyzer Include="C:\Users\Nathan Work\.vscode\extensions\visualstudiotoolsforunity.vstuc-0.9.3\Analyzers\Microsoft.Unity.Analyzers.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.16f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.16f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
@@ -76,8 +77,6 @@
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\Inventory\InventoryCell.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActorNetwork.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorManager.cs" />
-    <Compile Include="Assets\Scripts\Game\Models\Interfaces\IWeaponItem.cs" />
-    <Compile Include="Assets\Scripts\Shared\Utils\EngineUtils.cs" />
     <Compile Include="Assets\Test Module\Environment\Scripts\TestQueue.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\Bullet.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActorWeapon.cs" />
@@ -96,6 +95,7 @@
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\ServerConnection.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorWeapon.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Interfaces\IActor.cs" />
+    <Compile Include="Assets\Scripts\Shared\Utils\GameObjectUtils.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\ActorInventory.cs" />
     <Compile Include="Assets\UI\uDialog\uDialog_TaskBar.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\DeathScreen\HUDButtonRespawn.cs" />
@@ -108,7 +108,6 @@
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Weapons\ParticleBlaster\ParticleBlasterBullet.cs" />
     <Compile Include="Assets\UI\uDialog\uDialog_Button.cs" />
     <Compile Include="Assets\Test Module\Environment\Scripts\TestInfo.cs" />
-    <Compile Include="Assets\Scripts\MainMenu\MainMenuNetworkCommandLine.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerWeapon.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorNetwork.cs" />
     <Compile Include="Assets\Scripts\Game\Session\Session.cs" />
@@ -118,9 +117,7 @@
     <Compile Include="Assets\UI\uDialog\uDialog_ColorScheme.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\FISNetworkManager.cs" />
-    <Compile Include="Assets\Scripts\Shared\Utils\Toast.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\Typewriter.cs" />
-    <Compile Include="Assets\Scripts\Shared\Utils\CommandLineUtils.cs" />
     <Compile Include="Assets\UI\uDialog\uDialog_Utilities.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\ItemManager.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorHealth.cs" />
@@ -128,7 +125,6 @@
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Cameras\OrbitCam.cs" />
     <Compile Include="Assets\Scripts\Game\Session\FightclubSession.cs" />
-    <Compile Include="Assets\Scripts\Game\Models\Interfaces\IItem.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\DeathScreen\DeathScreen.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Cameras\PanCam.cs" />
     <Compile Include="Assets\Scripts\Game\Models\Item.cs" />
@@ -137,6 +133,7 @@
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\Actor.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\MainMenu\HUDUsername.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Inventory\InventoryManager.cs" />
+    <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\GameLog.cs" />
     <Compile Include="Assets\UI\uDialog\uDialog_NotificationPanel.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\MainMenu\HUDButtonExit.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\UI\SpriteLibrary.cs" />
@@ -144,6 +141,7 @@
     <Compile Include="Assets\Test Module\Environment\Scripts\TestEnvironmentController.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Player\PlayerActor.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorMotor.cs" />
+    <Compile Include="Assets\Scripts\Shared\Utils\GuidUtils.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Actor\ActorModel.cs" />
     <Compile Include="Assets\UI\uDialog\uDialog_Fluent.cs" />
     <Compile Include="Assets\Scripts\Game\MonoBehaviours\Singleton.cs" />

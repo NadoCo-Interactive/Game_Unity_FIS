@@ -13,13 +13,12 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     #endregion
 
     public NetworkList<ulong> HardpointIds { get; set; } = new NetworkList<ulong>();
+    public NetworkList<ItemDTO> Items { get; set; } = new NetworkList<ItemDTO>();
+
 
     private bool initialized = false;
 
-    void Start()
-    {
-        verifyInitialize();
-    }
+
 
     void verifyInitialize()
     {
@@ -40,6 +39,17 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
         initialized = true;
     }
 
+    private bool verifyPacketRelevance(ulong clientId)
+    {
+        if(clientId != OwnerClientId)
+            return false;
+
+        if(IsOwner)
+            return false;
+
+        return true;
+    }
+
     #region ActorMotor Events
     [ServerRpc]
     public void SetPositionServerRpc(Vector3 position)
@@ -57,23 +67,47 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     #region ActorInventory Events
 
     
-    [ServerRpc]
-    public void AddItemServerRpc(ItemType itemType, string itemId, string inventoryId)
+    [ClientRpc]
+    private void addItemClientRpc(ItemType itemType, ulong itemId, ulong clientId)
     {
-        if(IsOwner) return;
-        Debug.Log("received addItem packet");
         verifyInitialize();
 
-        var item = ItemManager.CreateItem(itemType,itemId);
-        _actor.Inventory.AddItem(item);
+        if(!verifyPacketRelevance(clientId))
+        {
+            GameLog.Log("ignored addItem packet for "+clientId);
+            return;
+        }
+        GameLog.Log("received addItem packet for "+clientId);
+
+        try
+        {
+            var item = ItemManager.CreateItem(itemType,itemId);
+            _actor.Inventory.AddItem(item);
+        }
+        catch(Exception ex)
+        {
+            GameLog.Log("[ERR] "+ex.Message);
+        }
     }
 
     [ServerRpc]
-    public void RemoveItemServerRpc(string itemId)
+    public void AddItemServerRpc(ItemType itemType, ulong itemId)
     {
-        if(IsOwner) return;
-        Debug.Log("received removeItem packet");
+        Items.Add(new ItemDTO() { ItemType = itemType, Id = itemId });
+        addItemClientRpc(itemType,itemId,OwnerClientId);
+    }
+
+    [ClientRpc]
+    private void removeItemClientRpc(ulong itemId, ulong clientId)
+    {
         verifyInitialize();
+
+        if(!verifyPacketRelevance(clientId))
+        {
+            GameLog.Log("ignored removeItem packet for "+_actor.name);
+            return;
+        }
+        GameLog.Log("received removeItem packet for "+_actor.name);
 
         var item = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
 
@@ -82,10 +116,22 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     }
 
     [ServerRpc]
-    public void TransferItemToServerRpc(string itemId, string toInventoryId)
+    public void RemoveItemServerRpc(ulong itemId)
     {
-        if(IsOwner) return;
+        removeItemClientRpc(itemId,OwnerClientId);
+    }
+
+    [ClientRpc]
+    private void transferItemToClientRpc(ulong itemId, string toInventoryId, ulong clientId)
+    {
         verifyInitialize();
+
+        GameLog.Log("received transferItem packet on "+_actor.name);
+        if(!verifyPacketRelevance(clientId))
+        {
+            GameLog.Log("ignored packet for "+_actor.name);
+            return;
+        }
 
         var item = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
         var toInventory = FindObjectsOfType<ActorInventory>().FirstOrDefault(inv => inv.Id == toInventoryId);
@@ -93,31 +139,43 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
         if (item != null && toInventory != null)
             _actor.Inventory.TransferItemTo(item,toInventory);
     }
-
     [ServerRpc]
-    public void AddFittingServerRpc(ItemType ItemType, string itemId, string hardpointId)
+    public void TransferItemServerRpc(ulong itemId, string toInventoryId)
     {
-        if(IsOwner) return;
-        Debug.Log("received fitting packet on "+_actor.name);
+        transferItemToClientRpc(itemId,toInventoryId,OwnerClientId);
+    }
+
+    [ClientRpc]
+    private void addFittingClientRpc(ulong itemId, ulong hardpointId, ulong clientId)
+    {
         verifyInitialize();
 
+        if(!verifyPacketRelevance(clientId))
+        {
+            GameLog.Log("ignored addFitting packet for "+_actor.name);
+            return;
+        }
+        GameLog.Log("received fitting packet for "+_actor.name);
+        
         var weapon = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
 
-        ActorHardpoint hardpoint = _actor.Weapon.Hardpoints.FirstOrDefault(hp => hp.Id.ToString() == hardpointId);
+        ActorHardpoint hardpoint = _actor.Weapon.Hardpoints.FirstOrDefault(hp => hp.Id == hardpointId);
 
         if (weapon == null)
         {
-            Debug.LogWarning("Can't find item " + itemId + " in call to AddFittingServerRpc, skipping");
-            Debug.Log(" - available items: " + string.Concat("," + _actor.Inventory.Items.Select(i => i.Id).ToArray()));
+            GameLog.LogWarning("Can't find item " + itemId + " in call to AddFittingServerRpc, skipping");
+            GameLog.Log(" - available items: " + string.Concat("," + _actor.Inventory.Items.Select(i => i.Id).ToArray()));
+            _actor.SetTailColor(Color.yellow);
             return;
         }
 
         if (hardpoint == null)
         {
-            Debug.LogWarning("Can't find hardpoint " + hardpointId + " in call to AddFittingServerRpc, skipping");
+            GameLog.LogWarning("Can't find hardpoint " + hardpointId + " in call to AddFittingServerRpc, skipping");
 
             var hardpointsList = string.Join(",", _actor.Weapon.Hardpoints.Select(i => i.Id.ToString()).ToArray());
-            Debug.Log(" - network hardpoints: " + hardpointsList);
+            GameLog.Log(" - network hardpoints: " + hardpointsList);
+            _actor.SetTailColor(Color.magenta);
             return;
         }
 
@@ -125,39 +183,64 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     }
 
     [ServerRpc]
-    public void RemoveFittingServerRpc(string itemId)
+    public void AddFittingServerRpc(ulong itemId, ulong hardpointId)
     {
-        if(IsOwner) return;
-        Debug.Log("received unfitting packet on " + _actor.name);
+        addFittingClientRpc(itemId,hardpointId,OwnerClientId);
+    }
+
+    [ClientRpc]
+    private void removeFittingClientRpc(ulong itemId, ulong clientId)
+    {
         verifyInitialize();
+
+        if(!verifyPacketRelevance(clientId))
+        {
+            GameLog.Log("ignored removeFitting packet for "+_actor.name);
+            return;
+        }
+        GameLog.Log("received unfitting packet on "+_actor.name);
 
         var weapon = _actor.Inventory.Fittings.FirstOrDefault(i => i.Id == itemId);
 
-        weapon.Required("The requested fitting " + itemId + " doesn't exist in call to RemoveFittingServerRpc");
+        weapon.Required("The requested fitting " + itemId + " doesn't exist in call to removeFittingClientRpc");
 
         _actor.Inventory.RemoveFitting(weapon);
+    }
+    [ServerRpc]
+    public void RemoveFittingServerRpc(ulong itemId)
+    {
+        removeFittingClientRpc(itemId,OwnerClientId);
     }
 
     
     #endregion
 
     #region ActorWeapon Events
-    [ServerRpc]
-    public void SetHardpointIdsServerRpc(ulong[] hardpointIds)
+    [ClientRpc]
+    public void setHardpointIdsClientRpc(ulong[] hardpointIds,ulong clientId)
     {
-        if(IsOwner) return;
-        Debug.Log("received hardpoint setting packet");
-
         verifyInitialize();
 
         HardpointIds = new NetworkList<ulong>(hardpointIds);
+
+        if(!verifyPacketRelevance(clientId))
+        {
+            GameLog.Log("ignored hardpoint setting packet for "+_actor.name);
+            return;
+        }
+        GameLog.Log("received hardpoint setting packet on "+_actor.name);
 
         foreach(ulong id in HardpointIds)
         {
             var hardpoint = _actor.Weapon.Hardpoints.ElementAt(HardpointIds.IndexOf(id));
             hardpoint.Id = id;
-            Debug.Log("new hardpoint id: "+id);
+            GameLog.Log("new hardpoint id: "+id);
         }
+    }
+    [ServerRpc]
+    public void SetHardpointIdsServerRpc(ulong[] hardpointIds)
+    {
+        setHardpointIdsClientRpc(hardpointIds,OwnerClientId);
     }
     #endregion
 }
