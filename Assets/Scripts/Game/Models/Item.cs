@@ -1,4 +1,5 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 public interface IItem
@@ -33,17 +34,23 @@ public class Item : IItem
     };
 }
 
-public struct ItemDTO : IEquatable<ItemDTO>
+public struct ItemDTO : INetworkSerializable, IEquatable<ItemDTO>
 {
-    public ulong Id { get; set; }
-    public ItemType ItemType { get; set; }
+    public ulong Id;
+    public ItemType ItemType;
 
     public bool Equals(ItemDTO other)
     {
-        if(other.Id != Id) return false;
-        if(other.ItemType != other.ItemType) return false;
+        if(Id != other.Id) return false;
+        if(ItemType != other.ItemType) return false;
 
         return true;
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref Id);
+        serializer.SerializeValue(ref ItemType);
     }
 }
 

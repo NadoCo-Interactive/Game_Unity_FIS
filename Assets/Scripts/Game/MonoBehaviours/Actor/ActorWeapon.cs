@@ -46,11 +46,11 @@ public class ActorWeapon : ActorComponent, IActorWeapon
         }
         else
         {
-            foreach(var hardpoint in Hardpoints)
+            /* foreach(var hardpoint in Hardpoints)
             {
                 var hardpointId = Actor.Network.HardpointIds[Hardpoints.IndexOf(hardpoint)];
                 hardpoint.Id = hardpointId;
-            }
+            } */
         }
     }
 

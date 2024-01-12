@@ -18,7 +18,22 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
     private bool initialized = false;
 
+    void Start()
+    {
+        verifyInitialize();
+        _actor.VerifyInitialize();
 
+        GameLog.Log("ActorNetwork spawned for "+_actor.name);
+
+        foreach(ItemDTO dto in Items)
+        {
+            var item = ItemManager.CreateItem(dto.ItemType,dto.Id);
+            _actor.Inventory.AddItem(item);
+        }
+
+        if(Items.Count == 0)
+            GameLog.Log("No items found");
+    }
 
     void verifyInitialize()
     {
@@ -74,10 +89,10 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("ignored addItem packet for "+clientId);
+            GameLog.Log("["+_actor.name+"] ignored addItem packet for "+clientId);
             return;
         }
-        GameLog.Log("received addItem packet for "+clientId);
+        GameLog.Log("["+_actor.name+"] received addItem packet for "+clientId);
 
         try
         {
@@ -86,7 +101,7 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
         }
         catch(Exception ex)
         {
-            GameLog.Log("[ERR] "+ex.Message);
+            GameLog.Log("["+_actor.name+"] [ERR] "+ex.Message);
         }
     }
 
@@ -104,10 +119,10 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("ignored removeItem packet for "+_actor.name);
+            GameLog.Log("["+_actor.name+"] ignored removeItem packet for "+_actor.name);
             return;
         }
-        GameLog.Log("received removeItem packet for "+_actor.name);
+        GameLog.Log("["+_actor.name+"] received removeItem packet for "+_actor.name);
 
         var item = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
 
@@ -126,10 +141,10 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     {
         verifyInitialize();
 
-        GameLog.Log("received transferItem packet on "+_actor.name);
+        GameLog.Log("["+_actor.name+"] received transferItem packet on "+_actor.name);
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("ignored packet for "+_actor.name);
+            GameLog.Log("["+_actor.name+"] ignored packet for "+_actor.name);
             return;
         }
 
@@ -152,10 +167,10 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("ignored addFitting packet for "+_actor.name);
+            GameLog.Log("["+_actor.name+"] ignored addFitting packet for "+_actor.name);
             return;
         }
-        GameLog.Log("received fitting packet for "+_actor.name);
+        GameLog.Log("["+_actor.name+"] received fitting packet for "+_actor.name);
         
         var weapon = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
 
@@ -163,7 +178,7 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if (weapon == null)
         {
-            GameLog.LogWarning("Can't find item " + itemId + " in call to AddFittingServerRpc, skipping");
+            GameLog.LogWarning("["+_actor.name+"] Can't find item " + itemId + " in call to AddFittingServerRpc, skipping");
             GameLog.Log(" - available items: " + string.Concat("," + _actor.Inventory.Items.Select(i => i.Id).ToArray()));
             _actor.SetTailColor(Color.yellow);
             return;
@@ -171,7 +186,7 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if (hardpoint == null)
         {
-            GameLog.LogWarning("Can't find hardpoint " + hardpointId + " in call to AddFittingServerRpc, skipping");
+            GameLog.LogWarning("["+_actor.name+"] Can't find hardpoint " + hardpointId + " in call to AddFittingServerRpc, skipping");
 
             var hardpointsList = string.Join(",", _actor.Weapon.Hardpoints.Select(i => i.Id.ToString()).ToArray());
             GameLog.Log(" - network hardpoints: " + hardpointsList);
@@ -195,14 +210,14 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("ignored removeFitting packet for "+_actor.name);
+            GameLog.Log("["+_actor.name+"] ignored removeFitting packet for "+_actor.name);
             return;
         }
-        GameLog.Log("received unfitting packet on "+_actor.name);
+        GameLog.Log("["+_actor.name+"] received unfitting packet on "+_actor.name);
 
         var weapon = _actor.Inventory.Fittings.FirstOrDefault(i => i.Id == itemId);
 
-        weapon.Required("The requested fitting " + itemId + " doesn't exist in call to removeFittingClientRpc");
+        weapon.Required("["+_actor.name+"] The requested fitting " + itemId + " doesn't exist in call to removeFittingClientRpc");
 
         _actor.Inventory.RemoveFitting(weapon);
     }
@@ -225,16 +240,16 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("ignored hardpoint setting packet for "+_actor.name);
+            GameLog.Log("["+_actor.name+"] ignored hardpoint setting packet for "+_actor.name);
             return;
         }
-        GameLog.Log("received hardpoint setting packet on "+_actor.name);
+        GameLog.Log("["+_actor.name+"] received hardpoint setting packet on "+_actor.name);
 
         foreach(ulong id in HardpointIds)
         {
             var hardpoint = _actor.Weapon.Hardpoints.ElementAt(HardpointIds.IndexOf(id));
             hardpoint.Id = id;
-            GameLog.Log("new hardpoint id: "+id);
+            GameLog.Log(" - new hardpoint id: "+id);
         }
     }
     [ServerRpc]
