@@ -27,27 +27,6 @@ public class ItemManager : Singleton<ItemManager>
         _ => throw new NotImplementedException()
     };
 
-    public static IWeaponItem CreateWeapon(ItemType type)
-    {
-        var weapon = createWeapon(type);
-        weapon.ItemType = type;
-        weapon.Id = Guid.NewGuid().ToUlong();
-
-        return weapon;
-    }
-
-    private static IWeaponItem createWeapon(ItemType type)
-    => type switch
-      {
-          ItemType.ParticleBlaster => new WeaponItem()
-          {
-              Name = "Particle Blaster",
-              Prefab = Instance.ParticleBlasterPrefab,
-              Sprite = SpriteLibrary.ParticleBlasterWeaponSprite
-          },
-          _ => throw new NotImplementedException()
-      };
-
     public static GameObject SpawnItem(IItem item, Vector3? position = null)
     {
         var itemPrefab = item?.Prefab.Required();

@@ -3,6 +3,7 @@ using Unity.Netcode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static UnityEditor.Progress;
 
 public class ActorNetwork : NetworkBehaviour, IActorNetwork
 {
@@ -13,8 +14,7 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     #endregion
 
     public NetworkList<ulong> HardpointIds { get; set; } = new NetworkList<ulong>();
-    public NetworkList<ItemDTO> Items { get; set; } = new NetworkList<ItemDTO>();
-
+    public NetworkList<ItemDTO> Fittings { get; set; } = new NetworkList<ItemDTO>();
 
     private bool initialized = false;
 
@@ -22,17 +22,6 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     {
         verifyInitialize();
         _actor.VerifyInitialize();
-
-        GameLog.Log("ActorNetwork spawned for "+_actor.name);
-
-        foreach(ItemDTO dto in Items)
-        {
-            var item = ItemManager.CreateItem(dto.ItemType,dto.Id);
-            _actor.Inventory.AddItem(item);
-        }
-
-        if(Items.Count == 0)
-            GameLog.Log("No items found");
     }
 
     void verifyInitialize()
@@ -89,7 +78,6 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("["+_actor.name+"] ignored addItem packet for "+clientId);
             return;
         }
         GameLog.Log("["+_actor.name+"] received addItem packet for "+clientId);
@@ -108,8 +96,7 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     [ServerRpc]
     public void AddItemServerRpc(ItemType itemType, ulong itemId)
     {
-        Items.Add(new ItemDTO() { ItemType = itemType, Id = itemId });
-        addItemClientRpc(itemType,itemId,OwnerClientId);
+        // addItemClientRpc(itemType,itemId,OwnerClientId);
     }
 
     [ClientRpc]
@@ -119,7 +106,6 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("["+_actor.name+"] ignored removeItem packet for "+_actor.name);
             return;
         }
         GameLog.Log("["+_actor.name+"] received removeItem packet for "+_actor.name);
@@ -141,10 +127,8 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     {
         verifyInitialize();
 
-        GameLog.Log("["+_actor.name+"] received transferItem packet on "+_actor.name);
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("["+_actor.name+"] ignored packet for "+_actor.name);
             return;
         }
 
@@ -161,36 +145,25 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     }
 
     [ClientRpc]
-    private void addFittingClientRpc(ulong itemId, ulong hardpointId, ulong clientId)
+    private void addFittingClientRpc(ItemDTO itemDto, ulong clientId)
     {
         verifyInitialize();
 
         if(!verifyPacketRelevance(clientId))
-        {
-            GameLog.Log("["+_actor.name+"] ignored addFitting packet for "+_actor.name);
             return;
-        }
-        GameLog.Log("["+_actor.name+"] received fitting packet for "+_actor.name);
-        
-        var weapon = _actor.Inventory.Items.FirstOrDefault(i => i.Id == itemId);
 
-        ActorHardpoint hardpoint = _actor.Weapon.Hardpoints.FirstOrDefault(hp => hp.Id == hardpointId);
+        GameLog.Log("["+_actor.name+"] received fitting packet");
 
-        if (weapon == null)
-        {
-            GameLog.LogWarning("["+_actor.name+"] Can't find item " + itemId + " in call to AddFittingServerRpc, skipping");
-            GameLog.Log(" - available items: " + string.Concat("," + _actor.Inventory.Items.Select(i => i.Id).ToArray()));
-            _actor.SetTailColor(Color.yellow);
-            return;
-        }
+        var weapon = ItemManager.CreateItem(itemDto.ItemType, itemDto.Id);
+
+        ActorHardpoint hardpoint = _actor.Weapon.Hardpoints.FirstOrDefault(hp => hp.Id == itemDto.HardpointId);
 
         if (hardpoint == null)
         {
-            GameLog.LogWarning("["+_actor.name+"] Can't find hardpoint " + hardpointId + " in call to AddFittingServerRpc, skipping");
+            GameLog.LogWarning("["+_actor.name+"] Can't find hardpoint " + itemDto.HardpointId + " in call to AddFittingServerRpc, skipping");
 
             var hardpointsList = string.Join(",", _actor.Weapon.Hardpoints.Select(i => i.Id.ToString()).ToArray());
             GameLog.Log(" - network hardpoints: " + hardpointsList);
-            _actor.SetTailColor(Color.magenta);
             return;
         }
 
@@ -198,9 +171,12 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
     }
 
     [ServerRpc]
-    public void AddFittingServerRpc(ulong itemId, ulong hardpointId)
+    public void AddFittingServerRpc(ItemDTO itemDto)
     {
-        addFittingClientRpc(itemId,hardpointId,OwnerClientId);
+        addFittingClientRpc(itemDto,OwnerClientId);
+
+        var fittingIndex = _actor.Inventory.Fittings.FindIndex(w => w.Id == itemDto.Id);
+        Fittings.Insert(fittingIndex,itemDto);
     }
 
     [ClientRpc]
@@ -221,10 +197,15 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         _actor.Inventory.RemoveFitting(weapon);
     }
+
     [ServerRpc]
     public void RemoveFittingServerRpc(ulong itemId)
     {
-        removeFittingClientRpc(itemId,OwnerClientId);
+        verifyInitialize();
+        removeFittingClientRpc(itemId, OwnerClientId);
+
+        var fittingIndex = _actor.Inventory.Fittings.FindIndex(w => w.Id == itemId);
+        Fittings.RemoveAt(fittingIndex);
     }
 
     
@@ -240,7 +221,6 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if(!verifyPacketRelevance(clientId))
         {
-            GameLog.Log("["+_actor.name+"] ignored hardpoint setting packet for "+_actor.name);
             return;
         }
         GameLog.Log("["+_actor.name+"] received hardpoint setting packet on "+_actor.name);

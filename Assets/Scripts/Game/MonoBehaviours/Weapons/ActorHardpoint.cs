@@ -22,4 +22,10 @@ public class ActorHardpoint : ActorComponent
         _weapon.transform.parent = transform;
         _weapon.transform.localPosition = Vector3.zero;
     }
+
+    public void DespawnWeapon()
+    {
+        Destroy(_weapon.gameObject);
+        _weapon = null;
+    }
 }

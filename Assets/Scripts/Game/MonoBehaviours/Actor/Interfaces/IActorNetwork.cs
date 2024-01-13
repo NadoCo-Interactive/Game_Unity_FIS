@@ -57,14 +57,14 @@ public interface IActorNetwork
     /// </summary>
     /// <param name="ItemType"></param>
     /// <param name="hardpointId"></param>
-    public void AddFittingServerRpc(ulong weaponId, ulong hardpointId);
+    public void AddFittingServerRpc(ItemDTO itemDto);
 
     /// <summary>
     /// Broadcast an Unfitting event to other players
     /// </summary>
     /// <param name="ItemType"></param>
     /// <param name="hardpointId"></param>
-    public void RemoveFittingServerRpc(ulong weaponId);
+    public void RemoveFittingServerRpc(ulong itemId);
     #endregion
 
     #region ActorWeapon Events

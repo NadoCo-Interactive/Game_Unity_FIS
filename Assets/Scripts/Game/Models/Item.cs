@@ -6,6 +6,7 @@ public interface IItem
 {
     public ulong Id { get; set;}
     public int SlotId { get; set; }
+    public ulong HardpointId { get; set; }
 
     public ItemType ItemType { get; set; }
     public GameObject Prefab { get; set; }
@@ -20,6 +21,7 @@ public class Item : IItem
 {
     public ulong Id { get; set; }
     public int SlotId { get; set; }
+    public ulong HardpointId { get; set; }
 
     public ItemType ItemType { get; set; }
     public GameObject Prefab { get; set; }
@@ -37,12 +39,14 @@ public class Item : IItem
 public struct ItemDTO : INetworkSerializable, IEquatable<ItemDTO>
 {
     public ulong Id;
+    public ulong HardpointId;
     public ItemType ItemType;
 
     public bool Equals(ItemDTO other)
     {
         if(Id != other.Id) return false;
         if(ItemType != other.ItemType) return false;
+        if(HardpointId != other.HardpointId) return false;
 
         return true;
     }
@@ -51,6 +55,7 @@ public struct ItemDTO : INetworkSerializable, IEquatable<ItemDTO>
     {
         serializer.SerializeValue(ref Id);
         serializer.SerializeValue(ref ItemType);
+        serializer.SerializeValue(ref HardpointId);
     }
 }
 

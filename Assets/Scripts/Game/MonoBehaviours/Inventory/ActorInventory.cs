@@ -128,14 +128,13 @@ public class ActorInventory : ActorComponent, IInventory
             hardpoint = randomHardpoint;
         }
 
-
-        GameLog.Log("attach to " + hardpoint.gameObject.name);
+        weaponItem.HardpointId = hardpoint.Id;
         hardpoint.Attach(weapon);
 
         if(CanUseNetwork)
         {
             GameLog.Log("sending fitting packet");
-            Actor.Network.AddFittingServerRpc(weaponItem.Id,hardpoint.Id);
+            Actor.Network.AddFittingServerRpc(weaponItem.ToDto());
         }
     }
 
