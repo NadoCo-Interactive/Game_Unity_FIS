@@ -65,22 +65,20 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
             _networkManager.StartClient();
     }
 
-    private void OnClientConnected(ulong obj)
+    private void OnClientConnected(ulong clientId)
     {
-        var localPlayer = GetLocalPlayer();
-        var orbitCam = Camera.main.GetRequiredComponent<OrbitCam>();
-        orbitCam.TrackedObject = localPlayer.gameObject.transform;
+        var client = _networkManager.ConnectedClients[clientId];
+        var clientPlayer = client.PlayerObject;
 
+        var otherClientIds = _networkManager.ConnectedClientsIds.Where(id => id != clientId);
 
-    }
-
-    private void OnClientDisconnected(ulong obj)
-    {
-        if(obj == 0)
+        foreach(ulong otherClientId  in otherClientIds)
         {
-            _networkManager.StartHost();
+            var otherClient = _networkManager.ConnectedClients[otherClientId];
+            var otherPlayer = otherClient.PlayerObject.GetRequiredComponent<ActorNetwork>();
         }
-    } 
+        
+    }
 
     public static NetworkObject GetLocalPlayer()
     {

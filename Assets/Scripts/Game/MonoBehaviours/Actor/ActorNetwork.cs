@@ -3,7 +3,6 @@ using Unity.Netcode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static UnityEditor.Progress;
 
 public class ActorNetwork : NetworkBehaviour, IActorNetwork
 {
@@ -160,10 +159,18 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
         if (hardpoint == null)
         {
-            GameLog.LogWarning("["+_actor.name+"] Can't find hardpoint " + itemDto.HardpointId + " in call to AddFittingServerRpc, skipping");
+            var hardpointIndex = HardpointIds.IndexOf(itemDto.HardpointId);
 
-            var hardpointsList = string.Join(",", _actor.Weapon.Hardpoints.Select(i => i.Id.ToString()).ToArray());
-            GameLog.Log(" - network hardpoints: " + hardpointsList);
+            if (hardpointIndex != -1)
+            {
+                hardpoint = _actor.Weapon.Hardpoints[hardpointIndex];
+                hardpoint.Id = itemDto.HardpointId;
+            }
+        }
+
+        if(hardpoint == null)
+        {
+            GameLog.LogWarning("[" + _actor.name + "] Can't find hardpoint " + itemDto.HardpointId);
             return;
         }
 
