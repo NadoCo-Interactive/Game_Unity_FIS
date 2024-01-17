@@ -151,7 +151,7 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
         if(!verifyPacketRelevance(clientId))
             return;
 
-        GameLog.Log("["+_actor.name+"] received fitting packet");
+        GameLog.Log("["+_actor.name+"] received fitting packet with hardpoint id "+itemDto.HardpointId);
 
         var weapon = ItemManager.CreateItem(itemDto.ItemType, itemDto.Id);
 
@@ -163,6 +163,7 @@ public class ActorNetwork : NetworkBehaviour, IActorNetwork
 
             if (hardpointIndex != -1)
             {
+                GameLog.LogWarning("[" + _actor.name + "] Found hardpoint by index " + hardpointIndex);
                 hardpoint = _actor.Weapon.Hardpoints[hardpointIndex];
                 hardpoint.Id = itemDto.HardpointId;
             }

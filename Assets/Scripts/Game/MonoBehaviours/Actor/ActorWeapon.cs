@@ -39,7 +39,10 @@ public class ActorWeapon : ActorComponent, IActorWeapon
         if(Actor.Network.IsLocalPlayer)
         {
             foreach(var hardpoint in Hardpoints)
+            {
                 hardpoint.Id = Guid.NewGuid().ToUlong();
+                GameLog.Log("["+name+"] Generated hardpoint "+hardpoint.Id);
+            }
 
             GameLog.Log("sent hardpoint setting packet with ids "+string.Join(",",Hardpoints.Select(hp => hp.Id)));
             Actor.Network.SetHardpointIdsServerRpc(Hardpoints.Select(hp => hp.Id).ToArray());
