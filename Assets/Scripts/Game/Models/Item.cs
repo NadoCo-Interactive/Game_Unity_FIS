@@ -32,7 +32,8 @@ public class Item : IItem
     public ItemDTO ToDto() => new ItemDTO()
     {
         Id = Id,
-        ItemType = ItemType
+        ItemType = ItemType,
+        HardpointId = HardpointId
     };
 }
 

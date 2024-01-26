@@ -57,6 +57,19 @@ public class ActorWeapon : ActorComponent, IActorWeapon
         }
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach(var hardpoint in Hardpoints)
+            {
+                var hardpointId = Actor.Network.HardpointIds[Hardpoints.IndexOf(hardpoint)];
+                // hardpoint.Id = hardpointId;
+                GameLog.Log(name+": hardpoint "+hardpointId);
+            }
+        }
+    }
+
     public virtual void Equip(IWeaponItem weaponItem)
     {
         ActiveWeapon = weaponItem;
