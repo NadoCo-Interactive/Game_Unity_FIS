@@ -85,7 +85,7 @@ public class InventoryCell : StrictBehaviour
         {
             var itemAsWeapon = item as WeaponItem;
             var itemIsFitted = InventoryManager.SelectedInventory.HasFittedItem(item);
-            idText.text = itemIsFitted ? itemAsWeapon?.Id.ToString() ?? "" : "";
+            idText.text = itemIsFitted ? itemAsWeapon?.SlotId.ToString() ?? "" : "";
             ammoText.text = "∞";
         }
 

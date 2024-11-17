@@ -1,9 +1,6 @@
-public enum WeaponType
-{
-    ParticleBlaster
-}
 
 public enum ItemType
 {
+    ParticleBlaster,
     ParticleBlasterAmmo
 }

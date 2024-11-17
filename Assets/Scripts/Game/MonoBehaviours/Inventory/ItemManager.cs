@@ -5,26 +5,33 @@ public class ItemManager : Singleton<ItemManager>
 {
     public GameObject ParticleBlasterPrefab;
 
-    public static IItem CreateItem(ItemType type)
-      => throw new NotImplementedException();
+    
+    public static IItem CreateItem(ItemType type, ulong? Id = null)
+    {
+        var item = createItem(type);
+        item.ItemType = type;
+        item.Id = Id ?? Guid.NewGuid().ToUlong();
 
-    public static IWeaponItem CreateWeapon(WeaponType type)
-      => type switch
-      {
-          WeaponType.ParticleBlaster => new WeaponItem()
+        return item;
+    }
+
+    private static IItem createItem(ItemType type)
+    => type switch
+    {
+        ItemType.ParticleBlaster => new WeaponItem()
           {
               Name = "Particle Blaster",
               Prefab = Instance.ParticleBlasterPrefab,
               Sprite = SpriteLibrary.ParticleBlasterWeaponSprite
           },
-          _ => throw new NotImplementedException()
-      };
+        _ => throw new NotImplementedException()
+    };
 
     public static GameObject SpawnItem(IItem item, Vector3? position = null)
     {
         var itemPrefab = item?.Prefab.Required();
 
-        var itemPrefabInstance = GameObject.Instantiate(itemPrefab);
+        var itemPrefabInstance = Instantiate(itemPrefab);
         itemPrefabInstance.transform.position = position ?? Vector3.zero;
         item.PrefabInstance = itemPrefabInstance;
 
@@ -41,7 +48,7 @@ public class ItemManager : Singleton<ItemManager>
         if (item is IWeaponItem)
             (item as IWeaponItem).Weapon = null;
 
-        GameObject.Destroy(itemPrefabInstance);
+        Destroy(itemPrefabInstance);
     }
 
 }

@@ -9,7 +9,7 @@ public class ActorAutoFire : ActorWeapon
     protected override void Start()
     {
         base.Start();
-        var weapon = ItemManager.CreateWeapon(WeaponType.ParticleBlaster);
+        WeaponItem weapon = ItemManager.CreateItem(ItemType.ParticleBlaster) as WeaponItem;
         weapon.Weapon = GetComponent<Weapon>();
         Equip(weapon);
     }

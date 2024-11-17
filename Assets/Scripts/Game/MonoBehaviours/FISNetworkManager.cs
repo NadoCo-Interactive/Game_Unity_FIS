@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using System.Net.Sockets;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
@@ -11,6 +11,7 @@ public enum ServerMode
     Server,
     Host
 }
+
 public class FISNetworkManager : Singleton<FISNetworkManager>
 {
     private static ServerMode _serverMode;
@@ -28,18 +29,13 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
     }
     private bool initialized = false;
 
+    public bool IsHost = false;
+
     private NetworkManager _networkManager;
-    private UnityTransport _networkTransport;
 
     void Start()
     {
         verifyInitialize();
-    }
-
-    void Awake()
-    {
-        verifyInitialize();
-        DoConnection();
     }
 
     void verifyInitialize()
@@ -47,48 +43,50 @@ public class FISNetworkManager : Singleton<FISNetworkManager>
         if (initialized) return;
 
         _networkManager = GetRequiredComponent<NetworkManager>();
-        _networkTransport = GetRequiredComponent<UnityTransport>();
+
+        StartConnection();
 
         initialized = true;
     }
 
-    void DoConnection()
+    
+
+    void StartConnection()
     {
-        var serverMode = CommandLineUtils.GetServerModeFromCLI();
+        // _networkManager.OnClientDisconnectCallback += OnClientDisconnected;
+        _networkManager.OnClientConnectedCallback += OnClientConnected;
 
-        ServerConnection.SetStatus(ConnectionStatus.Connecting, "Connecting...");
-        Debug.Log("attempting to connect as " + serverMode);
-
-        if (serverMode == ServerMode.Server)
-        {
-            _networkManager.StartServer();
-            ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Server");
-        }
-        else if (serverMode == ServerMode.Host)
+        // .. TODO: Eventually, I'll need to make this attempt a client connection
+        // first, and then automatically start as host if the connection fails
+        
+        if(IsHost)
             _networkManager.StartHost();
         else
-        {
-            var connectionData = _networkTransport.ConnectionData;
-            var addrPort = connectionData.Address + ":" + connectionData.Port;
-
-            try
-            {
-                Debug.Log("connecting to " + connectionData.Address + " on " + connectionData.Port);
-                _networkManager.StartClient();
-                ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Client");
-
-                if (!_networkManager.IsConnectedClient)
-                    throw new ApplicationException("Failed to connect to server");
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError(ex.Message);
-                _networkManager.StartHost();
-                serverMode = ServerMode.Host;
-                Debug.Log("server is not running or failed to connect, starting as host");
-                ServerConnection.SetStatus(ConnectionStatus.Connected, "Connected as Host");
-            }
-
-        }
+            _networkManager.StartClient();
     }
+
+    private void OnClientConnected(ulong clientId)
+    {
+        var client = _networkManager.ConnectedClients[clientId];
+        var clientPlayer = client.PlayerObject;
+
+        var otherClientIds = _networkManager.ConnectedClientsIds.Where(id => id != clientId);
+
+        foreach(ulong otherClientId  in otherClientIds)
+        {
+            var otherClient = _networkManager.ConnectedClients[otherClientId];
+            var otherPlayer = otherClient.PlayerObject.GetRequiredComponent<ActorNetwork>();
+        }
+        
+    }
+
+    public static NetworkObject GetLocalPlayer()
+    {
+        var networkObjects = FindObjectsOfType<NetworkObject>();
+        var playerObject = networkObjects.FirstOrDefault(o => o.IsLocalPlayer);
+
+        return playerObject;
+    }
+
+
 }

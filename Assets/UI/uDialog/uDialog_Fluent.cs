@@ -332,7 +332,7 @@ public static class uDialog_Fluent
         }
         else
         {
-            Debug.LogError("Attempted to call uDialog.SetColorScheme(" + newColorScheme + ") - but this color scheme does not exist.");
+            GameLog.LogError("Attempted to call uDialog.SetColorScheme(" + newColorScheme + ") - but this color scheme does not exist.");
         }
 
         return uDialog;
@@ -381,7 +381,7 @@ public static class uDialog_Fluent
 
         if (result != "") // blank string == success
         {
-            Debug.LogError("Error saving color scheme: " + result);
+            GameLog.LogError("Error saving color scheme: " + result);
             return false;
         }
 
@@ -649,7 +649,7 @@ public static class uDialog_Fluent
         var t = parent.transform as RectTransform;
         if (t == null)
         {
-            Debug.LogWarning("Warning: SetParent called, but parent " + parent.name + " does not have a rectTransform!");
+            GameLog.LogWarning("Warning: SetParent called, but parent " + parent.name + " does not have a rectTransform!");
         }
         else
         {

@@ -1,6 +1,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
+using System;
 
 public enum FireMode { FullAuto, SemiAuto }
 
@@ -10,26 +12,62 @@ public class ActorWeapon : ActorComponent, IActorWeapon
 
     private bool initialized = false;
 
-    public List<WeaponHardpoint> Hardpoints { get; set; }
+    public List<ActorHardpoint> Hardpoints { get; set; } = new List<ActorHardpoint>();
 
     protected virtual void Start()
     {
-        VerifyInitialize();
+        verifyInitialize();
     }
 
-    private void VerifyInitialize()
+    private void verifyInitialize()
     {
         if (initialized)
             return;
 
-        Hardpoints = GetComponentsInChildren<WeaponHardpoint>().ToList();
+        initializeHardpoints();
 
         initialized = true;
     }
 
+    private void initializeHardpoints()
+    {
+        Hardpoints = GetComponentsInChildren<ActorHardpoint>().ToList();
+
+        if (Actor.Network == null)
+            return;
+        
+        if(Actor.Network.IsLocalPlayer)
+        {
+            foreach(var hardpoint in Hardpoints)
+            {
+                hardpoint.Id = Guid.NewGuid().ToUlong();
+                GameLog.Log("["+name+"] Generated hardpoint "+hardpoint.Id);
+            }
+
+            GameLog.Log("sent hardpoint setting packet with ids "+string.Join(",",Hardpoints.Select(hp => hp.Id)));
+            Actor.Network.SetHardpointIdsServerRpc(Hardpoints.Select(hp => hp.Id).ToArray());
+        }
+        else
+        {
+            /* foreach(var hardpoint in Hardpoints)
+            {
+                var hardpointId = Actor.Network.HardpointIds[Hardpoints.IndexOf(hardpoint)];
+                hardpoint.Id = hardpointId;
+            } */
+        }
+    }
+
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            foreach(var hardpoint in Hardpoints)
+            {
+                var hardpointId = Actor.Network.HardpointIds[Hardpoints.IndexOf(hardpoint)];
+                // hardpoint.Id = hardpointId;
+                GameLog.Log(name+": hardpoint "+hardpointId);
+            }
+        }
     }
 
     public virtual void Equip(IWeaponItem weaponItem)
@@ -37,12 +75,12 @@ public class ActorWeapon : ActorComponent, IActorWeapon
         ActiveWeapon = weaponItem;
     }
 
-    public void EquipById(int id)
+    public void EquipBySlotId(int id)
     {
-        if (!Actor.Inventory.HasFittingForId(id))
+        if (!Actor.Inventory.HasFittingForSlot(id))
             return;
 
-        var weaponItem = InventoryManager.SelectedInventory.Fittings.FirstOrDefault(f => f.Id == id);
+        var weaponItem = InventoryManager.SelectedInventory.Fittings.FirstOrDefault(f => f.SlotId == id);
 
         if (weaponItem == null)
             return;

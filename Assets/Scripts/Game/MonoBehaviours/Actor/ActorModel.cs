@@ -17,8 +17,7 @@ public class ActorModel : ActorComponent, IActorModel
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
-            Break();
+        
     }
 
     public void Break()

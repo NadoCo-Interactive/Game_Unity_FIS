@@ -6,7 +6,7 @@ public class HUDButtonLaunch : HUDButton, IPointerClickHandler
 {
     public override void OnPointerClick(PointerEventData data)
     {
-        Debug.Log("Username=" + PlayerPrefs.GetString("username"));
+        GameLog.Log("Username=" + PlayerPrefs.GetString("username"));
         SceneManager.LoadScene("Game");
         base.OnPointerClick(data);
     }

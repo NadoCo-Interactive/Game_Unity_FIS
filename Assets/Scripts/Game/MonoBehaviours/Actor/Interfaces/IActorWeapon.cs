@@ -4,5 +4,6 @@ public interface IActorWeapon : IActorComponent
 {
     public IWeaponItem ActiveWeapon { get; set; }
 
-    public List<WeaponHardpoint> Hardpoints { get; set; }
+    public List<ActorHardpoint> Hardpoints { get; set; }
+
 }

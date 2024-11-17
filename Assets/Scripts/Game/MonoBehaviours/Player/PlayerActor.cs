@@ -10,6 +10,11 @@ public class PlayerActor : Actor
         Inventory = GetRequiredComponent<PlayerInventory>();
         Motor = GetRequiredComponent<PlayerMotor>();
         Weapon = GetRequiredComponent<PlayerWeapon>();
+
+        if (!Network.IsLocalPlayer) return;
+
+        var orbitCam = Camera.main.GetRequiredComponent<OrbitCam>();
+        orbitCam.TrackedObject = gameObject.transform;
     }
 
 
