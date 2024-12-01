@@ -29,7 +29,7 @@ public class PlayerMotor : ActorMotor
             return;
         }
 
-        if (Input.GetKey(KeyCode.W) && forwardVelocity.magnitude < 50)
+        if (Input.GetKey(KeyCode.W) && forwardVelocity.magnitude < 500)
             Accelerate();
         else if (Input.GetKey(KeyCode.S) && forwardVelocity.magnitude > -50)
             Decelerate();
