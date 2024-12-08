@@ -1,18 +1,22 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container (before calling Build())
-builder.Services.AddSignalR(options =>
+// Register SignalR services
+builder.Services.AddSignalR();
+
+builder.Services.AddCors(options =>
 {
-    options.EnableDetailedErrors = true;
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials()
+              .SetIsOriginAllowed(_ => true); // Allow all origins
+    });
 });
 
 var app = builder.Build();
 
-// Configure middleware and routing
-app.UseWebSockets();
-app.UseRouting();
-
-app.MapGet("/", () => "Hello World!");
-app.MapHub<ChatHub>("/chatHub");
+// Map the SignalR hub
+app.MapHub<GameHub>("/gameHub");
 
 app.Run();
