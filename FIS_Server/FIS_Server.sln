@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIS_Server", "FIS_Server.csproj", "{3F31263B-370A-4514-B3F8-D2FF47232D95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIS_Server", "FIS_Server.csproj", "{2912291E-F3C1-42DD-96EE-9235ECFA5DC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3F31263B-370A-4514-B3F8-D2FF47232D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F31263B-370A-4514-B3F8-D2FF47232D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F31263B-370A-4514-B3F8-D2FF47232D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F31263B-370A-4514-B3F8-D2FF47232D95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2912291E-F3C1-42DD-96EE-9235ECFA5DC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2912291E-F3C1-42DD-96EE-9235ECFA5DC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2912291E-F3C1-42DD-96EE-9235ECFA5DC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2912291E-F3C1-42DD-96EE-9235ECFA5DC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3E29863A-DE81-4A2D-BF29-E258C209B85F}
+		SolutionGuid = {C7C87CE2-D5F2-4681-8CC0-8E5EA92D9D5F}
 	EndGlobalSection
 EndGlobal
