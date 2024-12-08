@@ -22,7 +22,7 @@ public class ActorInventory : ActorComponent, IInventory
         verifyInitialize();
 
         Id = Guid.NewGuid().ToString();
-        
+
     }
 
     void verifyInitialize()
@@ -37,17 +37,17 @@ public class ActorInventory : ActorComponent, IInventory
 
     public void InitializeItems(ItemDTO[] items)
     {
-        foreach(ItemDTO dto in items)
+        foreach (ItemDTO dto in items)
         {
-            var item = ItemManager.CreateItem(dto.ItemType,dto.Id);
-            AddItem(item,true);
+            var item = ItemManager.CreateItem(dto.ItemType, dto.Id);
+            AddItem(item, true);
         }
     }
 
     public void AddItem(ItemDTO dto)
     {
-        var item = ItemManager.CreateItem(dto.ItemType,dto.Id);
-        AddItem(item,true);
+        var item = ItemManager.CreateItem(dto.ItemType, dto.Id);
+        AddItem(item, true);
     }
 
     public void AddItem(IItem item, bool localOnly = false)
@@ -58,10 +58,10 @@ public class ActorInventory : ActorComponent, IInventory
         item.Required().SlotId = Items.Count + 1;
         Items.Add(item);
 
-        if(CanUseNetwork && !localOnly)
+        if (CanUseNetwork && !localOnly)
         {
-            GameLog.Log("sent addItem packet for "+item.ItemType);
-            Actor.Network.AddItemServerRpc(item.ItemType,item.Id);
+            GameLog.Log("sent addItem packet for " + item.ItemType);
+            Actor.Network.AddItemServer(item.ItemType, item.Id);
         }
     }
 
@@ -73,7 +73,7 @@ public class ActorInventory : ActorComponent, IInventory
         {
             GameLog.Log("Removed item " + item.ItemType + " from " + Id + " (" + Actor.gameObject.name + ")");
             GameLog.Log("sent removeItem packet");
-            Actor.Network.RemoveItemServerRpc(item.Id);
+            Actor.Network.RemoveItemServer(item.Id);
         }
     }
 
@@ -82,10 +82,10 @@ public class ActorInventory : ActorComponent, IInventory
         inventoryTo.AddItem(item);
         RemoveItem(item);
 
-        if(CanUseNetwork)
-            Actor.Network.TransferItemServerRpc(item.Id,inventoryTo.Id);
+        if (CanUseNetwork)
+            Actor.Network.TransferItemServer(item.Id, inventoryTo.Id);
 
-        GameLog.Log("Transfered item "+item.ItemType+" to "+inventoryTo.Id+" ("+inventoryTo.Actor.gameObject.name+")");
+        GameLog.Log("Transfered item " + item.ItemType + " to " + inventoryTo.Id + " (" + inventoryTo.Actor.gameObject.name + ")");
     }
 
     public bool HasFittedItem(IItem item)
@@ -108,7 +108,7 @@ public class ActorInventory : ActorComponent, IInventory
 
         weaponItem.SlotId = Fittings.Count + 1;
         Fittings.Add(weaponItem as IWeaponItem);
-        GameLog.Log("added "+weaponItem.Name+" as a fitting");
+        GameLog.Log("added " + weaponItem.Name + " as a fitting");
 
         var weaponPrefabInstance = ItemManager.SpawnItem(weaponItem);
         var weapon = weaponPrefabInstance.GetRequiredComponent<Weapon>();
@@ -129,13 +129,13 @@ public class ActorInventory : ActorComponent, IInventory
         }
 
         weaponItem.HardpointId = hardpoint.Id;
-        GameLog.Log("set weaponItem.HardpointId to "+hardpoint.Id);
+        GameLog.Log("set weaponItem.HardpointId to " + hardpoint.Id);
         hardpoint.Attach(weapon);
 
-        if(CanUseNetwork)
+        if (CanUseNetwork)
         {
-            GameLog.Log("sending fitting packet with hardpoint id "+weaponItem.ToDto().HardpointId);
-            Actor.Network.AddFittingServerRpc(weaponItem.ToDto());
+            GameLog.Log("sending fitting packet with hardpoint id " + weaponItem.ToDto().HardpointId);
+            Actor.Network.AddFittingServer(weaponItem.ToDto());
         }
     }
 
@@ -150,8 +150,8 @@ public class ActorInventory : ActorComponent, IInventory
         if (Actor.Weapon != null)
             Actor.Weapon.ActiveWeapon = null;
 
-        if(CanUseNetwork)
-            Actor.Network.RemoveFittingServerRpc(weapon.Id);
+        if (CanUseNetwork)
+            Actor.Network.RemoveFittingServer(weapon.Id);
     }
 
     public void RemoveFittingByItemId(ulong itemId)

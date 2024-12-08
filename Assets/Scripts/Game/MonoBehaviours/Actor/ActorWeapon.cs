@@ -35,17 +35,17 @@ public class ActorWeapon : ActorComponent, IActorWeapon
 
         if (Actor.Network == null)
             return;
-        
-        if(Actor.Network.IsLocalPlayer)
+
+        if (Actor.Network.IsLocalPlayer)
         {
-            foreach(var hardpoint in Hardpoints)
+            foreach (var hardpoint in Hardpoints)
             {
                 hardpoint.Id = Guid.NewGuid().ToUlong();
-                GameLog.Log("["+name+"] Generated hardpoint "+hardpoint.Id);
+                GameLog.Log("[" + name + "] Generated hardpoint " + hardpoint.Id);
             }
 
-            GameLog.Log("sent hardpoint setting packet with ids "+string.Join(",",Hardpoints.Select(hp => hp.Id)));
-            Actor.Network.SetHardpointIdsServerRpc(Hardpoints.Select(hp => hp.Id).ToArray());
+            GameLog.Log("sent hardpoint setting packet with ids " + string.Join(",", Hardpoints.Select(hp => hp.Id)));
+            Actor.Network.SetHardpointIdsServer(Hardpoints.Select(hp => hp.Id).ToArray());
         }
         else
         {
@@ -59,13 +59,13 @@ public class ActorWeapon : ActorComponent, IActorWeapon
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            foreach(var hardpoint in Hardpoints)
+            foreach (var hardpoint in Hardpoints)
             {
                 var hardpointId = Actor.Network.HardpointIds[Hardpoints.IndexOf(hardpoint)];
                 // hardpoint.Id = hardpointId;
-                GameLog.Log(name+": hardpoint "+hardpointId);
+                GameLog.Log(name + ": hardpoint " + hardpointId);
             }
         }
     }

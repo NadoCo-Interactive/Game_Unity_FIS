@@ -1,18 +1,19 @@
 using UnityEngine;
+using Unity.Netcode;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 
-public class ActorNetwork : FISNetworkBase, IActorNetwork
+[Obsolete]
+public class ActorNetworkOld : NetworkBehaviour
 {
     #region ActorMotor Variables
     private Actor _actor;
-    public Vector3 Position { get; set; } = new Vector3();
-    public Vector3 Heading { get; set; } = Vector3.forward;
+    public NetworkVariable<Vector3> Position { get; set; } = new NetworkVariable<Vector3>();
+    public NetworkVariable<Vector3> Heading { get; set; } = new NetworkVariable<Vector3>(Vector3.forward);
     #endregion
 
-    public List<ulong> HardpointIds { get; set; } = new List<ulong>();
-    public List<ItemDTO> Fittings { get; set; } = new List<ItemDTO>();
+    public NetworkList<ulong> HardpointIds { get; set; } = new NetworkList<ulong>();
+    public NetworkList<ItemDTO> Fittings { get; set; } = new NetworkList<ItemDTO>();
 
     private bool initialized = false;
 
@@ -54,21 +55,24 @@ public class ActorNetwork : FISNetworkBase, IActorNetwork
     }
 
     #region ActorMotor Events
-    public void SetPositionServer(Vector3 position)
+    [ServerRpc]
+    public void SetPositionServerRpc(Vector3 position)
     {
-        //Position.Value = position;
+        Position.Value = position;
     }
 
-    public void SetHeadingServer(Vector3 aim)
+    [ServerRpc]
+    public void SetHeadingServerRpc(Vector3 aim)
     {
-        //Heading.Value = aim;
+        Heading.Value = aim;
     }
     #endregion
 
     #region ActorInventory Events
 
 
-    private void addItemClient(ItemType itemType, ulong itemId, ulong clientId)
+    [ClientRpc]
+    private void addItemClientRpc(ItemType itemType, ulong itemId, ulong clientId)
     {
         verifyInitialize();
 
@@ -89,12 +93,14 @@ public class ActorNetwork : FISNetworkBase, IActorNetwork
         }
     }
 
-    public void AddItemServer(ItemType itemType, ulong itemId)
+    [ServerRpc]
+    public void AddItemServerRpc(ItemType itemType, ulong itemId)
     {
-        // addItemClient(itemType,itemId,OwnerClientId);
+        // addItemClientRpc(itemType,itemId,OwnerClientId);
     }
 
-    private void removeItemClient(ulong itemId, ulong clientId)
+    [ClientRpc]
+    private void removeItemClientRpc(ulong itemId, ulong clientId)
     {
         verifyInitialize();
 
@@ -110,12 +116,14 @@ public class ActorNetwork : FISNetworkBase, IActorNetwork
             _actor.Inventory.RemoveItem(item);
     }
 
-    public void RemoveItemServer(ulong itemId)
+    [ServerRpc]
+    public void RemoveItemServerRpc(ulong itemId)
     {
-        removeItemClient(itemId, OwnerClientId);
+        removeItemClientRpc(itemId, OwnerClientId);
     }
 
-    private void transferItemToClient(ulong itemId, string toInventoryId, ulong clientId)
+    [ClientRpc]
+    private void transferItemToClientRpc(ulong itemId, string toInventoryId, ulong clientId)
     {
         verifyInitialize();
 
@@ -130,14 +138,14 @@ public class ActorNetwork : FISNetworkBase, IActorNetwork
         if (item != null && toInventory != null)
             _actor.Inventory.TransferItemTo(item, toInventory);
     }
-
-    public void TransferItemServer(ulong itemId, string toInventoryId)
+    [ServerRpc]
+    public void TransferItemServerRpc(ulong itemId, string toInventoryId)
     {
-        transferItemToClient(itemId, toInventoryId, OwnerClientId);
+        transferItemToClientRpc(itemId, toInventoryId, OwnerClientId);
     }
 
-
-    private void addFittingClient(ItemDTO itemDto, ulong clientId)
+    [ClientRpc]
+    private void addFittingClientRpc(ItemDTO itemDto, ulong clientId)
     {
         verifyInitialize();
 
@@ -171,17 +179,17 @@ public class ActorNetwork : FISNetworkBase, IActorNetwork
         _actor.Inventory.AddFitting(weapon, hardpoint);
     }
 
-
-    public void AddFittingServer(ItemDTO itemDto)
+    [ServerRpc]
+    public void AddFittingServerRpc(ItemDTO itemDto)
     {
-        addFittingClient(itemDto, OwnerClientId);
+        addFittingClientRpc(itemDto, OwnerClientId);
 
         var fittingIndex = _actor.Inventory.Fittings.FindIndex(w => w.Id == itemDto.Id);
         Fittings.Insert(fittingIndex, itemDto);
     }
 
-
-    private void removeFittingClient(ulong itemId, ulong clientId)
+    [ClientRpc]
+    private void removeFittingClientRpc(ulong itemId, ulong clientId)
     {
         verifyInitialize();
 
@@ -194,16 +202,16 @@ public class ActorNetwork : FISNetworkBase, IActorNetwork
 
         var weapon = _actor.Inventory.Fittings.FirstOrDefault(i => i.Id == itemId);
 
-        weapon.Required("[" + _actor.name + "] The requested fitting " + itemId + " doesn't exist in call to removeFittingClient");
+        weapon.Required("[" + _actor.name + "] The requested fitting " + itemId + " doesn't exist in call to removeFittingClientRpc");
 
         _actor.Inventory.RemoveFitting(weapon);
     }
 
-
-    public void RemoveFittingServer(ulong itemId)
+    [ServerRpc]
+    public void RemoveFittingServerRpc(ulong itemId)
     {
         verifyInitialize();
-        removeFittingClient(itemId, OwnerClientId);
+        removeFittingClientRpc(itemId, OwnerClientId);
 
         var fittingIndex = _actor.Inventory.Fittings.FindIndex(w => w.Id == itemId);
         Fittings.RemoveAt(fittingIndex);
@@ -213,12 +221,12 @@ public class ActorNetwork : FISNetworkBase, IActorNetwork
     #endregion
 
     #region ActorWeapon Events
-
-    public void setHardpointIdsClient(ulong[] hardpointIds, ulong clientId)
+    [ClientRpc]
+    public void setHardpointIdsClientRpc(ulong[] hardpointIds, ulong clientId)
     {
         verifyInitialize();
 
-        HardpointIds = new List<ulong>(hardpointIds);
+        HardpointIds = new NetworkList<ulong>(hardpointIds);
 
         if (!verifyPacketRelevance(clientId))
         {
@@ -233,10 +241,10 @@ public class ActorNetwork : FISNetworkBase, IActorNetwork
             GameLog.Log(" - new hardpoint id: " + id);
         }
     }
-
-    public void SetHardpointIdsServer(ulong[] hardpointIds)
+    [ServerRpc]
+    public void SetHardpointIdsServerRpc(ulong[] hardpointIds)
     {
-        setHardpointIdsClient(hardpointIds, OwnerClientId);
+        setHardpointIdsClientRpc(hardpointIds, OwnerClientId);
     }
     #endregion
 }

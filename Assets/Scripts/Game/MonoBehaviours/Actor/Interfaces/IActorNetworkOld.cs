@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public interface IActorNetwork
+[Obsolete]
+public interface IActorNetworkOld
 {
     public bool IsLocalPlayer { get; }
 
     #region ActorMotor Variables
-    public Vector3 Position { get; set; }
-    public Vector3 Heading { get; set; }
+    public NetworkVariable<Vector3> Position { get; set; }
+    public NetworkVariable<Vector3> Heading { get; set; }
     #endregion
 
     #region ActorWeapon Variables
-    public List<ulong> HardpointIds { get; set; }
+    public NetworkList<ulong> HardpointIds { get; set; }
     #endregion
 
     #region ActorMotor Events
@@ -21,14 +22,14 @@ public interface IActorNetwork
     /// Broadcast the ship's current position to other players
     /// </summary>
     /// <param name="position"></param>
-    public void SetPositionServer(Vector3 position);
+    public void SetPositionServerRpc(Vector3 position);
 
     /// <summary>
     /// Broadcast the ship's current heading to other players
     /// </summary>
     /// <param name="ItemType"></param>
     /// <param name="hardpointId"></param>
-    public void SetHeadingServer(Vector3 rotation);
+    public void SetHeadingServerRpc(Vector3 rotation);
     #endregion
 
     #region ActorInventory Events
@@ -38,36 +39,36 @@ public interface IActorNetwork
     /// </summary>
     /// <param name="itemType"></param>
     /// <param name="inventoryId"></param>
-    public void AddItemServer(ItemType itemType, ulong itemId);
+    public void AddItemServerRpc(ItemType itemType, ulong itemId);
 
     /// <summary>
     /// Broadcast a RemoveItem event to other players
     /// </summary>
     /// <param name="itemId"></param>
-    public void RemoveItemServer(ulong itemId);
+    public void RemoveItemServerRpc(ulong itemId);
 
     /// <summary>
     /// Broadcast a TransferItem event to other players
     /// </summary>
     /// <param name="itemId"></param>
-    public void TransferItemServer(ulong itemId, string toInventoryId);
+    public void TransferItemServerRpc(ulong itemId, string toInventoryId);
 
     /// <summary>
     /// Broadcast a Fitting event to other players
     /// </summary>
     /// <param name="ItemType"></param>
     /// <param name="hardpointId"></param>
-    public void AddFittingServer(ItemDTO itemDto);
+    public void AddFittingServerRpc(ItemDTO itemDto);
 
     /// <summary>
     /// Broadcast an Unfitting event to other players
     /// </summary>
     /// <param name="ItemType"></param>
     /// <param name="hardpointId"></param>
-    public void RemoveFittingServer(ulong itemId);
+    public void RemoveFittingServerRpc(ulong itemId);
     #endregion
 
     #region ActorWeapon Events
-    public void SetHardpointIdsServer(ulong[] hardpointIds);
+    public void SetHardpointIdsServerRpc(ulong[] hardpointIds);
     #endregion
 }
