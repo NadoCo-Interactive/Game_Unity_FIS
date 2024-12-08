@@ -8,7 +8,7 @@ public class GameHub : Hub
         var connectionId = Context.ConnectionId;
 
         // .. broadcast to all clients to spawn the player object
-        Clients.All.SendAsync("PlayerConnected", connectionId);
+        Clients.Others.SendAsync("PlayerConnected", connectionId);
 
         return base.OnConnectedAsync();
     }
@@ -18,7 +18,7 @@ public class GameHub : Hub
         var connectionId = Context.ConnectionId;
 
         // .. broadcast to all clients to delete the player object
-        Clients.All.SendAsync("PlayerDisconnected", connectionId);
+        Clients.Others.SendAsync("PlayerDisconnected", connectionId);
 
         return base.OnDisconnectedAsync(exception);
     }
